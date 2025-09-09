@@ -1,0 +1,36 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/infiniband-exporter-$VER:$PATH
+
+RUN set -ex;\
+  export DEBIAN_FRONTEND=noninteractive;\
+  apt-get update;\
+  apt-get -yqq install infiniband-diags;\
+  apt-get clean;\
+  groupadd -g 666 none;\
+  cd /usr/local;\
+  mkdir -pv infiniband-exporter-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/infiniband_exporter-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C infiniband-exporter-$VER;\
+  chown -R root:root /usr/local/infiniband-exporter-$VER;\
+  ln -snfv infiniband-exporter-$VER infiniband-exporter;\
+  infiniband_exporter --version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

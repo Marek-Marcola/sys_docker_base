@@ -1,0 +1,56 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG TYPE
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/php-$VER/bin:/usr/local/php-$VER/sbin:$PATH
+
+RUN set -ex;\
+  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\
+    apt-get clean;\
+  fi;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
+  cd /usr/local;\
+  V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | awk '{print $2}');\
+  curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  ln -snfv fcgi-$V fcgi;\
+  echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\
+  V=${VER%%.*};\
+  curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  ln -snfv php-$VER php-$V;\
+  ln -snfv php-$V php;\
+  cp -v /usr/local/etc/php$V/php.ini-production /usr/local/etc/php$V/php.ini;\
+  mkdir -pv /usr/local/etc/php$V/php-fpm.d;\
+  cd /usr/local/etc;\
+  ln -snfv php$V php;\
+  S=zlocal-php-fpm.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
+    && (chmod a+x /etc/profile.d/$S)\
+    || (echo Script $S not available);\
+  php --version;
+
+ADD config/ /usr/local/etc/php/
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.type = ${TYPE:-[none]}";\
+  echo "info.from = $FROM";\
+  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/

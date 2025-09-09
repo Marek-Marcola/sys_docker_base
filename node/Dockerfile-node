@@ -1,0 +1,32 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/node/bin:$PATH
+
+RUN set -ex;\
+  groupadd -g 433 node;\
+  useradd -u 433 -g 433 -c "Node.js" -m node;\
+  cd /usr/local;\
+  mkdir -pv node-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/node/bin/node-v$VER-linux-x64.tar.xz | tar xJf - --strip-components=1 -C node-$VER;\
+  ln -snfv node-$VER node;\
+  npm install --global yarn;\
+  node --version;\
+  yarn --version;\
+  npm --version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;

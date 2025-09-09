@@ -1,0 +1,36 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/envoy-$VER:$PATH
+
+RUN set -ex;\
+  groupadd -g 666 none;\
+  useradd -u 666 -g 666 -m none;\
+  cd /usr/local;\
+  mkdir -pv envoy-$VER;\
+  ln -snfv envoy-$VER envoy;\
+  curl -sS -L -k -f -o envoy/envoy http://repo/sw/opensource/envoy/bin/envoy-$VER-linux-x86_64;\
+  chmod a+x envoy/envoy;\
+  mkdir -pv /usr/local/etc/envoy;\
+  envoy --version;
+
+ADD config/ /usr/local/etc/envoy/
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

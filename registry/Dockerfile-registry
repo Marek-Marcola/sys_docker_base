@@ -1,0 +1,37 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/registry-$VER:$PATH
+
+RUN set -ex;\
+  groupadd -g 666 none;\
+  useradd -u 666 -g 666 -m none;\
+  cd /usr/local;\
+  mkdir -pv registry-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry-$VER;\
+  chown -R root:root registry-$VER;\
+  mkdir -pv /usr/local/etc/registry /var/opt/registry;\
+  chown none:none /var/opt/registry;\
+  ln -snfv registry-$VER registry;\
+  registry --version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+ ) > /version.d/version-$REPO.txt;
+
+ADD config/ /usr/local/etc/registry/
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

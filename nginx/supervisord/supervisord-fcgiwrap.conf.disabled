@@ -1,0 +1,8 @@
+[program:fcgiwrap]
+command=fcgiwrap -s tcp:127.0.0.1:9012
+user=none
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0

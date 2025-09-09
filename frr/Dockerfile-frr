@@ -1,0 +1,60 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/frr-$VER/bin:/usr/local/frr-$VER/sbin:$PATH
+ENV LD_LIBRARY_PATH=/usr/local/libyang/lib:/usr/local/libyang/lib64
+
+RUN set -ex;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
+  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends install libjson-c5 libprotobuf-c1 libunwind-dev;\
+    apt-get clean;\
+  elif [ "$(echo $OS_NAME|cut -b 1-5)" = "rocky" ]; then\
+    echo rocky: $OS_NAME;\
+  fi;\
+  groupadd -g 666 frr;\
+  groupadd -g 667 frrvty;\
+  useradd -u 666 -g 666 -G 667 -m frr;\
+  useradd -u 667 -g 667 -m frrvty;\
+  cd /usr/local;\
+  V=$(curl -s http://repo/sw/opensource/libyang/bin/version.txt | grep ^libyang: | awk '{print $2}');\
+  curl -sS -L -k -f http://repo/sw/opensource/libyang/bin/libyang-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  ln -snfv libyang-$V libyang;\
+  echo "info.vers = libyang/$V" >> /tmp/vers.txt;\
+  curl -sS -L -k -f http://repo/sw/opensource/frr/bin/frr-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  ln -snfv frr-$VER frr;\
+  mkdir -p /usr/local/etc/frr;\
+  touch /usr/local/etc/frr/frr.conf;\
+  touch /usr/local/etc/frr/vtysh.conf;\
+  touch /usr/local/etc/frr/zebra.conf;\
+  touch /usr/local/etc/frr/ospfd.conf;\
+  touch /usr/local/etc/frr/vrrpd.conf;\
+  chown frr /run;\
+  S=zlocal-frr.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101810-frr/files/$S\
+    && (chmod a+rx /etc/profile.d/$S)\
+    || (echo Script $S not available);\
+  zebra --version | sed '/--/{s/ /\n  /g}';
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
+CMD ["/cmd.sh"]

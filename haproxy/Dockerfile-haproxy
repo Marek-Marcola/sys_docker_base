@@ -1,0 +1,45 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG TYPE
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/haproxy-$VER/sbin:$PATH
+
+RUN set -ex;\
+  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install socat liblua5.4-dev;\
+    apt-get clean;\
+  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+    yum -y install socat;\
+    yum clean all;\
+  fi;\
+  groupadd -g 188 haproxy;\
+  useradd -u 188 -g 188 -m haproxy;\
+  mkdir -pv /usr/local/etc/haproxy /var/opt/haproxy;\
+  chown haproxy:haproxy /var/opt/haproxy;\
+  curl -sS -L -k -f http://repo/sw/opensource/haproxy/bin/haproxy-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  chown -R root:root /usr/local/haproxy-$VER;\
+  cd /usr/local;\
+  ln -snfv haproxy-$VER haproxy;\
+  haproxy -v;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.type = ${TYPE:-[none]}";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

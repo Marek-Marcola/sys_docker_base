@@ -1,0 +1,40 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/dante-$VER/sbin:$PATH
+
+RUN set -ex;\
+  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends install socat;\
+    apt-get clean;\
+  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+    yum -y install socat;\
+    yum clean all;\
+  fi;\
+  mkdir -pv /usr/local/etc/dante;\
+  curl -sS -L -k -f http://repo/sw/opensource/dante/bin/dante-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  chown -R root:root /usr/local/dante-$VER;\
+  cd /usr/local;\
+  ln -snfv dante-$VER dante;\
+  sockd -v;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

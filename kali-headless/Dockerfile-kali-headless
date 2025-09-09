@@ -1,0 +1,43 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG APT_URL="http://http.kali.org/kali"
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV LANG=en_US.utf8
+ENV TZ=Europe/Warsaw
+ENV OS_NAME=kali
+ENV OS_ARCH=x86_64
+ENV OS_CODE=kali-rolling
+
+RUN set -ex;\
+  if [ ! -z $APT_URL ]; then\
+    echo "deb $APT_URL kali-rolling main contrib non-free" > /etc/apt/sources.list.d/kali-rolling.list;\
+    echo 'Acquire::https::Verify-Peer "false";' > /etc/apt/apt.conf.d/99https-verify-peer;\
+    echo 'Acquire::https::Verify-Host "false";' > /etc/apt/apt.conf.d/99https-verify-host;\
+  fi;\
+  echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list.d/kali-rolling-official.list.disabled;\
+  sed -i.ORG -e 's/^deb/#deb/' /etc/apt/sources.list;\
+  export DEBIAN_FRONTEND=noninteractive;\
+  apt-get update;\
+  apt-get -yqq full-upgrade -y;\
+  apt-get -yqq install kali-linux-headless;\
+  apt-get clean;\
+  localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8;\
+  cat /etc/os-release;\
+  cat /etc/debian_version;
+
+RUN set -ex;\
+  mkdir -pv /cmd.d /version.d;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;

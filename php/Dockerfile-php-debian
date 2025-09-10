@@ -19,6 +19,7 @@ RUN set -ex;\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\
+    apt-get -yqq --no-install-recommends install libpng16-16t64 libjpeg62-turbo libfreetype6 libicu76;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\

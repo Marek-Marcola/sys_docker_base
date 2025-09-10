@@ -21,7 +21,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install libasound2;\
     apt-get -yqq --no-install-recommends install fonts-liberation fonts-arphic-ukai fonts-arphic-uming fonts-noto;\
     apt-get -yqq --no-install-recommends install fonts-noto-cjk fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core ;\
-    apt-get -yqq --no-install-recommends install libcanberra-gtk-module libcanberra-gtk3-module;\
+    apt-get -yqq --no-install-recommends install libcanberra-gtk3-module;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\

@@ -1,0 +1,34 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/jdk-$VER/bin:$PATH
+ENV JAVA_HOME /usr/local/jdk-$VER
+
+RUN set -ex;\
+  export DEBIAN_FRONTEND=noninteractive;\
+  apt-get update;\
+  apt-get -yqq --no-install-suggests install libfreetype6 fontconfig fonts-dejavu;\
+  apt-get clean;\
+  cd /usr/local;\
+  mkdir -pv jdk-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
+  chown -R root:root jdk-$VER;\
+  ln -snfv jdk-$VER jdk-${VER%%.*};\
+  apt-get clean;\
+  java -version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;

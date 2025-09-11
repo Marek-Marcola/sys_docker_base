@@ -13,8 +13,8 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m none;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
   cd /usr/local;\
   mkdir -pv jenkins-$VER;\
   ln -snfv jenkins-$VER jenkins;\
@@ -23,7 +23,8 @@ RUN set -ex;\
   ln -snfv jenkins-$VER.war jenkins.war;\
   mkdir -pv /var/opt/jenkins;\
   chown -Rv none:none /var/opt/jenkins;\
-  chmod -Rv g=u /var/opt/jenkins;
+  chmod -Rv g=u /var/opt/jenkins;\
+  java -jar /usr/local/jenkins/jenkins.war --version;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

@@ -19,6 +19,7 @@ if [ "$JENKINS_MODE" = "oos" ]; then
 fi
 
 set -x
+java -jar /usr/local/jenkins/jenkins.war --version
 exec setpriv --reuid=666 --regid=666 --groups=tty --no-new-privs \
   java -jar /usr/local/jenkins/jenkins.war \
   --webroot=/tmp/webroot \

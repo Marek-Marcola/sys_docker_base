@@ -38,5 +38,6 @@ if [ ! -d $GERRIT_DATA ]; then
 fi
 
 set -x
+java -jar /usr/local/gerrit/gerrit.war version
 exec setpriv --reuid=701 --regid=0 --groups=701 --no-new-privs \
   java -jar /usr/local/gerrit/gerrit.war daemon -d $GERRIT_DATA --console-log

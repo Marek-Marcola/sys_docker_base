@@ -22,4 +22,5 @@ if [ ! -f $UNBOUND_CONF ]; then
 fi
 
 set -x
+unbound -V
 exec unbound -d -c $UNBOUND_CONF

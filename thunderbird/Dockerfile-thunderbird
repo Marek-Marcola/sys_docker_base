@@ -21,7 +21,7 @@ RUN set -ex;\
     apt-get -yqq install fonts-lmodern fonts-stix;\
     apt-get -yqq install fonts-liberation fonts-arphic-ukai fonts-arphic-uming fonts-noto;\
     apt-get -yqq install fonts-noto-cjk fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core;\
-    apt-get -yqq install libcanberra-gtk-module libcanberra-gtk3-module;\
+    apt-get -yqq install libcanberra-gtk3-module;\
     apt-get -yqq install ffmpeg libavcodec-dev libavcodec-extra libvpx-dev;\
     apt-get -yqq install alsa-utils pulseaudio-utils v4l-utils x11-xserver-utils;\
     apt-get -yqq install zip p7zip-full;\

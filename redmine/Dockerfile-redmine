@@ -33,7 +33,7 @@ RUN set -ex;\
   chown -R root:root redmine-$VER;\
   ln -snfv redmine-$VER redmine;\
   groupadd -g 300 redmine;\
-  useradd -u 300 -g 300 -m redmine;
+  useradd -u 300 -g 300 -s /bin/bash -m redmine;
 
 ADD config/database-postgresql.yml /usr/local/redmine/config/database.yml
 

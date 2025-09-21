@@ -15,7 +15,7 @@ ENV PATH /usr/local/rust-$VER/bin:$PATH
 
 RUN set -ex;\
   mkdir /tmp/t;\
-  curl -sS -L -k -f http://repo/sw/opensource/rust/bin/rust-$VER-$OS_ARCH-unknown-linux-gnu.tar.gz | tar xzf - --strip-components=1 -C /tmp/t;\
+  curl -sS -L -k -f http://repo/sw/opensource/rust/bin/rust-$VER-$OS_ARCH-unknown-linux-gnu.tar.xz | tar xJf - --strip-components=1 -C /tmp/t;\
   /tmp/t/install.sh --prefix=/usr/local/rust-$VER;\
   rm -rf /tmp/t;\
   cd /usr/local;\

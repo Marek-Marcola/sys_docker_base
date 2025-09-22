@@ -24,14 +24,14 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 230 clamav;\
-  useradd -u 230 -g 230 -m clamav;\
+  useradd -u 230 -g 230 -s /bin/bash -m clamav;\
   mkdir -pv /var/opt/clamav /var/log/clamav;\
   chown clamav:clamav /var/opt/clamav /var/log/clamav;\
   curl -sS -L -k -f http://repo/sw/opensource/clamav/bin/clamav-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   chown -R root:root clamav-$VER;\
   ln -snfv clamav-$VER clamav;\
-  mkdir etc/clamav;\
+  mkdir -pv etc/clamav;\
   ln -snfv /usr/local/etc/clamav/clamd.conf /usr/local/clamav/etc/clamd.conf;\
   ln -snfv /usr/local/etc/clamav/freshclam.conf /usr/local/clamav/etc/freshclam.conf;\
   S=zlocal-clamav.sh;\

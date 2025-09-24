@@ -1,0 +1,44 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/gunicorn-$VER/bin:$PATH
+
+RUN set -ex;\
+  if [ "$(echo $OS_NAME|cut -b 1-8)" = "debian12" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install python3-distutils python3-lib2to3;\
+    apt-get -yqq install python3-virtualenv;\
+    apt-get clean;\
+  elif [ "$(echo $OS_NAME|cut -b 1-8)" = "debian13" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install python3-distutils-extra;\
+    apt-get -yqq install python3-virtualenv;\
+    apt-get clean;\
+  fi;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
+  curl -sS -L -k -f http://repo/sw/opensource/gunicorn/bin/gunicorn-$VER-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
+  cd /usr/local;\
+  ln -snfv gunicorn-$VER gunicorn;\
+  ln -snfv /usr/local/gunicorn/bin/activate /usr/local/bin;\
+  ln -snfv /usr/local/gunicorn/bin/gunicorn /usr/local/bin;\
+  gunicorn --version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+ ) > /version.d/version-$REPO.txt;

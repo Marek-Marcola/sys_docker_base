@@ -1,0 +1,50 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/zoneminder-$VER/bin:$PATH
+
+RUN set -ex;\
+  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libmariadb-dev libmariadb-dev-compat;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libclass-dbi-mysql-perl libdate-manip-perl libsys-mmap-perl libsys-meminfo-perl;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libpolkit-qt5-1-dev libpolkit-agent-1-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libvlc-dev libvncserver-dev libavcodec-dev libavdevice-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libjwt-dev libpcre2-dev ffmpeg;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install mariadb-client;\
+    apt-get clean;\
+  fi;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
+  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  chown -R root:root /usr/local/zoneminder-$VER;\
+  cd /usr/local;\
+  ln -snfv zoneminder-$VER zoneminder;\
+  mkdir -pv /var/opt/zoneminder/cache;\
+  mkdir -pv /var/opt/zoneminder/events;\
+  mkdir -pv /var/opt/zoneminder/export;\
+  mkdir -pv /var/opt/zoneminder/images;\
+  mkdir -pv /var/opt/zoneminder/swap};\
+  mkdir -pv /var/opt/zoneminder/log;\
+  mkdir -pv /var/opt/zoneminder/tmp;\
+  chown -Rv none:none /var/opt/zoneminder;\
+  zmc --version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/

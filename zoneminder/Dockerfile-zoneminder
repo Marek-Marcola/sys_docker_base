@@ -23,6 +23,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libvlc-dev libvncserver-dev libavcodec-dev libavdevice-dev;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libjwt-dev libpcre2-dev ffmpeg;\
     apt-get -yqq --no-install-recommends --no-install-suggests install mariadb-client;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install v4l-utils;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
@@ -47,4 +48,5 @@ RUN set -ex;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
+ADD scripts/[0-9]*.sh /cmd.d/
 ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/

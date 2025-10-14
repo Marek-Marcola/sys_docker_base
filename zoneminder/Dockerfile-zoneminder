@@ -18,7 +18,7 @@ RUN set -ex;\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libmariadb-dev libmariadb-dev-compat;\
-    apt-get -yqq --no-install-recommends --no-install-suggests install libclass-dbi-mysql-perl libdate-manip-perl libsys-mmap-perl libsys-meminfo-perl;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libclass-dbi-mysql-perl libdate-manip-perl libsys-mmap-perl libsys-meminfo-perl libnumber-bytes-human-perl;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libpolkit-qt5-1-dev libpolkit-agent-1-dev;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libvlc-dev libvncserver-dev libavcodec-dev libavdevice-dev;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libjwt-dev libpcre2-dev ffmpeg;\

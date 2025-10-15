@@ -1,5 +1,5 @@
 [program:fcgiwrap]
-command=fcgiwrap -s tcp:127.0.0.1:9012 -c 10
+command=/cmd.d/200-ep-fcgiwrap.sh
 user=none
 autostart=true
 autorestart=true

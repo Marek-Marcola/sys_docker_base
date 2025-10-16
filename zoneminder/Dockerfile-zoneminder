@@ -23,7 +23,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libvlc-dev libvncserver-dev libavcodec-dev libavdevice-dev;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libjwt-dev libpcre2-dev ffmpeg;\
     apt-get -yqq --no-install-recommends --no-install-suggests install mariadb-client;\
-    apt-get -yqq --no-install-recommends --no-install-suggests install v4l-utils;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install v4l-utils zip;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\

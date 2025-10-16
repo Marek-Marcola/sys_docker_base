@@ -35,6 +35,8 @@ RUN set -ex;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils;\
   apt-get clean;\
+  ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
+  echo $TZ > /etc/timezone;\
   sed -i.ORG 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001650-debian13/files/$S\

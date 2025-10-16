@@ -36,7 +36,7 @@ RUN set -ex;\
   mkdir -pv /var/opt/zoneminder/events;\
   mkdir -pv /var/opt/zoneminder/export;\
   mkdir -pv /var/opt/zoneminder/images;\
-  mkdir -pv /var/opt/zoneminder/swap};\
+  mkdir -pv /var/opt/zoneminder/swap;\
   mkdir -pv /var/opt/zoneminder/log;\
   mkdir -pv /var/opt/zoneminder/tmp;\
   chown -Rv none:none /var/opt/zoneminder;\

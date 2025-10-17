@@ -15,7 +15,7 @@ ENV PATH /usr/local/wildfly/bin:$PATH
 
 RUN set -ex;\
   groupadd -g 460 wildfly;\
-  useradd -u 460 -g 460 -c "WildFly Application Server" -m wildfly;\
+  useradd -u 460 -g 460 -c "WildFly Application Server" -s /bin/bash -m wildfly;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/wildfly/bin/wildfly-$VER.Final.tar.gz | tar xzf -;\
   chown -R wildfly:wildfly wildfly-$VER.Final;\

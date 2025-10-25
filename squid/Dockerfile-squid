@@ -24,7 +24,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 23 squid;\
-  useradd -u 23 -g 23 -m squid;\
+  useradd -u 23 -g 23  -s /bin/bash -m squid;\
   mkdir -pv /usr/local/etc/squid /var/opt/squid;\
   chown squid:squid /var/opt/squid;\
   curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\

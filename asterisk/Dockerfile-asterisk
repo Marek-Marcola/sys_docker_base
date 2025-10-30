@@ -17,6 +17,11 @@ ENV PATH /usr/local/asterisk-$VER/sbin:$PATH
 RUN set -ex;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
+  [ ${OS_NAME} = "debian13" ] &&\
+    apt-get -yqq install libxslt1.1 libjansson4 liburiparser1 libodbc2 libneon27\
+    libunbound8 pipewire-audio-client-libraries libpq5 liblua5.2-0 liblua5.3-0 liblua5.4-0 libjack-jackd2-0 libical3 libportaudio2\
+    libsybdb5 libiksemel3 libgsm1 libradcli4 libspandsp2 libradcli4 libsrtp2-1 libvorbisfile3 libspeex1\
+    libspeexdsp1 libsnmp40 libresample1 libcodec2-dev libgmime-3.0-0;\
   [ ${OS_NAME} = "debian11" -o ${OS_NAME} = "debian12" ] &&\
     apt-get -yqq install libxslt1.1 libjansson4 liburiparser1 libodbc1 libneon27\
     libunbound8 pipewire-audio-client-libraries libpq5 liblua5.2-0 liblua5.3-0 liblua5.4-0 libjack-jackd2-0 libical3 libportaudio2\

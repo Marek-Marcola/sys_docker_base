@@ -16,7 +16,7 @@ ENV LD_LIBRARY_PATH /usr/local/openssl/lib64
 
 RUN set -ex;\
   if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
-    export XDEBIAN_FRONTEND=noninteractive;\
+    export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install liblzo2-dev libpam0g-dev libsystemd0 libcap-ng-dev liblz4-dev;\
     apt-get clean;\

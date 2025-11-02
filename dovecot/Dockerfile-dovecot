@@ -17,7 +17,7 @@ RUN set -ex;\
   if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
-    apt-get -yqq --no-install-recommends install libicu72 liblua5.4;\
+    apt-get -yqq --no-install-recommends install libicu-dev libunwind-dev libpcre2-dev liblua5.4;\
     apt-get clean;\
   fi;\
   groupadd -g 5000 vmail;\

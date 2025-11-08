@@ -17,7 +17,7 @@ RUN set -ex;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
   cd /usr/local;\
-  mkdir chartmuseum-$VER;\
+  mkdir -pv chartmuseum-$VER;\
   curl -sS -L -k -f http://repo/sw/opensource/chartmuseum/bin/chartmuseum-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C chartmuseum-$VER;\
   chown -R root:root chartmuseum-$VER;\
   mkdir -pv /usr/local/etc/chartmuseum /var/opt/chartmuseum;\

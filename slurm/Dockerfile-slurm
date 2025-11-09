@@ -34,7 +34,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/hdf5/bin/hdf5-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv hdf5-$V hdf5;\
   echo "info.vers = hdf5/$V" >> /tmp/vers.txt;\
-  mkdir -p /usr/local/etc/slurm /var/opt/slurm /var/log/slurm;\
+  mkdir -pv /usr/local/etc/slurm /var/opt/slurm /var/log/slurm;\
   chown -R slurm:slurm /var/opt/slurm /var/log/slurm;\
   curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/slurm-$VER;\

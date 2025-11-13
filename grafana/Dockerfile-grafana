@@ -17,7 +17,7 @@ RUN set -ex;\
   groupadd -g 472 grafana;\
   useradd -u 472 -g 472 -c "Grafana" -m grafana;\
   cd /usr/local;\
-  mkdir grafana-$VER;\
+  mkdir -pv grafana-$VER;\
   curl -sS -L -k -f http://repo/sw/opensource/grafana/bin/grafana-$VER.linux-amd64.tar.gz | tar xzf - --strip-components=1 -C grafana-$VER;\
   ln -snfv grafana-$VER grafana;\
   mkdir -pv /usr/local/etc/grafana/provisioning;\

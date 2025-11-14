@@ -30,6 +30,7 @@ RUN set -ex;\
   ln -sv logcli-linux-amd64 logcli;\
   cd /usr/local;\
   ln -snfv loki-$VER loki;\
+  mkdir -pv /var/opt/loki;\
   loki --version;
 
 RUN set -ex;\

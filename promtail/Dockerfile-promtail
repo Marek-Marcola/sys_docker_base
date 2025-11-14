@@ -22,7 +22,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/loki/bin/logcli-$VER-linux-amd64.zip;\
   unzip -d /usr/local/loki-$VER /tmp/f.zip;\
   rm -f /tmp/f.zip;\
-  chown -R root:root /usr/local/loki-$VER;\
+  chown -Rv root:root /usr/local/loki-$VER;\
   mkdir -pv /usr/local/etc/loki /var/opt/loki;\
   cd /usr/local/loki-$VER;\
   ln -sv loki-linux-amd64 loki;\
@@ -30,6 +30,7 @@ RUN set -ex;\
   ln -sv logcli-linux-amd64 logcli;\
   cd /usr/local;\
   ln -snfv loki-$VER loki;\
+  mkdir -pv /var/opt/loki;\
   promtail --version;
 
 RUN set -ex;\

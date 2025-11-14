@@ -16,4 +16,5 @@ if [ ! -f $PROMTAIL_CONF ]; then
 fi
 
 set -x
+promtail --version
 exec promtail -config.file=$PROMTAIL_CONF $PROMTAIL_OPTS

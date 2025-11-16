@@ -35,7 +35,7 @@ RUN set -ex;\
   echo "info.vers = libyang/$V" >> /tmp/vers.txt;\
   curl -sS -L -k -f http://repo/sw/opensource/frr/bin/frr-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv frr-$VER frr;\
-  mkdir -p /usr/local/etc/frr;\
+  mkdir -pv /usr/local/etc/frr;\
   touch /usr/local/etc/frr/frr.conf;\
   touch /usr/local/etc/frr/vtysh.conf;\
   touch /usr/local/etc/frr/zebra.conf;\

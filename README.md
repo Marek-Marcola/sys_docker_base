@@ -1,4 +1,4 @@
 docker base
 ===========
 
-Docker base images.
+Container base images.

@@ -27,6 +27,10 @@ RUN set -ex;\
   chown -R root:root /usr/local/stunnel-$VER;\
   cd /usr/local;\
   ln -snfv stunnel-$VER stunnel;\
+  S=zlocal-stunnel.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101354-stunnel/files/$S\
+    && (chmod a+x /etc/profile.d/$S)\
+    || (echo Script $S not available);\
   stunnel -version;
 
 RUN set -ex;\

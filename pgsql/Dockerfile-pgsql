@@ -34,8 +34,8 @@ RUN set -ex;\
   chown -R root:root /usr/local/pgsql-$VER;\
   cd /usr/local;\
   ln -snfv pgsql-$VER pgsql-${VER%.*};\
-  mkdir -pv /var/opt/pgsql/data /var/log/pgsql;\
-  chown postgres:postgres /var/opt/pgsql/data /var/log/pgsql;\
+  mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
+  chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
   S=zlocal-pg.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101250-pgsql/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

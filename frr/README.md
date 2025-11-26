@@ -22,3 +22,8 @@ cman env:
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
     )
+
+    # cat /usr/local/etc/cman.d/r
+    A=ap-frr-p111
+    EXEC=1
+    ARGS=r

@@ -23,7 +23,7 @@ RUN set -ex;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
-  mkdir -v /usr/local/etc/openvpn;\
+  mkdir -pv /usr/local/etc/openvpn;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/openvpn/bin/openvpn-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
   chown -R root:root openvpn-$VER;\

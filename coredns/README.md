@@ -18,3 +18,6 @@ cman env:
     --volume /usr/local/etc/$A:/usr/local/etc/coredns:ro
     --env COREDNS_ID=$API
     )
+    INIT=(
+     "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
+    )

@@ -8,7 +8,6 @@ cman env:
     # cat /usr/local/etc/cman.d/ap-firefox-dc1
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/firefox:$V}
-    I=is/firefox:$V
     OPTS=(
     --net host
     --device /dev/snd

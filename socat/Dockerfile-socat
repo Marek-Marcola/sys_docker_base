@@ -23,7 +23,7 @@ RUN set -ex;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
-  mkdir /usr/local/etc/socat;\
+  mkdir -pv /usr/local/etc/socat;\
   curl -sS -L -k -f http://repo/sw/opensource/socat/bin/socat-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/socat-$VER;\
   cd /usr/local;\

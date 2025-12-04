@@ -11,10 +11,11 @@ LABEL info.name="$REPO:$VER"
 LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
-ENV PATH /usr/local/vdbench-$VER:/var/opt/vdbench:$PATH
+ENV PATH /usr/local/vdbench-$VER:$PATH
 
 RUN set -ex;\
   mkdir -pv /work;\
+  mkdir -pv /usr/local/etc/vdbench;\
   cd /usr/local;\
   mkdir -pv vdbench-$VER;\
   curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/oracle/vdbench/vdbench-$VER.zip;\
@@ -23,7 +24,9 @@ RUN set -ex;\
   rm -fv /tmp/f.zip;\
   ln -snfv vdbench-$VER vdbench;
 
-ADD scripts/*.sh scripts/*.conf /var/opt/vdbench/
+ADD scripts/*.sh /usr/local/bin/
+ADD scripts/*.conf /usr/local/etc/vdbench/
+
 WORKDIR /work
 
 RUN set -ex;\

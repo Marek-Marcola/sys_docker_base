@@ -20,18 +20,7 @@ RUN set -ex;\
   apt-get -yqq install e2fsprogs libssl-dev;\
   apt-get -yqq install file;\
   apt-get clean;\
-  V=$(curl -s http://repo/sw/opensource/osdev/venv/version.txt | grep ^python3-osdev: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/osdev/venv/python3-osdev-$V-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
-  echo "info.vers = python3-osdev/$V" >> /tmp/vers.txt;\
-  V=$(curl -s http://repo/sw/opensource/protoc/bin/version.txt | grep ^protoc: | awk '{print $2}');\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/protoc/bin/protoc-$V-linux-$OS_ARCH.zip;\
   cd /usr/local;\
-  mkdir -pv protoc-$V;\
-  unzip -d /usr/local/protoc-$V /tmp/f.zip;\
-  ln -snfv protoc-$V protoc;\
-  ln -snfv /usr/local/protoc/bin/protoc /usr/local/bin;\
-  rm -f /tmp/f.zip;\
-  echo "info.vers = protoc/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv git-repo-$V git-repo;\
@@ -63,7 +52,8 @@ RUN set -ex;\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   cat /etc/os-release;\
-  protoc --version;\
+  repo --version;\
+  #protoc --version;\
   adb version;\
   adevtool version;
 

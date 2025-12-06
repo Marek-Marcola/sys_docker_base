@@ -10,6 +10,6 @@ cman env:
     : ${I:=scr.dc.local/is/fwknop:$V}
     OPTS=(
     --network host
-    --volume /usr/local/etc/fwknop:/usr/local/etc/fwknop
+    --volume /usr/local/etc/$A:/usr/local/etc/fwknop
     --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
     )

@@ -1,0 +1,15 @@
+fwknop
+======
+
+Deploy
+------
+cman env:
+
+    # cat /usr/local/etc/cman.d/ap-fwknop
+    : ${V:=m.m.p}
+    : ${I:=scr.dc.local/is/fwknop:$V}
+    OPTS=(
+    --network host
+    --volume /usr/local/etc/fwknop:/usr/local/etc/fwknop
+    --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
+    )

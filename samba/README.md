@@ -27,3 +27,8 @@ cman env:
      "install -m 755 -o root -g root -v -d /var/opt/samba/$A/private"
      "install -m 755 -o root -g root -v -d /var/opt/samba/$A/log"
     )
+
+    # cat /usr/local/etc/cman.d/lssmb
+    A=ap-samba-uran
+    EXEC=1
+    ARGS=lssmb

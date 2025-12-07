@@ -18,6 +18,7 @@ cman env:
     --volume /sw:/sw
     --volume /nethome:/nethome
     --volume /netdata:/netdata
+    --env SAMBA_NMBD=0
     --env SAMBA_ID=$API
     )
     INIT=(

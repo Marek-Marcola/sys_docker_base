@@ -16,7 +16,7 @@ ENV PATH /usr/local/samba-$VER/bin:/usr/local/samba-$VER/sbin:$PATH
 STOPSIGNAL SIGTERM
 
 RUN set -ex;\
-  mv /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\

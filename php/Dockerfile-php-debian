@@ -15,7 +15,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/php-$VER/bin:/usr/local/php-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\
@@ -26,11 +26,11 @@ RUN set -ex;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgi-$V fcgi;\
   echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\
   V=${VER%%.*};\
-  curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv php-$VER php-$V;\
   ln -snfv php-$V php;\
   cp -v /usr/local/etc/php$V/php.ini-production /usr/local/etc/php$V/php.ini;\

@@ -14,24 +14,21 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/certbot-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-8)" = "debian12" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
-    apt-get -yqq install python3-distutils python3-lib2to3;\
-    apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev python3-virtualenv libxslt1-dev;\
+    apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev libxslt1-dev;\
     apt-get -yqq install libpq-dev python3-dev;\
-    apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -b 1-8)" = "debian13" ]; then\
-    export DEBIAN_FRONTEND=noninteractive;\
-    apt-get update;\
-    apt-get -yqq install python3-distutils-extra;\
-    apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev python3-virtualenv libxslt1-dev;\
-    apt-get -yqq install libpq-dev python3-dev;\
+    if [ "$(echo $OSN|cut -b 1-8)" = "debian13" ]; then\
+      apt-get -yqq install python3-virtualenv python3-distutils-extra;\
+    elif [ "$(echo $OSN|cut -b 1-8)" = "debian12" ]; then\
+      apt-get -yqq install python3-virtualenv python3-distutils python3-lib2to3;\
+    fi;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
-  curl -sS -L -k -f http://repo/sw/opensource/certbot/bin/certbot-$VER-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/certbot/bin/certbot-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv certbot-$VER certbot;\
   ln -snfv /usr/local/certbot/bin/activate /usr/local/bin;\

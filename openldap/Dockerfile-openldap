@@ -14,12 +14,12 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/openldap-$VER/bin:/usr/local/openldap-$VER/sbin:/usr/local/openldap-$VER/libexec:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libdb-dev unixodbc;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+  elif [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
     yum -y install libdb unixODBC postgresql postgresql-odbc;\
     yum clean all;\
   fi;\
@@ -27,10 +27,10 @@ RUN set -ex;\
   useradd -u 55 -g 55 -m ldap;\
   mkdir -pv /usr/local/etc/openldap /var/opt/openldap;\
   chown ldap:ldap /var/opt/openldap;\
-  curl -sS -L -k -f http://repo/sw/opensource/openldap/bin/openldap-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/openldap/bin/openldap-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/openldap-$VER;\
   cd /usr/local;\
-  ln -snfv openldap-${VER} openldap;\
+  ln -snfv openldap-$VER openldap;\
   S=zlocal-openldap.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101322-openldap/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

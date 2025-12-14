@@ -14,14 +14,14 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/openfortivpn-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install ppp;\
     apt-get clean;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/openfortivpn/bin/openfortivpn-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/openfortivpn/bin/openfortivpn-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openfortivpn-$VER openfortivpn;\
   openfortivpn --version;
 

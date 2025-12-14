@@ -14,8 +14,12 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV LANG=en_US.utf8
 ENV TZ=Europe/Warsaw
+
 ENV OS_NAME=rocky10
 ENV OS_ARCH=x86_64
+
+ENV OSN=rocky10
+ENV OSA=x86_64
 
 ADD config/rocky-$VER.repo /etc/yum.repos.d/
 

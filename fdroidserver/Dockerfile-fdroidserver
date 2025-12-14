@@ -14,16 +14,22 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/fdroidserver-$VER/bin:$PATH
 
 RUN set -ex;\
-  export DEBIAN_FRONTEND=noninteractive;\
-  apt-get update;\
-  apt-get -yqq install openjdk-17-jre openjdk-17-jdk;\
-  apt-get -yqq install apksigner rsync;\
-  apt-get -yqq install python3-virtualenv;\
-  apt-get -yqq install python3-distutils python3-lib2to3;\
-  apt-get clean;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m -s /bin/bash none;\
-  curl -sS -L -k -f http://repo/sw/opensource/fdroidserver/bin/fdroidserver-$VER-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
+  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install apksigner rsync;\
+    if [ "$(echo $OS_NAME|cut -b 1-8)" = "debian13" ]; then\
+      apt-get -yqq install openjdk-21-jre openjdk-21-jdk;\
+      apt-get -yqq install python3-virtualenv python3-distutils-extra;\
+    elif [ "$(echo $OS_NAME|cut -b 1-8)" = "debian12" ]; then\
+      apt-get -yqq install openjdk-17-jre openjdk-17-jdk;\
+      apt-get -yqq install python3-virtualenv python3-distutils python3-lib2to3;\
+    fi;\
+    apt-get clean;\
+  fi;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  curl -sS -L -k -f http://repo/sw/opensource/fdroidserver/bin/fdroidserver-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv fdroidserver-$VER fdroidserver;\
   ln -snfv /usr/local/fdroidserver/bin/activate /usr/local/bin;\

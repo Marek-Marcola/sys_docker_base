@@ -20,10 +20,10 @@ RUN set -ex;\
   mkdir -pv /usr/local/etc/munge /var/lib/munge /var/log/munge /var/run/munge;\
   chown munge:munge /usr/local/etc/munge /var/lib/munge /var/log/munge /var/run/munge;\
   chmod 700 /usr/local/etc/munge /var/lib/munge;\
-  curl -sS -L -k -f http://repo/sw/opensource/munge/bin/munge-${VER}-${OS_NAME}-${OS_ARCH}.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/munge-${VER};\
+  curl -sS -L -k -f http://repo/sw/opensource/munge/bin/munge-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
+  chown -R root:root /usr/local/munge-$VER;\
   cd /usr/local;\
-  ln -snfv munge-${VER} munge;\
+  ln -snfv munge-$VER munge;\
   munged -V;
 
 RUN set -ex;\

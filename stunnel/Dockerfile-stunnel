@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/stunnel-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libwrap0;\
@@ -23,7 +23,7 @@ RUN set -ex;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
   mkdir -pv /usr/local/etc/stunnel;\
-  curl -sS -L -k -f http://repo/sw/opensource/stunnel/bin/stunnel-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/stunnel/bin/stunnel-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/stunnel-$VER;\
   cd /usr/local;\
   ln -snfv stunnel-$VER stunnel;\

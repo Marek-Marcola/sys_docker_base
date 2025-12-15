@@ -14,7 +14,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     apt-get update;\
     apt-get -yqq install rcs cvs subversion cvsgraph;\
     apt-get clean;\
@@ -24,7 +24,7 @@ RUN set -ex;\
   usermod -a -G git none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/python/bin/version.txt | grep ^python-2.7: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/python/bin/python-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/python/bin/python-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv python-$V python;\
   ln -snfv /usr/local/python/bin/python /usr/bin;\
   echo "info.vers = python/$V" >> /tmp/vers.txt;\

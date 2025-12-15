@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/slurm-$VER/bin:/usr/local/slurm-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-5)" = "rocky" ]; then\
+  if [ "$(echo $OSN|cut -c1-5)" = "rocky" ]; then\
     yum -y install sssd sssd-client sssd-tools openldap-clients http-parser;\
     yum -y install numactl rrdtool hwloc freeipmi ipmitool s-nail;\
     yum -y install mariadb mariadb-devel;\
@@ -27,16 +27,16 @@ RUN set -ex;\
   useradd -u 911 -g 911 -m -n slurm;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/libjwt/bin/version.txt | grep ^libjwt: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/libjwt/bin/libjwt-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/libjwt/bin/libjwt-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv libjwt-$V libjwt;\
   echo "info.vers = libjwt/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/hdf5/bin/version.txt | grep ^hdf5-$REPO-$VER: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/hdf5/bin/hdf5-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/hdf5/bin/hdf5-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv hdf5-$V hdf5;\
   echo "info.vers = hdf5/$V" >> /tmp/vers.txt;\
   mkdir -pv /usr/local/etc/slurm /var/opt/slurm /var/log/slurm;\
   chown -R slurm:slurm /var/opt/slurm /var/log/slurm;\
-  curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/slurm-$VER;\
   ln -snfv slurm-${VER} slurm;\
   S=zlocal-slurm.sh;\

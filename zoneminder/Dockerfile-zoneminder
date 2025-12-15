@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/zoneminder-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libmariadb-dev libmariadb-dev-compat;\
@@ -30,7 +30,7 @@ RUN set -ex;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
-  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/zoneminder-$VER;\
   cd /usr/local;\
   ln -snfv zoneminder-$VER zoneminder;\

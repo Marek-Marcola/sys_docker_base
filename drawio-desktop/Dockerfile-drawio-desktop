@@ -15,7 +15,7 @@ ENV PATH /opt/drawio:$PATH
 ENV DRAWIO_DISABLE_UPDATE=true
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libasound2;\

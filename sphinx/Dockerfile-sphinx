@@ -22,8 +22,8 @@ RUN set -ex;\
   apt-get -yqq install latexmk texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra;\
   apt-get -yqq install gnuplot rsync;\
   apt-get clean;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/plantuml/jar/version.txt | grep ^plantuml: | awk '{print $2}');\
   mkdir -pv plantuml-$V;\
@@ -45,7 +45,7 @@ RUN set -ex;\
   ln -snfv pandoc-$V pandoc;\
   ln -snfv /usr/local/pandoc/bin/pandoc /usr/bin;\
   echo "info.vers = pandoc/$V" >> /tmp/vers.txt;\
-  curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv sphinx-$VER sphinx;\
   ln -snfv /usr/local/sphinx/bin/activate /usr/local/bin;\

@@ -15,18 +15,18 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/ssp-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install ldap-utils;\
     apt-get clean;\
     echo "TLS_REQCERT allow" >> /etc/ldap/ldap.conf;\
-  elif [ "$(echo $OS_NAME|cut -b 1-6)" = "centos" ]; then\
+  elif [ "$(echo $OSN|cut -b 1-6)" = "centos" ]; then\
     echo "TLS_REQCERT allow" >> /etc/openldap/ldap.conf;\
   fi;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/smarty/src/version.txt | grep ^smarty: | awk '{print $2}');\
-  mkdir smarty-$V;\
+  mkdir -pv smarty-$V;\
   curl -sS -L -k -f http://repo/sw/opensource/smarty/src/smarty-$V.tar.gz | tar xzf - -C smarty-$V --strip-components=2;\
   ln -snfv smarty-$V smarty;\
   mkdir -pv /usr/share/php;\

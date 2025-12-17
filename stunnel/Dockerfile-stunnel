@@ -21,7 +21,7 @@ RUN set -ex;\
     apt-get clean;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   mkdir -pv /usr/local/etc/stunnel;\
   curl -sS -L -k -f http://repo/sw/opensource/stunnel/bin/stunnel-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/stunnel-$VER;\

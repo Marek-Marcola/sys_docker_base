@@ -14,12 +14,12 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/squid-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libxml2 libltdl7;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+  elif [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
     yum -y install libtool-ltdl nettle;\
     yum clean all;\
   fi;\
@@ -27,7 +27,7 @@ RUN set -ex;\
   useradd -u 23 -g 23  -s /bin/bash -m squid;\
   mkdir -pv /usr/local/etc/squid /var/opt/squid;\
   chown squid:squid /var/opt/squid;\
-  curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/squid-$VER;\
   mkdir -pv /var/log/squid /var/cache/squid;\
   chown -R squid:squid /var/log/squid /var/cache/squid;\

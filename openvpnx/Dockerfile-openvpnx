@@ -20,10 +20,10 @@ RUN set -ex;\
   mkdir -pv /usr/local/etc/openvpn;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/openssl/bin/version.txt | grep ^openssl: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/openssl/bin/openssl-$V+x-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/openssl/bin/openssl-$V+x-$OSN-$OSA.tar.gz | tar xzf -;\
   chown -R root:root openssl-$V+x;\
   ln -snfv openssl-$V+x openssl+x;\
-  curl -sS -L -k -f http://repo/sw/opensource/openvpn/bin/openvpn-$VER+x-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/openvpn/bin/openvpn-$VER+x-$OSN-$OSA.tar.gz | tar xzf -;\
   chown -R root:root openvpn-$VER+x;\
   ln -snfv openvpn-$VER+x openvpn+x;\
   S=zlocal-openvpn.sh;\

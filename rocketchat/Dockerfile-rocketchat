@@ -13,7 +13,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
     yum -y install gcc-c++ make;\
   fi;\
   groupadd -g 811 rchat;\

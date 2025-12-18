@@ -14,14 +14,14 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/redmine-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install imagemagick;\
     apt-get -yqq --no-install-recommends install mercurial bzr cvs subversion ghostscript;\
     apt-get -yqq --no-install-recommends install libssl-dev libgmp-dev libpq-dev;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+  elif [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
     yum -y install ImageMagick ImageMagick-devel;\
     yum -y install hg bzr cvs subversion ghostscript;\
     yum -y install openssl-devel gmp-devel;\

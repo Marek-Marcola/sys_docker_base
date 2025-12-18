@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/openconnect-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libgnutls28-dev libxml2-dev gettext libssl-dev pkg-config zlib1g-dev liblz4-dev libproxy-dev libkrb5-dev;\
@@ -23,7 +23,7 @@ RUN set -ex;\
     apt-get clean;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/openconnect/bin/openconnect-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/openconnect/bin/openconnect-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openconnect-$VER openconnect;\
   openconnect -V;
 

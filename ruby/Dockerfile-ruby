@@ -15,8 +15,8 @@ ENV PATH /usr/local/ruby-$VER/bin:$PATH
 
 RUN set -ex;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/ruby/bin/ruby-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
-  ln -snfv ruby-${VER} ruby;\
+  curl -sS -L -k -f http://repo/sw/opensource/ruby/bin/ruby-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv ruby-$VER ruby;\
   ruby -v;
 
 RUN set -ex;\

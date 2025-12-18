@@ -14,8 +14,8 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/ntfy-$VER:$PATH
 
 RUN set -ex;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m none;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   mkdir -pv /var/opt/ntfy;\
   chown none:none /var/opt/ntfy;\
   mkdir -pv /usr/local/ntfy-$VER /etc/ntfy;\

@@ -14,13 +14,13 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/pgadmin4-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-8)" = "debian12" ]; then\
+  if [ "$(echo $OSN|cut -b 1-8)" = "debian12" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install python3-distutils python3-lib2to3;\
     apt-get -yqq install python3-virtualenv;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -b 1-8)" = "debian13" ]; then\
+  elif [ "$(echo $OSN|cut -b 1-8)" = "debian13" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install python3-distutils-extra;\
@@ -29,7 +29,7 @@ RUN set -ex;\
   fi;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
-  curl -sS -L -k -f http://repo/sw/opensource/pgadmin4/bin/pgadmin4-$VER-$OS_NAME-venv.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/pgadmin4/bin/pgadmin4-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv pgadmin4-$VER pgadmin4;\
   ln -snfv /usr/local/pgadmin4/bin/activate /usr/local/bin;\

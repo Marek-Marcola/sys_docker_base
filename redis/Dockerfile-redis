@@ -14,10 +14,10 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /opt/local/redis-$VER/bin:$PATH
 
 RUN set -ex;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   mkdir -pv /opt/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/redis/bin/redis-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /opt/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/redis/bin/redis-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /opt/local;\
   chown -R root:root /opt/local/redis-$VER;\
   cd /opt/local;\
   ln -snfv redis-$VER redis;\

@@ -22,12 +22,12 @@ RUN set -ex;\
   useradd -u 26 -g 26 -m -n postgres;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/pgsql/bin/version.txt | grep ^pgsql-16: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/pgsql-$V;\
   ln -snfv pgsql-$V pgsql-${V%.*};\
   ln -snfv pgsql-${V%.*} psql;\
   echo "info.vers = pgsql/$V" >> /tmp/vers.txt;\
-  curl -sS -L -k -f http://repo/sw/opensource/bacula/$VER/bin/bacula-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/bacula/$VER/bin/bacula-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv bacula-$VER bacula;\
   mkdir -pv /usr/local/etc/bacula/bacula-dir.d /var/opt/bacula /var/log/bacula;\
   chown root:root /usr/local/etc/bacula/bacula-dir.d;\

@@ -20,7 +20,7 @@ RUN set -ex;\
   apt-get clean;\
   groupadd -g 822 coturn;\
   useradd -u 822 -g 822 -m -c "Coturn STUN/TURN server" coturn;\
-  curl -sS -L -k -f http://repo/sw/opensource/coturn/bin/coturn-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/coturn/bin/coturn-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv coturn-${VER} coturn;\
   turnserver --version;

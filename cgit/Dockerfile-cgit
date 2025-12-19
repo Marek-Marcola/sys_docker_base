@@ -22,7 +22,7 @@ RUN set -ex;\
   useradd -u 321 -g 321 -m git;\
   usermod -a -G git none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/cgit/bin/cgit-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/cgit/bin/cgit-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv cgit-$VER cgit;\
   mkdir -pv /usr/local/etc/cgit;\
   V=$(curl -s http://repo/sw/opensource/pandoc/bin/version.txt | grep ^pandoc: | awk '{print $2}');\

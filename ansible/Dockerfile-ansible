@@ -15,7 +15,7 @@ ENV PATH /usr/local/ansible-$VER/bin:$PATH
 
 RUN set -ex;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/ansible/bin/ansible-$VER-$OS_NAME-venv.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/ansible/bin/ansible-$VER-$OSN-venv.tar.gz | tar xzf -;\
   chown -R root:root ansible-$VER;\
   ln -snfv ansible-$VER ansible;\
   mkdir -pv /var/tmp/sw;\

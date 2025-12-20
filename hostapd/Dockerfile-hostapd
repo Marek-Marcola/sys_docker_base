@@ -21,7 +21,7 @@ RUN set -ex;\
   apt-get -yqq install libssl-dev libnl-3-dev libnl-genl-3-dev;\
   apt-get -yqq install iw;\
   apt-get clean;\
-  curl -sS -L -k -f http://repo/sw/opensource/hostapd/bin/hostapd-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/hostapd/bin/hostapd-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv hostapd-$VER hostapd;\
   mkdir -pv /usr/local/etc/hostapd;\

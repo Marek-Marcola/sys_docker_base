@@ -14,7 +14,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  curl -sS -L -k -f http://repo/sw/opensource/hpl/bin/hpl-${VER}${TYPE:+-}${TYPE}-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/hpl/bin/hpl-${VER}${TYPE:+-}${TYPE}-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv hpl-${VER}${TYPE:+-}${TYPE} hpl${TYPE:+-}${TYPE};\
   S=hpl_config_N.sh;\

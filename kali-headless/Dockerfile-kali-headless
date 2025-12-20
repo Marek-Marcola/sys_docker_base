@@ -14,9 +14,14 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV LANG=en_US.utf8
 ENV TZ=Europe/Warsaw
+
 ENV OS_NAME=kali
 ENV OS_ARCH=x86_64
 ENV OS_CODE=kali-rolling
+
+ENV OSN=kali
+ENV OSA=x86_64
+ENV OSC=kali-rolling
 
 RUN set -ex;\
   if [ ! -z $APT_URL ]; then\

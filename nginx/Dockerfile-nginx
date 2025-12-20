@@ -17,7 +17,7 @@ ENV LD_LIBRARY_PATH /usr/local/fcgi/lib
 
 RUN set -ex;\
   mv /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
-  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libyajl2 libgeoip1 liblua5.4-0;\

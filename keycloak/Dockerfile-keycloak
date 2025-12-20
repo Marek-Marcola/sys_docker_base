@@ -15,7 +15,7 @@ ENV PATH /usr/local/keycloak-$VER/bin:$PATH
 
 RUN set -ex;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
+  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/keycloak/bin/keycloak-$VER.tar.gz | tar xzf -;\
   chown -R none:none keycloak-$VER;\

@@ -15,7 +15,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/php-$VER/bin:/usr/local/php-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\

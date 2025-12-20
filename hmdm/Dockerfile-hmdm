@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV CATALINA_OPTS="-Djava.awt.headless=true"
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install aapt;\

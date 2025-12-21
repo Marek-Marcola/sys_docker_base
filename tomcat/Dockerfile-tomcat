@@ -15,7 +15,7 @@ ENV PATH /usr/local/tomcat-$VER/bin:$PATH
 
 RUN set -ex;\
   groupadd -g 91 tomcat;\
-  useradd -u 91 -g 91 -c "Apache Tomcat" -m tomcat;\
+  useradd -u 91 -g 91 -c "Apache Tomcat" -m -s /bin/bash tomcat;\
   cd /usr/local;\
   mkdir -pv tomcat-$VER;\
   curl -sS -L -k -f http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat-$VER;\

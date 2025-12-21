@@ -28,8 +28,8 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends --no-install-suggests install v4l-utils zip;\
     apt-get clean;\
   fi;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/zoneminder-$VER;\
   cd /usr/local;\

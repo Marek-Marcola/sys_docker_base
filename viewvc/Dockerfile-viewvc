@@ -14,13 +14,13 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     apt-get update;\
     apt-get -yqq install rcs cvs subversion cvsgraph;\
     apt-get clean;\
   fi;\
   groupadd -g 321 git;\
-  useradd -u 321 -g 321 -m git;\
+  useradd -u 321 -g 321 -m -s /bin/bash git;\
   usermod -a -G git none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/python/bin/version.txt | grep ^python-2.7: | awk '{print $2}');\

@@ -20,8 +20,8 @@ RUN set -ex;\
   apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev python3-virtualenv libxslt1-dev;\
   apt-get -yqq install libpq-dev python3-dev;\
   apt-get clean;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/synapse-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv synapse-$VER synapse;\

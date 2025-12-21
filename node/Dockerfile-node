@@ -15,7 +15,7 @@ ENV PATH /usr/local/node/bin:$PATH
 
 RUN set -ex;\
   groupadd -g 433 node;\
-  useradd -u 433 -g 433 -c "Node.js" -m node;\
+  useradd -u 433 -g 433 -c "Node.js" -m -s /bin/bash node;\
   cd /usr/local;\
   mkdir -pv node-$VER;\
   curl -sS -L -k -f http://repo/sw/opensource/node/bin/node-v$VER-linux-x64.tar.xz | tar xJf - --strip-components=1 -C node-$VER;\

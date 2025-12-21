@@ -43,8 +43,8 @@ RUN set -ex;\
     apt-get -yqq install opencl-c-headers;\
     apt-get clean;\
   fi;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   curl -sS -L -k -f http://repo/sw/opensource/wine/bin/wine64-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/wine64-$VER;\
   cd /usr/local;\

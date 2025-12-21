@@ -15,13 +15,13 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/ssp-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install ldap-utils;\
     apt-get clean;\
     echo "TLS_REQCERT allow" >> /etc/ldap/ldap.conf;\
-  elif [ "$(echo $OSN|cut -b 1-6)" = "centos" ]; then\
+  elif [ "$(expr substr $OSN 1 6)" = "centos" ]; then\
     echo "TLS_REQCERT allow" >> /etc/openldap/ldap.conf;\
   fi;\
   cd /usr/local;\

@@ -22,8 +22,8 @@ RUN set -ex;\
   apt-get -yqq install latexmk texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra;\
   apt-get -yqq install gnuplot rsync;\
   apt-get clean;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/plantuml/jar/version.txt | grep ^plantuml: | awk '{print $2}');\
   mkdir -pv plantuml-$V;\

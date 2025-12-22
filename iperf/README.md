@@ -15,8 +15,8 @@ cman env:
     )
     DOCS="
     $A -r -- iperf3 -V -f M -s          # server
-    $A -r -- iperf3 -V -f M -c p111     # client
-    $A -r -- iperf3 -V -f M -c p111 -R  # client reverse
+    $A -r -- iperf3 -V -f M -c p111     # client (upload)
+    $A -r -- iperf3 -V -f M -c p111 -R  # client (download)
     port 5201 - iperf3
     port 5001 - iperf
     "
@@ -29,8 +29,8 @@ cman env:
     )
     DOCS="
     $A -r -- iperf3 -V -f M -s          # server
-    $A -r -- iperf3 -V -f M -c p111     # client
-    $A -r -- iperf3 -V -f M -c p111 -R  # client reverse
+    $A -r -- iperf3 -V -f M -c p111     # client (upload)
+    $A -r -- iperf3 -V -f M -c p111 -R  # client (download)
     port 5201 - iperf3
     port 5001 - iperf
     "

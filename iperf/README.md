@@ -13,7 +13,13 @@ cman env:
     --publish 5001:5001/tcp
     --publish 5001:5001/udp
     )
-    DOCS="$A -r -- iperf3 -V -f M -s!!$A -r -- iperf3 -V -f M -c p111!!port 5201 - iperf3!!port 5001 - iperf"
+    DOCS="
+    $A -r -- iperf3 -V -f M -s          # server
+    $A -r -- iperf3 -V -f M -c p111     # client
+    $A -r -- iperf3 -V -f M -c p111 -R  # client reverse
+    port 5201 - iperf3
+    port 5001 - iperf
+    "
     
     # cat /usr/local/etc/cman.d/ap-iperf-raw
     : ${I:=scr.dc.local:5443/is/iperf}
@@ -21,4 +27,10 @@ cman env:
     --net host
     --privileged
     )
-    DOCS="$A -r -- iperf3 -V -f M -s!!$A -r -- iperf3 -V -f M -c p111!!port 5201 - iperf3!!port 5001 - iperf"
+    DOCS="
+    $A -r -- iperf3 -V -f M -s          # server
+    $A -r -- iperf3 -V -f M -c p111     # client
+    $A -r -- iperf3 -V -f M -c p111 -R  # client reverse
+    port 5201 - iperf3
+    port 5001 - iperf
+    "

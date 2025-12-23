@@ -22,7 +22,7 @@ RUN set -ex;\
   useradd -u 822 -g 822 -m -c "Coturn STUN/TURN server" coturn;\
   curl -sS -L -k -f http://repo/sw/opensource/coturn/bin/coturn-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
-  ln -snfv coturn-${VER} coturn;\
+  ln -snfv coturn-$VER coturn;\
   turnserver --version;
 
 RUN set -ex;\

@@ -14,8 +14,8 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/envoy-$VER:$PATH
 
 RUN set -ex;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv envoy-$VER;\
   ln -snfv envoy-$VER envoy;\

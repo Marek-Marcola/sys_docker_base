@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/dovecot-$VER/bin:/usr/local/dovecot-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libicu-dev libunwind-dev libpcre2-dev liblua5.4;\
@@ -30,7 +30,7 @@ RUN set -ex;\
   useradd -u 850 -g 850 -m -c "" dovecot;\
   useradd -u 851 -g 851 -m -c "" dovenull;\
   mkdir -pv /usr/local/etc/dovecot;\
-  curl -sS -L -k -f http://repo/sw/opensource/dovecot/bin/dovecot-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/dovecot/bin/dovecot-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/dovecot-$VER;\
   S=zlocal-dovecot.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101008-mail_dovecot/files/$S\

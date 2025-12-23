@@ -34,7 +34,7 @@ RUN set -ex;\
     libspeexdsp1 libsnmp30 libresample1 libcodec2-dev libgmime-2.6-0 libvorbisenc2;\
   apt-get clean;\
   groupadd -g 700 asterisk;\
-  useradd -u 700 -g 700 -c "asterisk" -m asterisk;\
+  useradd -u 700 -g 700 -c "asterisk" -m -s /bin/bash asterisk;\
   curl -sS -L -k -f http://repo/sw/opensource/asterisk/bin/asterisk-$VER-$OSN-$OSA${TYPE:+-}${TYPE}.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/asterisk-$VER;\
   cd /usr/local;\

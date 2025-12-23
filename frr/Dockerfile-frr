@@ -16,13 +16,13 @@ ENV LD_LIBRARY_PATH=/usr/local/libyang/lib:/usr/local/libyang/lib64
 
 RUN set -ex;\
   mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libjson-c5 libprotobuf-c1 libunwind-dev;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -b 1-5)" = "rocky" ]; then\
-    echo rocky: $OS_NAME;\
+  elif [ "$(expr substr $OSN 1 5)" = "rocky" ]; then\
+    echo rocky: $OSN;\
   fi;\
   groupadd -g 1666 frr;\
   groupadd -g 1667 frrvty;\
@@ -30,10 +30,10 @@ RUN set -ex;\
   useradd -u 1667 -g 1667 -m frrvty;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/libyang/bin/version.txt | grep ^libyang: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/libyang/bin/libyang-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/libyang/bin/libyang-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv libyang-$V libyang;\
   echo "info.vers = libyang/$V" >> /tmp/vers.txt;\
-  curl -sS -L -k -f http://repo/sw/opensource/frr/bin/frr-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/frr/bin/frr-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   ln -snfv frr-$VER frr;\
   mkdir -pv /usr/local/etc/frr;\
   touch /usr/local/etc/frr/frr.conf;\

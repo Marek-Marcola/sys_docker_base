@@ -14,17 +14,17 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/clamav-$VER/sbin:/usr/local/clamav-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libxml2 libjson-c5 libmilter-dev;\
     apt-get clean;\
-  elif [ "$(echo $OSN|cut -b 1-6)" = "centos" ]; then\
+  elif [ "$(expr substr $OSN 1 6)" = "centos" ]; then\
     yum -y install pcre2;\
     yum clean all;\
   fi;\
   groupadd -g 230 clamav;\
-  useradd -u 230 -g 230 -s /bin/bash -m clamav;\
+  useradd -u 230 -g 230 -m -s /bin/bash clamav;\
   mkdir -pv /var/opt/clamav /var/log/clamav;\
   chown clamav:clamav /var/opt/clamav /var/log/clamav;\
   curl -sS -L -k -f http://repo/sw/opensource/clamav/bin/clamav-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\

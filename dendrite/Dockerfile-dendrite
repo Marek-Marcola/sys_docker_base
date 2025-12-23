@@ -18,7 +18,7 @@ RUN set -ex;\
   useradd -u 831 -g 831 -m dendrite;\
   mkdir -pv /var/log/dendrite;\
   chown dendrite:dendrite /var/log/dendrite;\
-  curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/dendrite-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/dendrite-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv dendrite-$VER dendrite;\
   create-account -version;

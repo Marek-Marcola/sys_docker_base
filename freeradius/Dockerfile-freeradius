@@ -14,15 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/freeradius-$VER/bin:/usr/local/freeradius-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libtalloc2;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -c1-5)" = "rocky" ]; then\
+  elif [ "$(expr substr $OSN 1 5)" = "rocky" ]; then\
     yum -y install libtalloc openldap;\
     yum clean all;\
-  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+  elif [ "$(expr substr $OSN 1 6)" = "centos" ]; then\
     yum -y install libtalloc openldap;\
     yum clean all;\
   fi;\
@@ -30,7 +30,7 @@ RUN set -ex;\
   useradd -u 95 -g 95 -m radiusd;\
   mkdir -pv /var/lib/radiusd /var/run/radiusd /var/log/radius/radacct;\
   chown -v radiusd:radiusd /var/lib/radiusd /var/run/radiusd /var/log/radius/radacct;\
-  curl -sS -L -k -f http://repo/sw/opensource/freeradius/bin/freeradius-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/freeradius/bin/freeradius-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   chown -R root:root /usr/local/freeradius-$VER;\
   cd /usr/local;\
   ln -snfv freeradius-$VER freeradius;\

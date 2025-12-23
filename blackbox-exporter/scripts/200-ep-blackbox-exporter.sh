@@ -1,7 +1,7 @@
 #!/bin/bash
 
 [[ -z $BLACKBOX_EXPORTER_ID   ]] && BLACKBOX_EXPORTER_ID=""
-[[ -z $BLACKBOX_EXPORTER_CONF ]] && BLACKBOX_EXPORTER_CONF=/usr/local/etc/blackbox/blackbox${BLACKBOX_EXPORTER_ID:+-}${BLACKBOX_EXPORTER_ID}.yml
+[[ -z $BLACKBOX_EXPORTER_CONF ]] && BLACKBOX_EXPORTER_CONF=/usr/local/etc/blackbox_exporter/blackbox${BLACKBOX_EXPORTER_ID:+-}${BLACKBOX_EXPORTER_ID}.yml
 [[ -z $BLACKBOX_EXPORTER_OPTS ]] && BLACKBOX_EXPORTER_OPTS="--log.level=debug"
 
 echo "env config:"

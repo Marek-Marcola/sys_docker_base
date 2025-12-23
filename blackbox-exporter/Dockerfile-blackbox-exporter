@@ -20,11 +20,11 @@ RUN set -ex;\
   mkdir -pv blackbox_exporter-$VER;\
   curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/blackbox_exporter-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C blackbox_exporter-$VER;\
   chown -R root:root /usr/local/blackbox_exporter-$VER;\
-  mkdir -pv /usr/local/etc/blackbox;\
+  mkdir -pv /usr/local/etc/blackbox_exporter;\
   ln -snfv blackbox_exporter-$VER blackbox_exporter;\
   blackbox_exporter --version;
 
-ADD config/ /usr/local/etc/blackbox/
+ADD config/ /usr/local/etc/blackbox_exporter/
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

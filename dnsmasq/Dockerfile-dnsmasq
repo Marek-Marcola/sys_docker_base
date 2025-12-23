@@ -16,9 +16,9 @@ ENV PATH /usr/local/dnsmasq-$VER/sbin:$PATH
 STOPSIGNAL SIGTERM
 
 RUN set -ex;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
-  curl -sS -L -k -f http://repo/sw/opensource/dnsmasq/bin/dnsmasq-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  curl -sS -L -k -f http://repo/sw/opensource/dnsmasq/bin/dnsmasq-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
   ln -snfv dnsmasq-$VER dnsmasq;\
   mkdir -pv /usr/local/etc/dnsmasq.d;\

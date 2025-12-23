@@ -23,7 +23,7 @@ RUN set -ex;\
     yum -y install gcc gcc-c++;\
     ln -snfv /usr gcc-$VER;\
   else\
-    curl -sS -L -k -f http://repo/sw/opensource/gcc/bin/gcc-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+    curl -sS -L -k -f http://repo/sw/opensource/gcc/bin/gcc-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
     chown -R root:root gcc-$VER;\
   fi;\
   yum clean all;\

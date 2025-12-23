@@ -22,10 +22,10 @@ RUN set -ex;\
   apt-get -yqq install build-essential autoconf automake gdb git bison flex libtool strace pkg-config gettext;\
   apt-get clean;\
   cd /usr/local;\
-  if [ "$(echo $VER|cut -c 1-4)" = "12.2" ]; then\
+  if [ "$(expr substr $VER 1 4)" = "12.2" ]; then\
     ln -snfv /usr gcc-$VER;\
   else\
-    curl -sS -L -k -f http://repo/sw/opensource/gcc/bin/gcc-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+    curl -sS -L -k -f http://repo/sw/opensource/gcc/bin/gcc-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
     chown -R root:root gcc-$VER;\
   fi;\
   ln -snfv gcc-$VER gcc-${VER%%.*};\

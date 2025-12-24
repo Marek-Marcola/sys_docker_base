@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/openconnect-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libgnutls28-dev libxml2-dev gettext libssl-dev pkg-config zlib1g-dev liblz4-dev libproxy-dev libkrb5-dev;\

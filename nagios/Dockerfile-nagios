@@ -15,12 +15,12 @@ ENV PATH /usr/local/nagios-$VER/bin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib:$LD_LIBRARY_PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-6)" = "debian" ]; then\
+  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libboost-all-dev bsdextrautils snmp;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -b 1-6)" = "centos" ]; then\
+  elif [ "$(expr substr $OSN 1 6)" = "centos" ]; then\
     yum install boost-system libtool-ltdl -y;\
     yum clean all;\
   fi;\
@@ -30,18 +30,18 @@ RUN set -ex;\
   usermod -a -G nagcmd nagios;\
   usermod -a -G nagcmd,nagios none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv nagios-$VER nagios;\
   V=$(curl -s http://repo/sw/opensource/nagios/bin/version.txt | grep ^nagios-plugins: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-plugins-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-plugins-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv nagios-plugins-$V nagios-plugins;\
   echo "info.vers = nagios-plugins/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/nagios/bin/version.txt | grep ^nagios-nrpe: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-nrpe-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/nagios/bin/nagios-nrpe-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv nagios-nrpe-$V nagios-nrpe;\
   echo "info.vers = nagios-nrpe/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/mk-livestatus/bin/version.txt | grep ^mk-livestatus: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/mk-livestatus/bin/mk-livestatus-$V-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/mk-livestatus/bin/mk-livestatus-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv mk-livestatus-$V mk-livestatus;\
   echo "info.vers = mk-livestatus/$V" >> /tmp/vers.txt;\
   mkdir -pv /usr/local/etc/nagios/local /usr/local/etc/nagios/objects;\

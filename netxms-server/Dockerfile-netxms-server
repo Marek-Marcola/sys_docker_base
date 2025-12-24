@@ -14,28 +14,28 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/netxms-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
-    apt-get -yqq install pcre;\
+    apt-get -yqq install libpcre2-dev pcre2-utils;\
     apt-get clean;\
-  elif [ "$(echo $OS_NAME|cut -c1-5)" = "rocky" ]; then\
+  elif expr match $OSN rocky; then\
     yum -y install pcre pcre-utf32;\
     yum clean all;\
   fi;\
   groupadd -g 486 netxms;\
   useradd -u 486 -g 486 -m netxms;\
+  cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/netxms/bin/netxms-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv netxms-$VER netxms;\
+  chown -R root:root netxms-$VER;\
+  getcap netxms/bin/netxmsd;\
+  setcap cap_net_bind_service,cap_net_raw=ep netxms/bin/netxmsd;\
+  getcap netxms/bin/netxmsd;\
   mkdir -pv /var/log/netxms /var/opt/netxms;\
   chown -R netxms:netxms /var/log/netxms /var/opt/netxms;\
   mkdir -pv /usr/locate/etc/netxms;\
   ln -sv /usr/local/etc/netxms/netxmsd.conf /etc;\
-  curl -sS -L -k -f http://repo/sw/opensource/netxms/bin/netxms-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/netxms-$VER;\
-  cd /usr/local;\
-  ln -snfv netxms-$VER netxms;\
-  getcap /usr/local/netxms/bin/netxmsd;\
-  setcap cap_net_bind_service,cap_net_raw=ep /usr/local/netxms/bin/netxmsd;\
-  getcap /usr/local/netxms/bin/netxmsd;\
   netxmsd -v || true;
 
 RUN set -ex;\

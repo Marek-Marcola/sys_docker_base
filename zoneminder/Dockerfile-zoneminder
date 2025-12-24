@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/zoneminder-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libmariadb-dev libmariadb-dev-compat;\
@@ -30,11 +30,11 @@ RUN set -ex;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/zoneminder-$VER;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv zoneminder-$VER zoneminder;\
   ln -snfv /usr/local/zoneminder/perl5/vendor_perl /usr/local/lib/site_perl;\
+  chown -R root:root /usr/local/zoneminder-$VER;\
   mkdir -pv /var/opt/zoneminder/cache;\
   mkdir -pv /var/opt/zoneminder/events;\
   mkdir -pv /var/opt/zoneminder/export;\

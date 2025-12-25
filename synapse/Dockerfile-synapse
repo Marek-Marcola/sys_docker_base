@@ -22,8 +22,8 @@ RUN set -ex;\
   apt-get clean;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/synapse-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/synapse-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv synapse-$VER synapse;\
   ln -snfv /usr/local/synapse/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/synapse/bin/synapse_homeserver /usr/local/bin;\

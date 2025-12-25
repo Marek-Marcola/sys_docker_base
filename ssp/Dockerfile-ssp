@@ -15,7 +15,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/ssp-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install ldap-utils;\
@@ -27,13 +27,13 @@ RUN set -ex;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/smarty/src/version.txt | grep ^smarty: | awk '{print $2}');\
   mkdir -pv smarty-$V;\
-  curl -sS -L -k -f http://repo/sw/opensource/smarty/src/smarty-$V.tar.gz | tar xzf - -C smarty-$V --strip-components=2;\
   ln -snfv smarty-$V smarty;\
+  curl -sS -L -k -f http://repo/sw/opensource/smarty/src/smarty-$V.tar.gz | tar xzf - --strip-components=2 -C smarty;\
   mkdir -pv /usr/share/php;\
   ln -snfv /usr/local/smarty /usr/share/php/smarty${V%%.*};\
   mkdir ssp-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/ssp/src/self-service-password-$VER.tar.gz | tar xzf - --strip-components=1 -C ssp-$VER;\
   ln -snfv ssp-$VER ssp;\
+  curl -sS -L -k -f http://repo/sw/opensource/ssp/src/self-service-password-$VER.tar.gz | tar xzf - --strip-components=1 -C ssp;\
   mkdir -pv ssp/templates_c;\
   chmod 777 ssp/templates_c;\
   mkdir -pv /usr/local/etc/ssp;\

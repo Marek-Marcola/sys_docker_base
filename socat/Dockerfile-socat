@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/socat-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libwrap0 ldap-utils;\
@@ -23,11 +23,11 @@ RUN set -ex;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  mkdir -pv /usr/local/etc/socat;\
-  curl -sS -L -k -f http://repo/sw/opensource/socat/bin/socat-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/socat-$VER;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/socat/bin/socat-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv socat-$VER socat;\
+  chown -R root:root socat-$VER;\
+  mkdir -pv /usr/local/etc/socat;\
   socat -V;
 
 RUN set -ex;\

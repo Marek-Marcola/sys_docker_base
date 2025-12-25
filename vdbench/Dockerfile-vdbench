@@ -14,15 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/vdbench-$VER:$PATH
 
 RUN set -ex;\
-  mkdir -pv /work;\
-  mkdir -pv /usr/local/etc/vdbench;\
   cd /usr/local;\
   mkdir -pv vdbench-$VER;\
+  ln -snfv vdbench-$VER vdbench;\
   curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/oracle/vdbench/vdbench-$VER.zip;\
-  unzip -d /usr/local/vdbench-$VER /tmp/f.zip;\
-  chown -R root:root /usr/local/vdbench-$VER;\
+  unzip -d vdbench /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
-  ln -snfv vdbench-$VER vdbench;
+  chown -R root:root vdbench-$VER;\
+  mkdir -pv /work;\
+  mkdir -pv /usr/local/etc/vdbench;
 
 ADD scripts/*.sh /usr/local/bin/
 ADD scripts/*.conf /usr/local/etc/vdbench/

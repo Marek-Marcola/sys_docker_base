@@ -14,7 +14,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     apt-get update;\
     apt-get -yqq install rcs cvs subversion cvsgraph;\
     apt-get clean;\

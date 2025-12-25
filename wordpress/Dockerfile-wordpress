@@ -15,12 +15,12 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 RUN set -ex;\
   cd /usr/local;\
   mkdir -pv wordpress-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress-$VER;\
-  chown -R root:root wordpress-$VER;\
   ln -snfv wordpress-$VER wordpress;\
-  cd /usr/local/wordpress;\
+  curl -sS -L -k -f http://repo/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
+  chown -R root:root wordpress-$VER;\
+  cd wordpress;\
   mkdir -pv /var/opt/wordpress/wp-content/{plugins,themes};\
-  mv wp-content wp-content.ORG;\
+  mv -v wp-content wp-content.ORG;\
   ln -sv /var/opt/wordpress/wp-content .;\
   ln -sv /var/opt/wordpress/wp-config.php .;\
   if [ -f /usr/local/etc/php7/php.ini ]; then\

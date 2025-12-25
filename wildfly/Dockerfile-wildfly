@@ -18,12 +18,12 @@ RUN set -ex;\
   useradd -u 460 -g 460 -c "WildFly Application Server" -m -s /bin/bash wildfly;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/wildfly/bin/wildfly-$VER.Final.tar.gz | tar xzf -;\
-  chown -R wildfly:wildfly wildfly-$VER.Final;\
   ln -snfv wildfly-$VER.Final wildfly;\
+  chown -R wildfly:wildfly wildfly-$VER.Final;\
   ln -sv /usr/local/wildfly/welcome-content /as-root;\
   ln -sv /usr/local/wildfly/standalone/deployments /as-apps;\
   echo wildfly $VER > /as-root/index.html;\
-  mkdir -pv /var/opt/tomcat/conf
+  mkdir -pv /var/opt/tomcat/conf;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

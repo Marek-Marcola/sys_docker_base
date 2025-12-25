@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/stunnel-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libwrap0;\
@@ -22,11 +22,11 @@ RUN set -ex;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  mkdir -pv /usr/local/etc/stunnel;\
-  curl -sS -L -k -f http://repo/sw/opensource/stunnel/bin/stunnel-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/stunnel-$VER;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/stunnel/bin/stunnel-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv stunnel-$VER stunnel;\
+  chown -R root:root stunnel-$VER;\
+  mkdir -pv /usr/local/etc/stunnel;\
   S=zlocal-stunnel.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101354-stunnel/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

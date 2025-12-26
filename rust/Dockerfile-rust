@@ -19,8 +19,8 @@ RUN set -ex;\
   /tmp/t/install.sh --prefix=/usr/local/rust-$VER;\
   rm -rf /tmp/t;\
   cd /usr/local;\
-  chown -R root:root rust-$VER;\
   ln -snfv rust-$VER rust;\
+  chown -R root:root rust-$VER;\
   rustc --version;
 
 RUN set -ex;\

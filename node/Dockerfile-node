@@ -18,8 +18,8 @@ RUN set -ex;\
   useradd -u 433 -g 433 -c "Node.js" -m -s /bin/bash node;\
   cd /usr/local;\
   mkdir -pv node-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/node/bin/node-v$VER-linux-x64.tar.xz | tar xJf - --strip-components=1 -C node-$VER;\
   ln -snfv node-$VER node;\
+  curl -sS -L -k -f http://repo/sw/opensource/node/bin/node-v$VER-linux-x64.tar.xz | tar xJf - --strip-components=1 -C node;\
   S=zlocal-node.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101530-nodejs/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

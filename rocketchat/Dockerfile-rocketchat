@@ -13,15 +13,15 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
+  if expr match $OSN centos; then\
     yum -y install gcc-c++ make;\
   fi;\
   groupadd -g 811 rchat;\
   useradd -u 811 -g 811 -m rchat;\
   cd /usr/local;\
   mkdir -pv rocketchat-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/rocketchat/bin/rocketchat-$VER.tgz | tar xzf - --strip-components=1 -C rocketchat-$VER;\
   ln -snfv rocketchat-$VER rocketchat;\
+  curl -sS -L -k -f http://repo/sw/opensource/rocketchat/bin/rocketchat-$VER.tgz | tar xzf - --strip-components=1 -C rocketchat;\
   cd rocketchat/programs/server;\
   npm install semver;\
   npm install;\

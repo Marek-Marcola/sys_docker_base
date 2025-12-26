@@ -41,12 +41,12 @@ RUN set -ex;\
   echo "info.vers = plantuml/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/pandoc/bin/version.txt | grep ^pandoc: | awk '{print $2}');\
   mkdir -v pandoc-$V;\
-  curl -sS -L -k -f http://repo/sw/opensource/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc-$V;\
   ln -snfv pandoc-$V pandoc;\
+  curl -sS -L -k -f http://repo/sw/opensource/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
   ln -snfv /usr/local/pandoc/bin/pandoc /usr/bin;\
   echo "info.vers = pandoc/$V" >> /tmp/vers.txt;\
-  curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv sphinx-$VER sphinx;\
   ln -snfv /usr/local/sphinx/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/sphinx/bin/sphinx-apidoc /usr/local/bin;\

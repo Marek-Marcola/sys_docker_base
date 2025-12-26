@@ -14,35 +14,35 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/slurm-$VER/bin:/usr/local/slurm-$VER/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -c1-5)" = "rocky" ]; then\
+  if expr match $OSN rocky; then\
     yum -y install sssd sssd-client sssd-tools openldap-clients http-parser;\
     yum -y install numactl rrdtool hwloc freeipmi ipmitool s-nail;\
     yum -y install mariadb mariadb-devel;\
     yum clean all;\
   fi;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m none;\
-  chmod u+s /usr/sbin/ether-wake;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   groupadd -g 911 slurm;\
   useradd -u 911 -g 911 -m -n slurm;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/libjwt/bin/version.txt | grep ^libjwt: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/libjwt/bin/libjwt-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/libjwt/bin/libjwt-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv libjwt-$V libjwt;\
   echo "info.vers = libjwt/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/hdf5/bin/version.txt | grep ^hdf5-$REPO-$VER: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/hdf5/bin/hdf5-$V-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/hdf5/bin/hdf5-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv hdf5-$V hdf5;\
   echo "info.vers = hdf5/$V" >> /tmp/vers.txt;\
+  curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  chown -R root:root /usr/local/slurm-$VER;\
+  ln -snfv slurm-$VER slurm;\
   mkdir -pv /usr/local/etc/slurm /var/opt/slurm /var/log/slurm;\
   chown -R slurm:slurm /var/opt/slurm /var/log/slurm;\
-  curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/slurm-$VER;\
-  ln -snfv slurm-${VER} slurm;\
   S=zlocal-slurm.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101363-hpc_slurm/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
+  chmod u+s /usr/sbin/ether-wake;\
   /usr/local/slurm/sbin/slurmd -V;\
   /usr/local/slurm/sbin/slurmrestd -V;
 

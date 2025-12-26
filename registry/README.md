@@ -21,7 +21,7 @@ cman env:
      "install -m 755 -o none -g none -v -d /var/opt/registry/$A"
     )
 
-    # /usr/local/etc/cman.d/ap-registry-dcr
+    # cat /usr/local/etc/cman.d/ap-registry-dcr
     : ${V:=m.m.p}
     : ${I:=is/registry:$V}
     OPTS=(
@@ -37,7 +37,7 @@ cman env:
      "install -m 755 -o none -g none -v -d /var/opt/registry/$A"
     )
 
-    # /usr/local/etc/cman.d/ap-registry-kcr
+    # cat /usr/local/etc/cman.d/ap-registry-kcr
     : ${V:=m.m.p}
     : ${I:=is/registry:$V}
     OPTS=(

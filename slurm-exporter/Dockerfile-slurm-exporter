@@ -18,8 +18,8 @@ RUN set -ex;\
   mkdir -pv slurm-exporter-$VER;\
   ln -snfv slurm-exporter-$VER slurm-exporter;\
   curl -sS -L -k -f -o slurm-exporter/slurm-exporter http://repo/sw/opensource/prometheus/bin/slurm-exporter_${VER}_linux_amd64;\
-  chown -R root:root /usr/local/slurm-exporter-$VER;\
-  chmod a+x /usr/local/slurm-exporter/slurm-exporter;\
+  chown -R root:root slurm-exporter-$VER;\
+  chmod a+x slurm-exporter/slurm-exporter;\
   slurm-exporter --version || true;
 
 RUN set -ex;\

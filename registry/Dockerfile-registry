@@ -14,15 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/registry-$VER:$PATH
 
 RUN set -ex;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -s /bin/bash -m none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv registry-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry-$VER;\
+  ln -snfv registry-$VER registry;\
+  curl -sS -L -k -f http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
   chown -R root:root registry-$VER;\
   mkdir -pv /usr/local/etc/registry /var/opt/registry;\
   chown none:none /var/opt/registry;\
-  ln -snfv registry-$VER registry;\
   registry --version;
 
 RUN set -ex;\

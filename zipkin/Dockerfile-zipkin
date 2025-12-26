@@ -21,7 +21,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o zipkin/zipkin-server-$VER-exec.jar http://repo/sw/opensource/zipkin/bin/zipkin-server-$VER-exec.jar;\
   cd zipkin;\
   ln -snfv zipkin-server-$VER-exec.jar zipkin-server-exec.jar;\
-  unzip -p /usr/local/zipkin/zipkin-server-exec.jar BOOT-INF/classes/info.json;
+  unzip -p zipkin-server-exec.jar BOOT-INF/classes/info.json;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

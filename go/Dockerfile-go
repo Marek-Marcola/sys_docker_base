@@ -16,9 +16,9 @@ ENV PATH /usr/local/go-$VER/bin:$PATH
 RUN set -ex;\
   cd /usr/local;\
   mkdir -pv go-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/go/bin/go$VER.linux-amd64.tar.gz | tar xzf - --strip-components=1 -C go-$VER;\
-  chown -R root:root go-$VER;\
   ln -snfv go-$VER go;\
+  curl -sS -L -k -f http://repo/sw/opensource/go/bin/go$VER.linux-amd64.tar.gz | tar xzf - --strip-components=1 -C go;\
+  chown -R root:root go-$VER;\
   go version;
 
 RUN set -ex;\

@@ -41,6 +41,8 @@ RUN set -ex;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
+  groupadd -g 666 none;\
+  useradd -u 666 -g 666 -s /bin/bash -m none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
   sed -i-$(date +%Y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
@@ -76,8 +78,6 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -s /bin/bash -m none;\
   cat /etc/os-release;\
   cat /etc/debian_version;
 

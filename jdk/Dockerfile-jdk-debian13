@@ -20,12 +20,12 @@ RUN set -ex;\
   apt-get -yqq --no-install-suggests install libfreetype6 fontconfig fonts-dejavu;\
   apt-get -yqq --no-install-suggests install libasound2t64 libxi6 libxrender1 libxtst6;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   cd /usr/local;\
   mkdir -pv jdk-$VER;\
+  ln -snfv jdk-$VER jdk-${VER%%.*};\
   curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
-  ln -snfv jdk-$VER jdk-${VER%%.*};\
-  apt-get clean;\
   cd jdk-$VER;\
   find . -name "*.so" -exec ldd {} \; 2>&1 | grep found | sort | uniq | grep -vE 'libjvm.so|libjava.so'\
     && (echo Required shared libraries: missing)\

@@ -16,24 +16,23 @@ ENV PATH /usr/local/mariadb-$VER/bin:$PATH
 STOPSIGNAL SIGTERM
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install numactl liblzo2-dev libncurses-dev liburing2;\
     apt-get clean;\
-    groupadd -g 672 mysql;\
-    useradd -u 672 -g 672 -m -s /bin/bash mysql;\
-  elif [ "$(echo $OS_NAME|cut -c1-6)" = "centos" ]; then\
+    rm -rf /var/lib/apt/lists/*;\
+  elif expr match $OSN centos; then\
     yum -y update;\
     yum -y install numactl-libs lzo;\
     yum clean all;\
-    groupadd -g 672 mysql;\
-    useradd -u 672 -g 672 -m -n -s /bin/bash mysql;\
   fi;\
-  curl -sS -L -k -f http://repo/sw/opensource/mariadb/bin/mariadb-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/mariadb-$VER;\
+  groupadd -g 672 mysql;\
+  useradd -u 672 -g 672 -m -s /bin/bash mysql;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/mariadb/bin/mariadb-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv mariadb-$VER mariadb-${VER%.*};\
+  chown -R root:root mariadb-$VER;\
   mkdir -pv /var/opt/mysql/data /var/log/mysql;\
   chown mysql:mysql /var/opt/mysql/data /var/log/mysql;\
   S=zlocal-mariadb.sh;\

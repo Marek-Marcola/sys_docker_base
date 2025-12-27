@@ -14,13 +14,13 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/postfix-$VER/usr/bin:/usr/local/postfix-$VER/usr/sbin:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -b 1-8)" = "debian13" ]; then\
+  if expr match $OSN debian13; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libicu-dev libnsl-dev spamc;\
     apt-get -yqq --no-install-recommends install bind9-dnsutils bind9-host;\
     apt-get clean;\
-  elif [ "$(echo $OSN|cut -b 1-8)" = "debian12" ]; then\
+  elif expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libicu72 spamc;\
@@ -29,21 +29,21 @@ RUN set -ex;\
   fi;\
   groupadd -g 5000 vmail;\
   useradd -g 5000 -u 5000 -m vmail;\
-  mkdir -pv /var/opt/vmail;\
-  chown vmail:vmail /var/opt/vmail;\
-  chmod 770 /var/opt/vmail;\
   groupadd -g 840 postfix;\
   groupadd -g 841 postdrop;\
   useradd -u 840 -g 840 -m -c Postfix postfix;\
-  mkdir -pv /usr/local/etc/postfix;\
-  curl -sS -L -k -f http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/postfix-$VER;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snvf postfix-$VER postfix;\
+  chown -R root:root postfix-$VER;\
   cd postfix/usr/sbin;\
   chown root:postdrop postqueue postdrop;\
   chmod g+s postqueue postdrop;\
   ln -snfv /usr/local/postfix/usr/sbin/sendmail /usr/sbin/sendmail;\
+  mkdir -pv /usr/local/etc/postfix;\
+  mkdir -pv /var/opt/vmail;\
+  chown vmail:vmail /var/opt/vmail;\
+  chmod 770 /var/opt/vmail;\
   postconf -c /usr/local/postfix/etc/postfix mail_version;
 
 RUN set -ex;\

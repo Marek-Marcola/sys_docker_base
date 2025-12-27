@@ -14,21 +14,21 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/nextcloud-$VER:$PATH
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -b 1-5)" = "rocky" ]; then\
+  if expr match $OSN rocky; then\
     yum -y update;\
     yum -y install bzip2;\
     yum clean all;\
   fi;\
   cd /usr/local;\
   mkdir -pv nextcloud-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/nextcloud/src/nextcloud-$VER.tar.bz2 | tar xjf - --strip-components=1 -C nextcloud-$VER;\
-  chown -R root:root nextcloud-$VER;\
   ln -snfv nextcloud-$VER nextcloud;\
+  curl -sS -L -k -f http://repo/sw/opensource/nextcloud/src/nextcloud-$VER.tar.bz2 | tar xjf - --strip-components=1 -C nextcloud;\
+  chown -R root:root nextcloud-$VER;\
   mv -v nextcloud/config nextcloud/config.ORG;\
   mkdir -pv /usr/local/etc/nextcloud;\
   touch /usr/local/etc/nextcloud/CAN_INSTALL;\
   chown none:none /usr/local/etc/nextcloud;\
-  chown none:none /usr/local/nextcloud/apps;\
+  chown none:none nextcloud/apps;\
   ln -sv /usr/local/etc/nextcloud nextcloud/config;
 
 RUN set -ex;\

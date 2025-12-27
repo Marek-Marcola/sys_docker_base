@@ -16,24 +16,22 @@ ENV PATH /usr/local/pgsql-$VER/bin:$PATH
 STOPSIGNAL SIGINT
 
 RUN set -ex;\
-  if [ "$(echo $OSN|cut -c1-6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libicu-dev;\
     apt-get clean;\
     groupdel tape;\
-    groupadd -g 26 postgres;\
-    useradd -u 26 -g 26 -m -s /bin/bash postgres;\
-  elif [ "$(echo $OSN|cut -c1-6)" = "centos" ]; then\
+  elif expr match $OSN centos; then\
     yum -y install libicu;\
     yum clean all;\
-    groupadd -g 26 postgres;\
-    useradd -u 26 -g 26 -m -n -s /bin/bash postgres;\
   fi;\
-  curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/pgsql-$VER;\
+  groupadd -g 26 postgres;\
+  useradd -u 26 -g 26 -m -s /bin/bash postgres;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv pgsql-$VER pgsql-${VER%.*};\
+  chown -R root:root pgsql-$VER;\
   mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
   chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
   S=zlocal-pg.sh;\

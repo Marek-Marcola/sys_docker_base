@@ -70,8 +70,11 @@ RUN set -ex;\
   cat /etc/debian_version;
 
 RUN set -ex;\
+  export DEBIAN_FRONTEND=noninteractive;\
+  apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\

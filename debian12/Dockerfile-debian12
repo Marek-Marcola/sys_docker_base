@@ -110,4 +110,4 @@ RUN set -ex;\
 
 ADD scripts/[0-9]* /cmd.d/
 ADD scripts/cmd.sh /
-CMD ["/bin/bash","--login"]
+CMD ["/bin/bash","-l"]

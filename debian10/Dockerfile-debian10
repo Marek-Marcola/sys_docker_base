@@ -14,9 +14,14 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV LANG=en_US.utf8
 ENV TZ=Europe/Warsaw
+
 ENV OS_NAME=debian10
 ENV OS_ARCH=x86_64
 ENV OS_CODE=buster
+
+ENV OSN=debian10
+ENV OSA=x86_64
+ENV OSC=buster
 
 ADD config/debian-$VER.list config/debian-$VER-updates.list /etc/apt/sources.list.d/
 
@@ -62,7 +67,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/python-modules/pip.tar.gz | tar xzf - -C /tmp;\
   python /tmp/pip/$(ls /tmp/pip|grep py2.py3|head -1)/pip install --no-index --find-links=/tmp/pip --upgrade pip;\
   rm -rf /tmp/pip;\
-  pip install --no-index --trusted-host repo --find-links=http://repo/sw/opensource/python-modules/supervisor supervisor;\
+  pip install --no-index --trusted-host repo --find-links=http://repo/sw/opensource/python-modules/supervisor/ supervisor;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\

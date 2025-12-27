@@ -42,7 +42,7 @@ RUN set -ex;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
   groupadd -g 666 none;\
-  useradd -u 666 -g 666 -s /bin/bash -m none;\
+  useradd -u 666 -g 666 -m -s /bin/bash none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
   sed -i-$(date +%Y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\

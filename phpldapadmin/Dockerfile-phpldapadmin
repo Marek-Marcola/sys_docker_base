@@ -16,11 +16,11 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 RUN set -ex;\
   cd /usr/local;\
   mkdir -pv phpldapadmin-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/phpldapadmin/phpLDAPadmin-$VER.tar.gz | tar xzf - -C phpldapadmin-$VER --strip-components=1;\
   ln -snfv phpldapadmin-$VER phpldapadmin;\
+  curl -sS -L -k -f http://repo/sw/opensource/phpldapadmin/phpLDAPadmin-$VER.tar.gz | tar xzf - --strip-components=1 -C phpldapadmin;\
   mkdir -pv /usr/local/etc/phpldapadmin;\
   touch /usr/local/etc/phpldapadmin/config.php;\
-  ln -snfv /usr/local/etc/phpldapadmin/config.php /usr/local/phpldapadmin/config/;\
+  ln -snfv /usr/local/etc/phpldapadmin/config.php phpldapadmin/config/;\
   cat phpldapadmin/VERSION;
 
 RUN set -ex;\

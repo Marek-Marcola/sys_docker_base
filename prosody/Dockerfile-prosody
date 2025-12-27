@@ -16,15 +16,13 @@ ENV PATH /usr/local/prosody-$VER/bin:$PATH
 RUN set -ex;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
-  apt-get -yqq install lua5.2 liblua5.2-dev lua-expat lua-socket lua-filesystem lua-sec libidn11-dev libssl-dev;\
+  apt-get -yqq install lua5.2 lua-expat lua-socket lua-filesystem lua-sec libidn11-dev libssl-dev;\
   apt-get -yqq install lua-ldap;\
   apt-get clean;\
   groupadd -g 821 prosody;\
-  useradd -u 821 -g 821 -m -c "Prosody XMPP server" prosody;\
-  mkdir -pv /var/opt/prosody /var/log/prosody;\
-  chown prosody:prosody /var/opt/prosody /var/log/prosody;\
+  useradd -u 821 -g 821 -c "Prosody XMPP server" -m prosody;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/prosody/bin/prosody-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf -;\
+  curl -sS -L -k -f http://repo/sw/opensource/prosody/bin/prosody-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv prosody-$VER prosody;\
   mkdir -pv prosody-modules;\
   curl -sS -L -k -f http://repo/sw/opensource/prosody-modules/bin/prosody-modules.tar.gz | tar xzf - --strip-components=1 -C prosody-modules;\
@@ -33,8 +31,8 @@ RUN set -ex;\
   ln -snfv /usr/local/prosody-modules/mod_storage_ldap/mod_storage_ldap.lua /usr/local/prosody/lib/prosody/modules;\
   ln -snfv /usr/local/prosody-modules/mod_storage_ldap/ldap /usr/local/prosody/lib/prosody/modules;\
   ln -snfv /usr/local/prosody-modules/mod_log_auth/mod_log_auth.lua /usr/local/prosody/lib/prosody/modules;\
-  mkdir -pv /run/prosody;\
-  chown prosody:prosody /run/prosody;\
+  mkdir -pv /var/opt/prosody /var/log/prosody /run/prosody;\
+  chown prosody:prosody /var/opt/prosody /var/log/prosody /run/prosody;\
   prosodyctl --config=/usr/local/prosody/etc/prosody/prosody.cfg.lua about;
 
 RUN set -ex;\

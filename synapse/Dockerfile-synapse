@@ -20,17 +20,19 @@ RUN set -ex;\
   apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev python3-virtualenv libxslt1-dev;\
   apt-get -yqq install libpq-dev python3-dev;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/synapse-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv synapse-$VER synapse;\
+  chown none:none synapse-$VER;\
   ln -snfv /usr/local/synapse/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/synapse/bin/synapse_homeserver /usr/local/bin;\
   ln -snfv /usr/local/synapse/bin/synapse_port_db /usr/local/bin;\
   ln -snfv /usr/local/synapse/bin/synapse_review_recent_signups /usr/local/bin;\
   mkdir -pv /var/opt/synapse/database /var/opt/synapse/media_store;\
-  chown none:none synapse-$VER /var/opt/synapse/database /var/opt/synapse/media_store;
+  chown none:none /var/opt/synapse/database /var/opt/synapse/media_store;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

@@ -15,20 +15,22 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 RUN set -ex;\
   echo matrix-synapse-py3 matrix-synapse/server-name string localhost|debconf-set-selections;\
   echo matrix-synapse-py3 matrix-synapse/report-stats boolean false|debconf-set-selections;\
+  export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
-  DEBIAN_FRONTEND=noninteractive apt-get -yqq install python3-distutils python3-lib2to3;\
-  mkdir /tmp/t;\
-  curl -sS -L -o /tmp/t/matrix-synapse-py3.deb http://repo/sw/opensource/matrix/deb/matrix-synapse-py3_${VER}+${OS_CODE}1_amd64.deb;\
-  DEBIAN_FRONTEND=noninteractive apt-get -yqq install /tmp/t/matrix-synapse-py3.deb;\
+  apt-get -yqq install python3-distutils python3-lib2to3;\
+  curl -sS -L -o /tmp/f.deb http://repo/sw/opensource/matrix/deb/matrix-synapse-py3_$VER+${OSC}1_amd64.deb;\
+  apt-get -yqq install /tmp/f.deb;\
   apt-get clean;\
-  rm -rf /tmp/t;\
-  mkdir -p /var/opt/synapse/database /var/opt/synapse/media_store;\
+  rm -rf /var/lib/apt/lists/*;\
+  rm -fv /tmp/f.deb;\
+  mkdir -pv /var/opt/synapse/database /var/opt/synapse/media_store;\
   chown matrix-synapse /var/opt/synapse/database /var/opt/synapse/media_store;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
-  echo "info.from = $FROM") > /version.d/version-$REPO.txt;
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

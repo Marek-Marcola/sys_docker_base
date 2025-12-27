@@ -14,14 +14,17 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/sphinx-$VER/bin:$PATH
 
 RUN set -ex;\
-  export DEBIAN_FRONTEND=noninteractive;\
-  apt-get update;\
-  apt-get -yqq install openjdk-17-jre openjdk-17-jdk graphviz;\
-  apt-get -yqq install python3-virtualenv;\
-  apt-get -yqq install python3-distutils python3-lib2to3;\
-  apt-get -yqq install latexmk texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra;\
-  apt-get -yqq install gnuplot rsync;\
-  apt-get clean;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install openjdk-17-jre openjdk-17-jdk graphviz;\
+    apt-get -yqq install python3-virtualenv;\
+    apt-get -yqq install python3-distutils python3-lib2to3;\
+    apt-get -yqq install latexmk texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra;\
+    apt-get -yqq install gnuplot rsync;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
@@ -48,6 +51,7 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv sphinx-$VER sphinx;\
+  chown -R none:none sphinx-$VER;\
   ln -snfv /usr/local/sphinx/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/sphinx/bin/sphinx-apidoc /usr/local/bin;\
   ln -snfv /usr/local/sphinx/bin/sphinx-autogen /usr/local/bin;\
@@ -58,7 +62,9 @@ RUN set -ex;\
   ln -snfv /usr/local/sphinx/bin/packetdiag /usr/local/bin;\
   ln -snfv /usr/local/sphinx/bin/rackdiag /usr/local/bin;\
   mkdir -pv /var/opt/sphinx;\
-  chown -R none:none sphinx-$VER /var/opt/sphinx;\
+  chown -R none:none /var/opt/sphinx;\
+  touch /.bash_history_all;\
+  chmod a+rw /.bash_history_all;\
   S=zlocal-git.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
@@ -67,8 +73,6 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/501220-sphinx/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
-  touch /.bash_history_all;\
-  chmod a+rw /.bash_history_all;\
   pandoc --version;\
   java -jar /usr/local/plantuml/plantuml.jar -version;\
   sphinx-build --version;

@@ -15,22 +15,24 @@ ENV PATH /usr/local/openvpn-$VER+x/sbin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/openssl+x/lib64
 
 RUN set -ex;\
-  yum -y install lzo lz4;\
-  yum clean all;\
-  mkdir -pv /usr/local/etc/openvpn;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
+  if expr match $OSN centos; then\
+    yum -y install lzo lz4;\
+    yum clean all;\
+  fi;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/openssl/bin/version.txt | grep ^openssl: | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/openssl/bin/openssl-$V+x-$OSN-$OSA.tar.gz | tar xzf -;\
-  chown -R root:root openssl-$V+x;\
   ln -snfv openssl-$V+x openssl+x;\
+  chown -R root:root openssl-$V+x;\
   curl -sS -L -k -f http://repo/sw/opensource/openvpn/bin/openvpn-$VER+x-$OSN-$OSA.tar.gz | tar xzf -;\
-  chown -R root:root openvpn-$VER+x;\
   ln -snfv openvpn-$VER+x openvpn+x;\
+  chown -R root:root openvpn-$VER+x;\
+  mkdir -pv /usr/local/etc/openvpn;\
   S=zlocal-openvpn.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101050-openvpn/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
-  mv /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   /usr/local/openssl+x/bin/openssl version;\
   openvpn --version|fold -w 60 -s;
 

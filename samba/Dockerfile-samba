@@ -24,9 +24,10 @@ RUN set -ex;\
     apt-get -yqq install sssd sssd-tools;\
     apt-get -yqq install cups-client cups-bsd;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv samba-$VER samba;\

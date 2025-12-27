@@ -22,9 +22,9 @@ RUN set -ex;\
   useradd -u 2001 -g 2001 -m -d /opt/nfast nfast;\
   useradd -u 2002 -g 2002 -m -d /opt/nfast raserv;\
   useradd -u 2003 -g 2003 -m -d /opt/nfast ncsnmpd;\
-  mkdir /tmp/f;\
+  mkdir -v /tmp/f;\
   cd /tmp/f;\
-  curl -sS -L -k -f http://repo/sw/ncipher/secworld/secworld-$VER-linux-$OS_ARCH.tar | tar xvf -;\
+  curl -sS -L -k -f http://repo/sw/ncipher/secworld/secworld-$VER-linux-$OSA.tar | tar xvf -;\
   cd /;\
   find /tmp/f/ -name "*.tar.gz" | xargs -L1 -tr tar xzf;\
   find /tmp/f/ -name "*.tar" | xargs -L1 -tr tar xf;\

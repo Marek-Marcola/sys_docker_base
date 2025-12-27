@@ -20,9 +20,9 @@ RUN set -ex;\
   apt-get clean;\
   cd /usr/local;\
   mkdir -pv podman-exporter-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/podman-exporter-$VER-linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C podman-exporter-$VER;\
-  chown -R root:root /usr/local/podman-exporter-$VER;\
   ln -snfv podman-exporter-$VER podman-exporter;\
+  curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/podman-exporter-$VER-$OSN-$OSA.tar.gz | tar xvzf - --strip-components=1 -C podman-exporter;\
+  chown -R root:root podman-exporter-$VER;\
   podman-exporter --version || true;
 
 RUN set -ex;\

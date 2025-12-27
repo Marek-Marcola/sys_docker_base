@@ -22,19 +22,19 @@ RUN set -ex;\
   apt-get clean;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf - -C /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
   ln -snfv git-repo-$V git-repo;\
   echo "info.vers = git-repo/$V" >> /tmp/vers.txt;\
+  cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/android-sdk/bin/version.txt | grep ^platform-tools: | awk '{print $2}');\
   curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/android-sdk/bin/platform-tools_r$V-linux.zip;\
-  cd /usr/local;\
   mkdir -pv android-platform-tools-$V;\
   ln -snfv android-platform-tools-$V android-platform-tools;\
   unzip -d android-platform-tools /tmp/f.zip;\
+  rm -f /tmp/f.zip;\
   cd android-platform-tools;\
   mv -v platform-tools/* .;\
   rmdir platform-tools;\
-  rm -f /tmp/f.zip;\
   echo "info.vers = android-platform-tools/$V" >> /tmp/vers.txt;\
   npm install -g adevtool;\
   V=$(adevtool version|awk '{print $1}');\

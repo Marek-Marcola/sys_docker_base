@@ -37,6 +37,7 @@ RUN set -ex;\
   apt-get -yqq install python3 python3-distutils python3-pkg-resources;\
   apt-get -yqq install jq vim bsdextrautils;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

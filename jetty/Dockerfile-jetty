@@ -15,17 +15,17 @@ ENV PATH /usr/local/jetty-$VER/bin:$PATH
 
 RUN set -ex;\
   groupadd -g 461 jetty;\
-  useradd -u 461 -g 461 -c "Jetty Application Server" -m jetty;\
+  useradd -u 461 -g 461 -c "Jetty Application Server" -m -s /bin/bash jetty;\
   cd /usr/local;\
   mkdir -pv jetty-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/jetty/bin/jetty-home-$VER.tar.gz | tar xzf - --strip-components=1 -C jetty-$VER;\
-  chown -R root:jetty jetty-$VER;\
-  ln -snfv jetty-$VER jetty;
+  ln -snfv jetty-$VER jetty;\
+  curl -sS -L -k -f http://repo/sw/opensource/jetty/bin/jetty-home-$VER.tar.gz | tar xzf - --strip-components=1 -C jetty;\
+  chown -R root:jetty jetty-$VER;
 
 RUN set -ex;\
   mkdir -pv /var/opt/jetty/default;\
   cd /var/opt/jetty/default;\
-  if [ "$(echo $VER|cut -c1-2)" = "12" ]; then\
+  if expr match $VER 12; then\
     java -jar /usr/local/jetty/start.jar --create-startd --add-modules=server,http,ee10-deploy,ee10-jsp,ext,resources;\
   else\
     java -jar /usr/local/jetty/start.jar --create-startd --add-to-start=server,http,deploy,jsp,jstl,ext,resources,websocket;\

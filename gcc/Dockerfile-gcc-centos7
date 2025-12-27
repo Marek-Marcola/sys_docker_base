@@ -19,7 +19,7 @@ ENV MANPATH /usr/local/gcc-$VER/share/man:$MANPATH
 RUN set -ex;\
   yum -y install make automake autoconf libtool bison flex strace pkgconfig gettext rpm-build binutils;\
   cd /usr/local;\
-  if [ "$(echo $VER|cut -c 1-3)" = "4.8" ]; then\
+  if expr match $VER 4.8; then\
     yum -y install gcc gcc-c++;\
     ln -snfv /usr gcc-$VER;\
   else\

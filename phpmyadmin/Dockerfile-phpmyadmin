@@ -16,11 +16,11 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 RUN set -ex;\
   cd /usr/local;\
   mkdir -pv phpmyadmin-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/phpmyadmin/phpMyAdmin-$VER-english.tar.gz | tar xzf - -C phpmyadmin-$VER --strip-components=1;\
   ln -snfv phpmyadmin-$VER phpmyadmin;\
+  curl -sS -L -k -f http://repo/sw/opensource/phpmyadmin/phpMyAdmin-$VER-english.tar.gz | tar xzf - --strip-components=1 -C phpmyadmin;\
   mkdir -pv /usr/local/etc/phpmyadmin;\
   touch /usr/local/etc/phpmyadmin/config.inc.php;\
-  ln -snfv /usr/local/etc/phpmyadmin/config.inc.php /usr/local/phpmyadmin/;\
+  ln -snfv /usr/local/etc/phpmyadmin/config.inc.php phpmyadmin/;\
   grep public phpmyadmin/libraries/classes/Version.php;
 
 RUN set -ex;\

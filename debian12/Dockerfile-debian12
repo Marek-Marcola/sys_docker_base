@@ -40,6 +40,7 @@ RUN set -ex;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   sed -i.ORG 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
@@ -83,6 +84,7 @@ RUN set -ex;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\

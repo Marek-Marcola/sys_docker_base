@@ -16,14 +16,16 @@ ENV PATH /usr/local/jdk-$VER/bin:$PATH
 ENV JAVA_HOME /usr/local/jdk-$VER
 
 RUN set -ex;\
+  if expr match $OSN centos; then\
+    yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
+    yum -y install fontconfig dejavu-sans-fonts;\
+    yum clean all;\
+  fi;\
   cd /usr/local;\
-  mkdir jdk-$VER;\
+  mkdir -pv jdk-$VER;\
+  ln -snfv jdk-$VER jdk-${VER%%.*};\
   curl -sS -L -k -f $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
-  ln -snf jdk-$VER jdk-${VER%%.*};\
-  yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
-  yum -y install fontconfig dejavu-sans-fonts;\
-  yum clean all;\
   java -version;
 
 RUN set -ex;\

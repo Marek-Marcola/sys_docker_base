@@ -18,9 +18,9 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/roundcube/roundcubemail-$VER-complete.tar.gz | tar xzf -;\
   ln -snfv roundcubemail-$VER roundcube;\
   chown root:root -R roundcubemail-$VER;\
-  cd /usr/local/roundcube;\
+  cd roundcube;\
   ln -snfv /usr/local/etc/roundcube/config/config.inc.php config/;\
-  grep Version /usr/local/roundcube/index.php;
+  grep Version index.php;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

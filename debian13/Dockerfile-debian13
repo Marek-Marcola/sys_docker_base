@@ -40,6 +40,7 @@ RUN set -ex;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
   sed -i-$(date +%Y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
@@ -85,6 +86,7 @@ RUN set -ex;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\

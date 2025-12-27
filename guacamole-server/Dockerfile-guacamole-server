@@ -17,16 +17,17 @@ ENV LD_LIBRARY_PATH /usr/local/guacamole-server/lib
 STOPSIGNAL SIGKILL
 
 RUN set -ex;\
-  if [ "$(echo $OS_NAME|cut -c1-6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install ffmpeg libwebsockets-dev libtelnet-dev libcairo2-dev;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/apache-guacamole/bin/server/guacamole-server-$VER-$OS_NAME-$OS_ARCH.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/guacamole-server-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/apache-guacamole/bin/server/guacamole-server-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv guacamole-server-$VER guacamole-server;\
+  chown -R root:root guacamole-server-$VER;\
   mkdir -pv /etc/guacamole;\
   guacd -v;
 

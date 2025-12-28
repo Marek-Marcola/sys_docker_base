@@ -18,6 +18,7 @@ RUN set -ex;\
     apt-get update;\
     apt-get -yqq install rcs cvs subversion cvsgraph;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   groupadd -g 321 git;\
   useradd -u 321 -g 321 -m -s /bin/bash git;\

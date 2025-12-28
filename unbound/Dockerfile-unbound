@@ -15,7 +15,7 @@ ENV PATH /usr/local/unbound-$VER/sbin:$PATH
 
 RUN set -ex;\
   groupadd -g 891 unbound;\
-  useradd -u 891 -g 891 -m unbound;\
+  useradd -u 891 -g 891 -m -s /bin/bash unbound;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/unbound/bin/unbound-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv unbound-$VER unbound-${VER%.*};\

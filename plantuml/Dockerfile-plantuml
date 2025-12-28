@@ -20,7 +20,9 @@ RUN set -ex;\
     apt-get update;\
     apt-get -yqq install graphviz;\
     apt-get clean;\
-  elif expr match $OSN centos; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN centos; then\
     yum -y install graphviz;\
     yum clean all;\
   fi;\

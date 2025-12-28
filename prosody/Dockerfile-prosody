@@ -14,13 +14,16 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/prosody-$VER/bin:$PATH
 
 RUN set -ex;\
-  export DEBIAN_FRONTEND=noninteractive;\
-  apt-get update;\
-  apt-get -yqq install lua5.2 lua-expat lua-socket lua-filesystem lua-sec libidn11-dev libssl-dev;\
-  apt-get -yqq install lua-ldap;\
-  apt-get clean;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install lua5.2 lua-expat lua-socket lua-filesystem lua-sec libidn11-dev libssl-dev;\
+    apt-get -yqq install lua-ldap;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
   groupadd -g 821 prosody;\
-  useradd -u 821 -g 821 -c "Prosody XMPP server" -m prosody;\
+  useradd -u 821 -g 821 -c "Prosody XMPP server" -m -s /bin/bash prosody;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/prosody/bin/prosody-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv prosody-$VER prosody;\

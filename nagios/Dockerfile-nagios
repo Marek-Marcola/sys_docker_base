@@ -15,17 +15,19 @@ ENV PATH /usr/local/nagios-$VER/bin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib:$LD_LIBRARY_PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libboost-all-dev bsdextrautils snmp;\
     apt-get clean;\
-  elif [ "$(expr substr $OSN 1 6)" = "centos" ]; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN centos; then\
     yum install boost-system libtool-ltdl -y;\
     yum clean all;\
   fi;\
   groupadd -g 477 nagios;\
-  useradd -u 477 -g 477 -c 'Nagios Monitoring System' -m nagios;\
+  useradd -u 477 -g 477 -c 'Nagios Monitoring System' -m -s /bin/bash nagios;\
   groupadd -g 478 nagcmd;\
   usermod -a -G nagcmd nagios;\
   usermod -a -G nagcmd,nagios none;\
@@ -52,14 +54,14 @@ RUN set -ex;\
   install -c -m 0775 -o nagios -g nagios -d /var/opt/nagios/archives;\
   install -c -m 2775 -o nagios -g nagcmd -d /var/opt/nagios/spool/checkresults;\
   install -c -m 2775 -o nagios -g nagcmd -d /var/opt/nagios/rw;\
-  S=zlocal-mk-livestatus.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101398-mk_livestatus/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
   cd /usr/local/nagios/share;\
   sed -i.ORG 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' index.php;\
   sed -i.ORG 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' side.php;\
   setcap cap_net_admin,cap_net_raw+p /bin/ping;\
+  S=zlocal-mk-livestatus.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101398-mk_livestatus/files/$S\
+    && (chmod a+x /etc/profile.d/$S)\
+    || (echo Script $S not available);\
   nagios --version;
 
 ADD config/ /usr/local/etc/nagios/

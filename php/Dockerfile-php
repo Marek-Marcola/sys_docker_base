@@ -21,7 +21,9 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\
     apt-get -yqq --no-install-recommends install libpng16-16t64 libjpeg62-turbo libfreetype6 libicu76;\
     apt-get clean;\
-  elif expr match $OSN centos; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN centos; then\
     yum -y install postgresql-libs libpng libjpeg-turbo freetype libicu net-snmp-libs;\
     yum -y install http://repo/sw/linux/centos/epel/7/oniguruma-6.8.2-1.el7.x86_64.rpm;\
     yum clean all;\

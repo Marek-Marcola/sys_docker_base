@@ -21,7 +21,9 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install mercurial bzr cvs subversion ghostscript;\
     apt-get -yqq --no-install-recommends install libssl-dev libgmp-dev libpq-dev;\
     apt-get clean;\
-  elif expr match $OSN centos; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN centos; then\
     yum -y install ImageMagick ImageMagick-devel;\
     yum -y install hg bzr cvs subversion ghostscript;\
     yum -y install openssl-devel gmp-devel;\

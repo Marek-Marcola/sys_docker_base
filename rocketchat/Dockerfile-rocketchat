@@ -17,7 +17,7 @@ RUN set -ex;\
     yum -y install gcc-c++ make;\
   fi;\
   groupadd -g 811 rchat;\
-  useradd -u 811 -g 811 -m rchat;\
+  useradd -u 811 -g 811 -m -s /bin/bash rchat;\
   cd /usr/local;\
   mkdir -pv rocketchat-$VER;\
   ln -snfv rocketchat-$VER rocketchat;\

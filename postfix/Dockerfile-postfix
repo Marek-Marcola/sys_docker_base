@@ -20,18 +20,21 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install libicu-dev libnsl-dev spamc;\
     apt-get -yqq --no-install-recommends install bind9-dnsutils bind9-host;\
     apt-get clean;\
-  elif expr match $OSN debian12; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends install libicu72 spamc;\
     apt-get -yqq --no-install-recommends install bind9-dnsutils bind9-host;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   groupadd -g 5000 vmail;\
-  useradd -g 5000 -u 5000 -m vmail;\
+  useradd -g 5000 -u 5000 -m -s /bin/bash vmail;\
   groupadd -g 840 postfix;\
   groupadd -g 841 postdrop;\
-  useradd -u 840 -g 840 -m -c Postfix postfix;\
+  useradd -u 840 -g 840 -c Postfix -m -s /bin/bash postfix;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snvf postfix-$VER postfix;\

@@ -13,12 +13,13 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
-  mkdir -pv /work;\
-  mkdir -pv /usr/local/jenkins-plugin-manager;\
-  cd /usr/local/jenkins-plugin-manager;\
+  cd /usr/local;\
+  mkdir -pv jenkins-plugin-manager;\
+  cd jenkins-plugin-manager;\
   curl -sS -L -k -f -O http://repo/sw/opensource/jenkins/jar/jenkins-plugin-manager-$VER.jar;\
   ln -snfv jenkins-plugin-manager-$VER.jar jenkins-plugin-manager.jar;\
-  java -jar /usr/local/jenkins-plugin-manager/jenkins-plugin-manager.jar --version;
+  mkdir -pv /work;\
+  java -jar jenkins-plugin-manager.jar --version;
 
 ADD scripts/*.sh /usr/local/bin
 WORKDIR /work

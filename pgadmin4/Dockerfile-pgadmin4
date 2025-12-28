@@ -14,18 +14,21 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/pgadmin4-$VER/bin:$PATH
 
 RUN set -ex;\
+  if expr match $OSN debian13; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install python3-distutils-extra;\
+    apt-get -yqq install python3-virtualenv;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
   if expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install python3-distutils python3-lib2to3;\
     apt-get -yqq install python3-virtualenv;\
     apt-get clean;\
-  elif expr match $OSN debian13; then\
-    export DEBIAN_FRONTEND=noninteractive;\
-    apt-get update;\
-    apt-get -yqq install python3-distutils-extra;\
-    apt-get -yqq install python3-virtualenv;\
-    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\

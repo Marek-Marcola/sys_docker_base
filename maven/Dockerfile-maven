@@ -15,13 +15,13 @@ ENV PATH /usr/local/maven/bin:$PATH
 ENV M2_HOME /usr/local/maven
 
 RUN set -ex;\
-  touch /.bash_history_all;\
-  chmod a+rw /.bash_history_all;\
   cd /usr/local;\
   mkdir -pv maven-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/apache-maven/bin/apache-maven-$VER-bin.tar.gz | tar xzf - --strip-components=1 -C maven-$VER;\
+  ln -snfv maven-$VER maven;\
+  curl -sS -L -k -f http://repo/sw/opensource/apache-maven/bin/apache-maven-$VER-bin.tar.gz | tar xzf - --strip-components=1 -C maven;\
   chown -R root:root maven-$VER;\
-  ln -snfv maven-${VER} maven;\
+  touch /.bash_history_all;\
+  chmod a+rw /.bash_history_all;\
   mvn -version;
 
 RUN set -ex;\

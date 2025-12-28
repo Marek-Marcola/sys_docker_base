@@ -27,12 +27,13 @@ RUN set -ex;\
     apt-get -yqq install zip p7zip-full;\
     apt-get -yqq install xfce4-terminal dconf-cli;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   cd /usr/local;\
   mkdir -pv thunderbird-$VER;\
   ln -snfv thunderbird-$VER thunderbird;\
   curl -sS -L -k -f http://repo/sw/opensource/thunderbird/bin/thunderbird-$VER.tar.xz | tar xf - --xz --strip-components=1 -C thunderbird;\
-  chown -Rv root:root thunderbird-$VER;\
+  chown -R root:root thunderbird-$VER;\
   thunderbird --version;
 
 RUN set -ex;\

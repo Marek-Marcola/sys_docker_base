@@ -15,11 +15,13 @@ ENV PATH /usr/local/jdk-$VER/bin:$PATH
 ENV JAVA_HOME /usr/local/jdk-$VER
 
 RUN set -ex;\
-  if [ "$VER" = "11" ]; then\
+  if expr match $VER 11; then\
     yum -y install java-11-openjdk java-11-openjdk-devel;\
+    yum clean all;\
     ln -sv /usr /usr/local/jdk-$VER;\
-  elif [ "$VER" = "1.8" ]; then\
+  elif expr match $VER 1.8; then\
     yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel;\
+    yum clean all;\
     ln -sv /usr /usr/local/jdk-$VER;\
   else \
     cd /usr/local;\
@@ -29,8 +31,8 @@ RUN set -ex;\
     ln -snfv jdk-${VER} jdk-${VER%%.*};\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
     yum -y install fontconfig dejavu-sans-fonts;\
+    yum clean all;\
   fi; \
-  yum clean all;\
   java -version;
 
 RUN set -ex;\

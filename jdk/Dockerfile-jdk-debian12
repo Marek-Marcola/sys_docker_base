@@ -19,6 +19,8 @@ RUN set -ex;\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install openjdk-17-jre openjdk-17-jdk;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
     ln -sv /usr/lib/jvm/java-17-openjdk-amd64 /usr/local/jdk-$VER;\
   else\
     cd /usr/local;\
@@ -27,8 +29,6 @@ RUN set -ex;\
     curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
     chown -R root:root jdk-$VER;\
   fi;\
-  apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
   java -version;
 
 RUN set -ex;\

@@ -22,7 +22,8 @@ RUN set -ex;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
     echo "TLS_REQCERT allow" >> /etc/ldap/ldap.conf;\
-  elif expr match $OSN centos; then\
+  fi;\
+  if expr match $OSN centos; then\
     echo "TLS_REQCERT allow" >> /etc/openldap/ldap.conf;\
   fi;\
   cd /usr/local;\

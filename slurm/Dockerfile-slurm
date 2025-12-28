@@ -34,8 +34,8 @@ RUN set -ex;\
   ln -snfv hdf5-$V hdf5;\
   echo "info.vers = hdf5/$V" >> /tmp/vers.txt;\
   curl -sS -L -k -f http://repo/sw/opensource/slurm/bin/slurm-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
-  chown -R root:root /usr/local/slurm-$VER;\
   ln -snfv slurm-$VER slurm;\
+  chown -R root:root slurm-$VER;\
   mkdir -pv /usr/local/etc/slurm /var/opt/slurm /var/log/slurm;\
   chown -R slurm:slurm /var/opt/slurm /var/log/slurm;\
   chmod u+s /usr/sbin/ether-wake;\
@@ -43,8 +43,8 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101363-hpc_slurm/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
-  /usr/local/slurm/sbin/slurmd -V;\
-  /usr/local/slurm/sbin/slurmrestd -V;
+  slurmd -V;\
+  slurmrestd -V;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

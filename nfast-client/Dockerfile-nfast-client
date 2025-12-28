@@ -14,8 +14,10 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /opt/nfast/bin:$PATH
 
 RUN set -ex;\
-  yum -y install sysvinit-tools;\
-  yum clean all;\
+  if expr match $OSN centos; then\
+    yum -y install sysvinit-tools;\
+    yum clean all;\
+  fi;\
   groupadd -g 2001 nfast;\
   groupadd -g 2002 raserv;\
   groupadd -g 2003 ncsnmpd;\

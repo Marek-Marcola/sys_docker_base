@@ -16,7 +16,7 @@ ENV PATH /usr/local/nginx-$VER/sbin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib
 
 RUN set -ex;\
-  mv /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\

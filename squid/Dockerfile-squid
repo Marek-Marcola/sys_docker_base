@@ -19,7 +19,9 @@ RUN set -ex;\
     apt-get update;\
     apt-get -yqq install libxml2 libltdl7;\
     apt-get clean;\
-  elif expr match $OSN centos; then\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  if expr match $OSN centos; then\
     yum -y install libtool-ltdl nettle;\
     yum clean all;\
   fi;\

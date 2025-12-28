@@ -14,12 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /sw/android/os/script:/usr/local/python3-osdev/bin:/usr/local/git-repo:/usr/local/android-platform-tools:$PATH
 
 RUN set -ex;\
-  export DEBIAN_FRONTEND=noninteractive;\
-  apt-get update;\
-  apt-get -yqq install python3-full python3-venv zip rsync;\
-  apt-get -yqq install e2fsprogs libssl-dev;\
-  apt-get -yqq install file;\
-  apt-get clean;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install python3-full python3-venv zip rsync;\
+    apt-get -yqq install e2fsprogs libssl-dev;\
+    apt-get -yqq install file;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
@@ -53,7 +56,6 @@ RUN set -ex;\
     || (echo Script $S not available);\
   cat /etc/os-release;\
   repo --version;\
-  #protoc --version;\
   adb version;\
   adevtool version;
 

@@ -14,16 +14,16 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/minio-$VER:$PATH
 
 RUN set -ex;\
-  groupadd -g 666 none;\
-  useradd -u 666 -g 666 -m none;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  mkdir -pv minio-$VER;\
+  ln -snfv minio-$VER minio;\
+  curl -sS -L -k -f -o minio/minio http://repo/sw/opensource/minio/bin/minio-$VER;\
+  curl -sS -L -k -f -o minio/mc http://repo/sw/opensource/minio/bin/mc;\
+  chmod a+x minio/m*;\
   mkdir -pv /var/opt/minio/main;\
   chown none:none /var/opt/minio/main;\
-  cd /usr/local;\
-  mkdir -pv minio-${VER};\
-  curl -sS -L -k -f -o minio-$VER/minio http://repo/sw/opensource/minio/bin/minio-$VER;\
-  curl -sS -L -k -f -o minio-$VER/mc http://repo/sw/opensource/minio/bin/mc;\
-  chmod a+x minio-$VER/m*;\
-  ln -snfv minio-$VER minio;\
   minio --version;
 
 RUN set -ex;\

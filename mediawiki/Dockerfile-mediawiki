@@ -17,7 +17,7 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/mediawiki/${VER%.*}/mediawiki-$VER.tar.gz | tar xzf -;\
   ln -snfv mediawiki-$VER mediawiki;\
-  cd /usr/local/mediawiki;\
+  cd mediawiki;\
   mv -v images images.ORG;\
   ln -sv /var/opt/mediawiki/images .;\
   ln -sv /var/opt/mediawiki/resources/local resources/;\

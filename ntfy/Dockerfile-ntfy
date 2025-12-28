@@ -14,15 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/ntfy-$VER:$PATH
 
 RUN set -ex;\
-  [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
-  [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  mkdir -pv /var/opt/ntfy;\
-  chown none:none /var/opt/ntfy;\
-  mkdir -pv /usr/local/ntfy-$VER /etc/ntfy;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/ntfy/bin/ntfy_${VER}_linux_amd64.tar.gz | tar xzf - --strip-components=1 -C ntfy-$VER;\
+  mkdir -pv ntfy-$VER;\
+  ln -snfv ntfy-$VER ntfy;\
+  curl -sS -L -k -f http://repo/sw/opensource/ntfy/bin/ntfy_${VER}_linux_amd64.tar.gz | tar xzf - --strip-components=1 -C ntfy;\
   chown -R root:root ntfy-$VER;\
-  ln -snfv ntfy-$VER ntfy;
+  mkdir -pv /etc/ntfy /var/opt/ntfy;\
+  chown none:none /var/opt/ntfy;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

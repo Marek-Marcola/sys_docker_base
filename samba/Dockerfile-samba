@@ -31,7 +31,7 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv samba-$VER samba;\
-  mkdir -pv /usr/local/etc/samba;\
+  mkdir -pv etc/samba;\
   mkdir -pv /var/opt/samba/private;\
   mkdir -pv /var/opt/samba/log;\
   mkdir -pv /var/spool/samba;\
@@ -42,6 +42,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101005-samba/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
+  ls -l /usr/local;\
   samba --version;
 
 RUN set -ex;\

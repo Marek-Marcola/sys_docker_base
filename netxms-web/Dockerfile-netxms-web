@@ -15,7 +15,8 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ADD config/context.xml /var/opt/tomcat/conf/
 
 RUN set -ex;\
-  curl -sS -L -k -f -o /as-apps/nxmc.war http://repo/sw/opensource/netxms/war/nxmc-$VER.war;
+  curl -sS -L -k -f -o /as-apps/nxmc.war http://repo/sw/opensource/netxms/war/nxmc-$VER.war;\
+  ls -l /usr/local;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

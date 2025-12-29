@@ -17,9 +17,9 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/element-v$VER.tar.gz | tar xzf -;\
   ln -snfv element-v$VER element;\
-  cd /usr/local/element;\
+  cd element;\
   ln -sv /usr/local/etc/element/config.json .;\
-  cd /usr/local/etc/supervisord.d;\
+  ls -l /usr/local;\
   cat /usr/local/element/version;
 
 RUN set -ex;\

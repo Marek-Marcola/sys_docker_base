@@ -21,7 +21,8 @@ RUN set -ex;\
   ln -snfv envoy-$VER envoy;\
   curl -sS -L -k -f -o envoy/envoy http://repo/sw/opensource/envoy/bin/envoy-$VER-linux-x86_64;\
   chmod a+x envoy/envoy;\
-  mkdir -pv /usr/local/etc/envoy;\
+  mkdir -pv etc/envoy;\
+  ls -l /usr/local;\
   envoy --version;
 
 ADD config/ /usr/local/etc/envoy/

@@ -27,7 +27,7 @@ ADD config/debian-$VER.list config/debian-$VER-updates.list config/debian-13-off
 
 RUN set -ex;\
   touch /etc/apt/sources.list;\
-  sed -i-$(date +%Y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
+  sed -i.b$(date +%Y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
   mv -v /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.disabled;\
   grep ^[^#] /etc/apt/sources.list /etc/apt/sources.list.d/*;\
   export DEBIAN_FRONTEND=noninteractive;\
@@ -38,14 +38,14 @@ RUN set -ex;\
   apt-get -yqq install git curl wget unzip procps apt-utils debconf-utils;\
   apt-get -yqq install python3 python3-pkg-resources;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
-  apt-get -yqq install apt-mirror debmirror gnupg xz-utils;\
+  apt-get -yqq install apt-mirror debmirror gnupg xz-utils file;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
   groupadd -g 666 none;\
   useradd -u 666 -g 666 -m -s /bin/bash none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
-  sed -i-$(date +%Y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
+  sed -i.b$(date +%Y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001650-debian13/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

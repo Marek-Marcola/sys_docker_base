@@ -18,11 +18,12 @@ RUN set -ex;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv alertmanager-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/alertmanager-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C alertmanager-$VER;\
-  chown -R root:root /usr/local/alertmanager-$VER;\
-  mkdir -pv /usr/local/etc/alertmanager /var/opt/alertmanager;\
-  chown -R none:none /var/opt/alertmanager;\
   ln -snfv alertmanager-$VER alertmanager;\
+  curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/alertmanager-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C alertmanager;\
+  chown -R root:root alertmanager-$VER;\
+  mkdir -pv etc/alertmanager /var/opt/alertmanager;\
+  chown -R none:none /var/opt/alertmanager;\
+  ls -l /usr/local;\
   alertmanager --version;
 
 ADD config/ /usr/local/etc/alertmanager/

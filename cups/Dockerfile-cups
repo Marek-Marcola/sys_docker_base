@@ -14,10 +14,11 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/cups-$VER/bin:/usr/local/cups-$VER/sbin:$PATH
 
 RUN set -ex;\
-  curl -sS -L -k -f http://repo/sw/opensource/cups/bin/cups-$VER-$OSN-$OSA.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/cups/bin/cups-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv cups-$VER cups;\
-  mkdir -pv /usr/local/etc/cups;\
+  mkdir -pv etc/cups;\
+  ls -l /usr/local;\
   cups-config --version;
 
 RUN set -ex;\

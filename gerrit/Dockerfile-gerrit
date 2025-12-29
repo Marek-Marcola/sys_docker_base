@@ -14,16 +14,19 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
   groupadd -g 701 gerrit;\
-  useradd -u 701 -g 701 -m gerrit;\
-  mkdir -pv /usr/local/gerrit;\
-  cd /usr/local/gerrit;\
-  curl -sS -L -k -f -o gerrit-${VER}.war http://repo/sw/opensource/gerrit/war/gerrit-$VER.war;\
-  chown -R root:root gerrit-$VER.war;\
+  useradd -u 701 -g 701 -m -s /bin/bash gerrit;\
+  cd /usr/local;\
+  mkdir -pv gerrit-$VER;\
+  ln -snfv gerrit-$VER gerrit;\
+  cd gerrit;\
+  curl -sS -L -k -f -o gerrit-$VER.war http://repo/sw/opensource/gerrit/war/gerrit-$VER.war;\
   ln -snfv gerrit-$VER.war gerrit.war;\
+  chown -R root:root gerrit-$VER.war;\
   mkdir -pv /var/opt/gerrit;\
   chown -R 0:0 /var/opt/gerrit;\
   chmod -R g=u /var/opt/gerrit;\
-  java -jar /usr/local/gerrit/gerrit.war version;
+  ls -l /usr/local;\
+  java -jar gerrit.war version;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

@@ -18,11 +18,12 @@ RUN set -ex;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv chartmuseum-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/chartmuseum/bin/chartmuseum-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C chartmuseum-$VER;\
-  chown -R root:root chartmuseum-$VER;\
-  mkdir -pv /usr/local/etc/chartmuseum /var/opt/chartmuseum;\
-  chown none:none /var/opt/chartmuseum;\
   ln -snfv chartmuseum-$VER chartmuseum;\
+  curl -sS -L -k -f http://repo/sw/opensource/chartmuseum/bin/chartmuseum-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C chartmuseum;\
+  chown -R root:root chartmuseum-$VER;\
+  mkdir -pv etc/chartmuseum /var/opt/chartmuseum;\
+  chown none:none /var/opt/chartmuseum;\
+  ls -l /usr/local;\
   chartmuseum --version;
 
 RUN set -ex;\

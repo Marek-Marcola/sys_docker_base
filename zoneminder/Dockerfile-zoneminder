@@ -35,7 +35,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv zoneminder-$VER zoneminder;\
   ln -snfv /usr/local/zoneminder/perl5/vendor_perl /usr/local/lib/site_perl;\
-  chown -R root:root /usr/local/zoneminder-$VER;\
+  chown -R root:root zoneminder-$VER;\
   mkdir -pv /var/opt/zoneminder/cache;\
   mkdir -pv /var/opt/zoneminder/events;\
   mkdir -pv /var/opt/zoneminder/export;\
@@ -44,6 +44,7 @@ RUN set -ex;\
   mkdir -pv /var/opt/zoneminder/log;\
   mkdir -pv /var/opt/zoneminder/tmp;\
   chown -Rv none:none /var/opt/zoneminder;\
+  ls -l /usr/local;\
   zmc --version;
 
 RUN set -ex;\

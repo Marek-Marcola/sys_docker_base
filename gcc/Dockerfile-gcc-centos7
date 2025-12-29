@@ -17,17 +17,21 @@ ENV LD_LIBRARY_PATH /usr/local/gcc-$VER/lib64:$LD_LIBRARY_PATH
 ENV MANPATH /usr/local/gcc-$VER/share/man:$MANPATH
 
 RUN set -ex;\
-  yum -y install make automake autoconf libtool bison flex strace pkgconfig gettext rpm-build binutils;\
+  if expr match $OSN centos; then\
+    yum -y install make automake autoconf libtool bison flex strace pkgconfig gettext rpm-build binutils;\
+    yum clean all;\
+  fi;\
   cd /usr/local;\
   if expr match $VER 4.8; then\
     yum -y install gcc gcc-c++;\
+    yum clean all;\
     ln -snfv /usr gcc-$VER;\
   else\
     curl -sS -L -k -f http://repo/sw/opensource/gcc/bin/gcc-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
     chown -R root:root gcc-$VER;\
   fi;\
-  yum clean all;\
   ln -snfv gcc-$VER gcc-${VER%%.*};\
+  ls -l /usr/local;\
   gcc -v;
 
 RUN set -ex;\

@@ -14,24 +14,25 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/certbot-$VER/bin:$PATH
 
 RUN set -ex;\
-  if [ "$(expr substr $OSN 1 6)" = "debian" ]; then\
+  if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install build-essential python3-dev libffi-dev sqlite3 libssl-dev libxslt1-dev;\
     apt-get -yqq install libpq-dev python3-dev;\
-    if [ "$(expr substr $OSN 1 8)" = "debian13" ]; then\
+    if expr match $OSN debian13; then\
       apt-get -yqq install python3-virtualenv python3-distutils-extra;\
-    elif [ "$(expr substr $OSN 1 8)" = "debian12" ]; then\
+    fi;\
+    if expr match $OSN debian12; then\
       apt-get -yqq install python3-virtualenv python3-distutils python3-lib2to3;\
     fi;\
     apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
-  curl -sS -L -k -f http://repo/sw/opensource/certbot/bin/certbot-$VER-$OSN-venv.tar.gz | tar xzf - -C /usr/local;\
   cd /usr/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/certbot/bin/certbot-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv certbot-$VER certbot;\
-  ln -snfv /usr/local/certbot/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/certbot/bin/certbot /usr/local/bin;\
   mkdir -pv /var/log/letsencrypt;\
   chown none:none /var/log/letsencrypt;\
@@ -39,6 +40,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101045-letsencrypt/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   certbot --version;
 
 RUN set -ex;\

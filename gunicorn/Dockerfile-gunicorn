@@ -14,17 +14,18 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/gunicorn-$VER/bin:$PATH
 
 RUN set -ex;\
+  if expr match $OSN debian13; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install python3-distutils-extra;\
+    apt-get -yqq install python3-virtualenv;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
   if expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install python3-distutils python3-lib2to3;\
-    apt-get -yqq install python3-virtualenv;\
-    apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
-  elif expr match $OSN debian13; then\
-    export DEBIAN_FRONTEND=noninteractive;\
-    apt-get update;\
-    apt-get -yqq install python3-distutils-extra;\
     apt-get -yqq install python3-virtualenv;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
@@ -36,6 +37,7 @@ RUN set -ex;\
   ln -snfv gunicorn-$VER gunicorn;\
   ln -snfv /usr/local/gunicorn/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/gunicorn/bin/gunicorn /usr/local/bin;\
+  ls -l /usr/local;\
   gunicorn --version;
 
 RUN set -ex;\

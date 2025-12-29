@@ -15,11 +15,12 @@ ENV PATH /usr/local/etcd-$VER:$PATH
 
 RUN set -ex;\
   groupadd -g 470 etcd;\
-  useradd -u 470 -g 470 -c "etcd" -m etcd;\
+  useradd -u 470 -g 470 -c "etcd" -m -s /bin/bash etcd;\
   cd /usr/local;\
   mkdir -pv etcd-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/etcd/bin/etcd-v$VER-linux-amd64.tar | tar xvf - -C etcd-$VER --strip-components=1 etcd-v$VER-linux-amd64/etcd etcd-v$VER-linux-amd64/etcdctl;\
   ln -snfv etcd-$VER etcd;\
+  curl -sS -L -k -f http://repo/sw/opensource/etcd/bin/etcd-v$VER-linux-amd64.tar | tar xvf - --strip-components=1 -C etcd etcd-v$VER-linux-amd64/etcd etcd-v$VER-linux-amd64/etcdctl;\
+  ls -l /usr/local;\
   etcd --version;
 
 RUN set -ex;\

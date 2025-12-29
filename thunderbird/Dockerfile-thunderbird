@@ -34,6 +34,7 @@ RUN set -ex;\
   ln -snfv thunderbird-$VER thunderbird;\
   curl -sS -L -k -f http://repo/sw/opensource/thunderbird/bin/thunderbird-$VER.tar.xz | tar xf - --xz --strip-components=1 -C thunderbird;\
   chown -R root:root thunderbird-$VER;\
+  ls -l /usr/local;\
   thunderbird --version;
 
 RUN set -ex;\

@@ -21,7 +21,8 @@ RUN set -ex;\
     apt-get -yqq install socat liblua5.4-dev;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
-  elif expr match $OSN centos; then\
+  fi;\
+  if expr match $OSN centos; then\
     yum -y install socat;\
     yum clean all;\
   fi;\
@@ -31,12 +32,13 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/haproxy/bin/haproxy-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv haproxy-$VER haproxy;\
   chown -R root:root haproxy-$VER;\
-  mkdir -pv /usr/local/etc/haproxy /var/opt/haproxy;\
+  mkdir -pv etc/haproxy /var/opt/haproxy;\
   chown haproxy:haproxy /var/opt/haproxy;\
   S=zlocal-haproxy.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101352-haproxy/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   haproxy -v;
 
 RUN set -ex;\

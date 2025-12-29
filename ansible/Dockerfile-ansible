@@ -27,6 +27,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999030-work_pkb/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   which ansible-community && ansible-community --version;\
   ansible --version;
 

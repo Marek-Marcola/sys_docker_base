@@ -15,18 +15,17 @@ ENV PATH /usr/local/grafana-$VER/bin:$PATH
 
 RUN set -ex;\
   groupadd -g 472 grafana;\
-  useradd -u 472 -g 472 -c "Grafana" -m grafana;\
+  useradd -u 472 -g 472 -c "Grafana" -m -s /bin/bash grafana;\
   cd /usr/local;\
   mkdir -pv grafana-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/grafana/bin/grafana-$VER.linux-amd64.tar.gz | tar xzf - --strip-components=1 -C grafana-$VER;\
   ln -snfv grafana-$VER grafana;\
-  mkdir -pv /usr/local/etc/grafana/provisioning;\
-  cd /usr/local/etc/grafana/provisioning;\
-  mkdir -pv access-control dashboards datasources notifiers plugins;\
+  curl -sS -L -k -f http://repo/sw/opensource/grafana/bin/grafana-$VER.linux-amd64.tar.gz | tar xzf - --strip-components=1 -C grafana;\
+  mkdir -pv etc/grafana/provisioning/{access-control,dashboards,datasources,notifiers,plugins};\
   mkdir -pv /var/log/grafana;\
   chown -Rv grafana:grafana /var/log/grafana;\
   mkdir -pv /var/opt/grafana;\
   chown -Rv grafana:grafana /var/opt/grafana;\
+  ls -l /usr/local;\
   grafana server -v;
 
 ADD config/grafana.ini /usr/local/etc/grafana

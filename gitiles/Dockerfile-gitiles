@@ -14,14 +14,15 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
   groupadd -g 701 gerrit;\
-  useradd -u 701 -g 701 -m gerrit;\
+  useradd -u 701 -g 701 -m -s /bin/bash gerrit;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/gitiles/bin/gitiles-$VER.tar.gz | tar xzf - -C /usr/local;\
-  chown -R root:root /usr/local/gitiles-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/gitiles/bin/gitiles-$VER.tar.gz | tar xzf -;\
   ln -snfv gitiles-$VER gitiles;\
+  chown -R root:root gitiles-$VER;\
   mkdir -pv /var/opt/repos /usr/local/etc/gitiles;\
   chown -R 0:0 /var/opt/repos;\
-  chmod -R g=u /var/opt/repos;
+  chmod -R g=u /var/opt/repos;\
+  ls -l /usr/local;
 
 ADD config/gitiles.config /usr/local/etc/gitiles
 

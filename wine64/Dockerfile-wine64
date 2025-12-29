@@ -54,6 +54,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008120-wine/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   wine --version;
 
 RUN set -ex;\

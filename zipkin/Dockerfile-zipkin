@@ -21,6 +21,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o zipkin/zipkin-server-$VER-exec.jar http://repo/sw/opensource/zipkin/bin/zipkin-server-$VER-exec.jar;\
   cd zipkin;\
   ln -snfv zipkin-server-$VER-exec.jar zipkin-server-exec.jar;\
+  ls -l /usr/local;\
   unzip -p zipkin-server-exec.jar BOOT-INF/classes/info.json;
 
 RUN set -ex;\

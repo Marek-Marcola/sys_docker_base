@@ -37,6 +37,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101018-wordpress/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   grep '^\$' /usr/local/wordpress/wp-includes/version.php;\
   su none -c "wp --path=/usr/local/wordpress core version --extra";
 

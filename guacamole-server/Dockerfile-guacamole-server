@@ -29,6 +29,7 @@ RUN set -ex;\
   ln -snfv guacamole-server-$VER guacamole-server;\
   chown -R root:root guacamole-server-$VER;\
   mkdir -pv /etc/guacamole;\
+  ls -l /usr/local;\
   guacd -v;
 
 RUN set -ex;\

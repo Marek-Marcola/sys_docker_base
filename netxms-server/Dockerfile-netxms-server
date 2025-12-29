@@ -38,6 +38,7 @@ RUN set -ex;\
   chown -R netxms:netxms /var/log/netxms /var/opt/netxms;\
   mkdir -pv /usr/locate/etc/netxms;\
   ln -sv /usr/local/etc/netxms/netxmsd.conf /etc;\
+  ls -l /usr/local;\
   netxmsd -v || true;
 
 RUN set -ex;\

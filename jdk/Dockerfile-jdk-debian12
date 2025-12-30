@@ -29,6 +29,7 @@ RUN set -ex;\
     curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
     chown -R root:root jdk-$VER;\
   fi;\
+  ls -l /usr/local;\
   java -version;
 
 RUN set -ex;\

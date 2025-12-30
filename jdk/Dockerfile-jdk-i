@@ -26,6 +26,7 @@ RUN set -ex;\
   ln -snfv jdk-$VER jdk-${VER%%.*};\
   curl -sS -L -k -f $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
+  ls -l /usr/local;\
   java -version;
 
 RUN set -ex;\

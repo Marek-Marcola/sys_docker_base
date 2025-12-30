@@ -25,14 +25,15 @@ RUN set -ex;\
     ln -sv /usr /usr/local/jdk-$VER;\
   else \
     cd /usr/local;\
-    mkdir -pv jdk-${VER};\
-    curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-${VER};\
+    mkdir -pv jdk-$VER;\
+    ln -snfv jdk-$VER jdk-${VER%%.*};\
+    curl -sS -L -k -f http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
     chown -R root:root jdk-${VER};\
-    ln -snfv jdk-${VER} jdk-${VER%%.*};\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
     yum -y install fontconfig dejavu-sans-fonts;\
     yum clean all;\
   fi; \
+  ls -l /usr/local;\
   java -version;
 
 RUN set -ex;\

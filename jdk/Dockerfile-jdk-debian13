@@ -32,6 +32,7 @@ RUN set -ex;\
   find . -name "*.so" -exec ldd {} \; 2>&1 | grep found | sort | uniq | grep -vE 'libjvm.so|libjava.so'\
     && (echo Required shared libraries: missing)\
     || (echo Required shared libraries: ok);\
+  ls -l /usr/local;\
   java -version;
 
 RUN set -ex;\

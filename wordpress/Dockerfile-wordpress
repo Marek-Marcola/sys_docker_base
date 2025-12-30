@@ -19,7 +19,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
   chown -R root:root wordpress-$VER;\
   cd wordpress;\
-  mkdir -pv /var/opt/wordpress/wp-content/{plugins,themes};\
+  mkdir -pv /var/opt/wordpress/wp-content/plugins /var/opt/wordpress/wp-content/themes;\
   mv -v wp-content wp-content.ORG;\
   ln -sv /var/opt/wordpress/wp-content .;\
   ln -sv /var/opt/wordpress/wp-config.php .;\

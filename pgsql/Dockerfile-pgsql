@@ -34,8 +34,8 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv pgsql-$VER pgsql-${VER%.*};\
   chown -R root:root pgsql-$VER;\
-  mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
-  chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump /var/log/pgsql;\
+  mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
+  chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
   S=zlocal-pg.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101250-pgsql/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
@@ -44,6 +44,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /usr/local/bin/$S http://repo/pkb/pb/playbooks/999310-pgdev/files/$S\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   postgres --version;
 
 RUN set -ex;\

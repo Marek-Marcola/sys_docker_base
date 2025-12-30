@@ -21,8 +21,10 @@ RUN set -ex;\
   ln -snfv registry-$VER registry;\
   curl -sS -L -k -f http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
   chown -R root:root registry-$VER;\
-  mkdir -pv /usr/local/etc/registry /var/opt/registry;\
+  mkdir -pv etc/registry;\
+  mkdir -pv /var/opt/registry;\
   chown none:none /var/opt/registry;\
+  ls -l /usr/local;\
   registry --version;
 
 RUN set -ex;\

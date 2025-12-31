@@ -29,14 +29,15 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv php-$VER php-$V;\
   ln -snfv php-$V php;\
-  cp -v /usr/local/etc/php$V/php.ini-production /usr/local/etc/php$V/php.ini;\
-  mkdir -pv /usr/local/etc/php$V/php-fpm.d;\
-  cd /usr/local/etc;\
+  cd etc;\
   ln -snfv php$V php;\
+  cp -v php/php.ini-production php/php.ini;\
+  mkdir -pv php/php-fpm.d;\
   S=zlocal-php-fpm.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   php --version;
 
 ADD config/ /usr/local/etc/php/

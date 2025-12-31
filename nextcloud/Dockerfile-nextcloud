@@ -29,7 +29,8 @@ RUN set -ex;\
   touch /usr/local/etc/nextcloud/CAN_INSTALL;\
   chown none:none /usr/local/etc/nextcloud;\
   chown none:none nextcloud/apps;\
-  ln -sv /usr/local/etc/nextcloud nextcloud/config;
+  ln -sv /usr/local/etc/nextcloud nextcloud/config;\
+  ls -l /usr/local;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

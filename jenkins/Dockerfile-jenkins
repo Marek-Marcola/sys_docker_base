@@ -24,6 +24,7 @@ RUN set -ex;\
   mkdir -pv /var/opt/jenkins;\
   chown -Rv none:none /var/opt/jenkins;\
   chmod -Rv g=u /var/opt/jenkins;\
+  ls -l /usr/local;\
   java -jar jenkins.war --version;
 
 RUN set -ex;\

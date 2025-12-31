@@ -19,7 +19,8 @@ RUN set -ex;\
   curl -sS -L -k -f -o /as-apps/jenkins.war http://repo/sw/opensource/jenkins/war/jenkins-$VER.war;\
   mkdir -pv /var/opt/jenkins;\
   chown -R 0:0 /var/opt/jenkins;\
-  chmod -R g=u /var/opt/jenkins;
+  chmod -R g=u /var/opt/jenkins;\
+  ls -l /usr/local;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

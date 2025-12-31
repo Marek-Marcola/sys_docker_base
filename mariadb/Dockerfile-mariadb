@@ -44,6 +44,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /usr/local/bin/$S http://repo/pkb/pb/playbooks/999320-mydev/files/$S\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   mariadbd -V;\
   mariadb -V;
 

@@ -59,6 +59,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
+  ls -l /usr/local;\
   nginx -V 2>&1 |  sed 's/--/\n  --/g';
 
 ADD config/ /usr/local/nginx/conf/

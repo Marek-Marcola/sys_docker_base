@@ -30,6 +30,7 @@ RUN set -ex;\
   ln -sv promtail-linux-amd64 promtail;\
   ln -sv logcli-linux-amd64 logcli;\
   mkdir -pv /usr/local/etc/loki /var/opt/loki;\
+  ls -l /usr/local;\
   loki --version;
 
 RUN set -ex;\

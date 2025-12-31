@@ -17,6 +17,7 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/ruby/bin/ruby-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv ruby-$VER ruby;\
+  ls -l /usr/local;\
   ruby -v;
 
 RUN set -ex;\

@@ -35,7 +35,8 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/redmine/redmine-$VER.tar.gz | tar xzf -;\
   ln -snfv redmine-$VER redmine;\
-  chown -R root:root redmine-$VER;
+  chown -R root:root redmine-$VER;\
+  ls -l /usr/local;
 
 ADD config/database-postgresql.yml /usr/local/redmine/config/database.yml
 

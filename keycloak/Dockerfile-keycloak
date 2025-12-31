@@ -24,6 +24,7 @@ RUN set -ex;\
   chown none:none /var/opt/keycloak/data;\
   ln -snfv /var/opt/keycloak/data keycloak/data;\
   mkdir -pv /usr/local/etc/keycloak;\
+  ls -l /usr/local;\
   kc.sh --version;
 
 RUN set -ex;\

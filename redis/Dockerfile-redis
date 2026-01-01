@@ -21,11 +21,12 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/redis/bin/redis-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv redis-$VER redis;\
   chown -R root:root redis-$VER;\
-  mkdir -pv /usr/local/etc/redis;\
-  cp -v redis/etc/redis.conf /usr/local/etc/redis;\
-  cp -v redis/etc/sentinel.conf /usr/local/etc/redis;\
+  mkdir -pv etc/redis;\
+  cp -v redis/etc/redis.conf etc/redis;\
+  cp -v redis/etc/sentinel.conf etc/redis;\
   mkdir -pv /var/opt/redis/data;\
   chown none:none /var/opt/redis/data;\
+  ls -l /opt/local;\
   redis-server --version;
 
 RUN set -ex;\

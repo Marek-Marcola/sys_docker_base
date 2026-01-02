@@ -20,6 +20,7 @@ RUN set -ex;\
   chown root:root -R roundcubemail-$VER;\
   cd roundcube;\
   ln -snfv /usr/local/etc/roundcube/config/config.inc.php config/;\
+  ls -l /usr/local;\
   grep Version index.php;
 
 RUN set -ex;\

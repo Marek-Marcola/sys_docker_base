@@ -1,7 +1,7 @@
 #!/bin/bash
 
 [[ -z $MEDIAMTX_ID   ]] && MEDIAMTX_ID=""
-[[ -z $MEDIAMTX_CONF ]] && MEDIAMTX_CONF=/usr/local/etc/mediamtx/mediamtx${SNMP_EXPORTER_ID:+-}${SNMP_EXPORTER_ID}.yml
+[[ -z $MEDIAMTX_CONF ]] && MEDIAMTX_CONF=/usr/local/etc/mediamtx/mediamtx${MEDIAMTX_ID:+-}$MEDIAMTX_ID.yml
 
 echo "env config:"
 echo "    MEDIAMTX_ID   = $MEDIAMTX_ID"

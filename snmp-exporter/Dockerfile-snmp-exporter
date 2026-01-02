@@ -20,9 +20,10 @@ RUN set -ex;\
   mkdir -pv snmp_exporter-$VER;\
   ln -snfv snmp_exporter-$VER snmp_exporter;\
   curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/snmp_exporter-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C snmp_exporter;\
-  chown -R root:root /usr/local/snmp_exporter-$VER;\
-  mkdir -pv /usr/local/etc/snmp_exporter;\
+  chown -R root:root snmp_exporter-$VER;\
+  mkdir -pv etc/snmp_exporter;\
   ln -snfv /usr/local/snmp_exporter/snmp.yml /usr/local/etc/snmp_exporter/snmp.yml;\
+  ls -l /usr/local;\
   snmp_exporter --version;
 
 RUN set -ex;\

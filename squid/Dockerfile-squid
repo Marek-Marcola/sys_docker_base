@@ -31,9 +31,10 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv squid-$VER squid;\
   chown -R root:root squid-$VER;\
-  mkdir -pv /usr/local/etc/squid;\
+  mkdir -pv etc/squid;\
   mkdir -pv /var/opt/squid /var/log/squid /var/cache/squid;\
   chown -R squid:squid /var/opt/squid /var/log/squid /var/cache/squid;\
+  ls -l /usr/local;\
   squid -v;
 
 RUN set -ex;\

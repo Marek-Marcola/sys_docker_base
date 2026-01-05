@@ -45,6 +45,7 @@ RUN set -ex;\
   S=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])');\
   mkdir -pv /usr/local/etc/pgadmin4;\
   ln -snfv /usr/local/etc/pgadmin4/config_local.py $S/pgadmin4/;\
+  ls -l /usr/local;\
   pip show gunicorn;\
   pip show pgadmin4;
 

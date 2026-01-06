@@ -5,6 +5,7 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG VERS
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -31,9 +32,11 @@ RUN set -ex;\
   groupadd -g 26 postgres;\
   useradd -u 26 -g 26 -m -s /bin/bash postgres;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
-  ln -snfv pgsql-$VER pgsql-${VER%.*};\
-  chown -R root:root pgsql-$VER;\
+  for V in $VERS; do\
+    curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    ln -snfv pgsql-$V pgsql-${V%.*};\
+    chown -R root:root pgsql-$V;\
+  done;\
   mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
   chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
   S=zlocal-pg.sh;\
@@ -45,11 +48,14 @@ RUN set -ex;\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\
-  postgres --version;
+  for V in $VERS; do\
+    pgsql-$V/bin/postgres --version;\
+  done;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
+  echo "info.vers = $VERS";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 

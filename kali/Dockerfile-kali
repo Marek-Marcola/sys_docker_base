@@ -23,7 +23,7 @@ ENV OSA=x86_64
 ENV OSC=kali-rolling
 
 RUN set -ex;\
-  if [ ! -z $APT_URL ]; then\
+  if [ ! -z "$APT_URL" ]; then\
     echo "deb $APT_URL kali-rolling main contrib non-free" > /etc/apt/sources.list.d/kali-rolling.list;\
     echo 'Acquire::https::Verify-Peer "false";' > /etc/apt/apt.conf.d/99https-verify-peer;\
     echo 'Acquire::https::Verify-Host "false";' > /etc/apt/apt.conf.d/99https-verify-host;\
@@ -76,4 +76,4 @@ RUN set -ex;\
 
 ADD scripts/[0-9]*.sh /cmd.d/
 ADD scripts/cmd.sh /
-CMD ["/bin/bash","--login"]
+CMD ["/bin/bash","-l"]

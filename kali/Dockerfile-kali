@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG APT_URI
+ARG APT_PROXY
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -23,17 +25,21 @@ ENV OSA=x86_64
 ENV OSC=kali-rolling
 
 RUN set -ex;\
-  if [ ! -z "$APT_URL" ]; then\
-    echo "deb $APT_URL kali-rolling main contrib non-free" > /etc/apt/sources.list.d/kali-rolling.list;\
+  if [ ! -z "$APT_URI" ]; then\
+    echo "deb $APT_URI kali-rolling main contrib non-free non-free-firmware" > /etc/apt/sources.list.d/kali-rolling.list;\
     echo 'Acquire::https::Verify-Peer "false";' > /etc/apt/apt.conf.d/99https-verify-peer;\
     echo 'Acquire::https::Verify-Host "false";' > /etc/apt/apt.conf.d/99https-verify-host;\
+  fi;\
+  if [ ! -z "$APT_PROXY" ]; then\
+    echo "Acquire::http::proxy \"$APT_PROXY\";" > /etc/apt/apt.conf.d/02proxy;\
   fi;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq install jq vim xz-utils bsdextrautils;\
   apt-get clean;\
+  rm -rf /var/lib/apt/lists/*;\
   wpscan --update;\
-  cp -v /root/.bashrc /root/.bashrc.ORG;\
+  cp -v /root/.bashrc /root/.bashrc.b$(date +%Y%m%d);\
   cp -v /root/.bashrc.original /root/.bashrc;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001900-kali/files/$S\
@@ -67,7 +73,7 @@ RUN set -ex;\
   cat /etc/debian_version;
 
 RUN set -ex;\
-  mkdir -p /cmd.d /version.d;\
+  mkdir -pv /cmd.d /version.d;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\

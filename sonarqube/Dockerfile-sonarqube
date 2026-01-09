@@ -26,7 +26,8 @@ RUN set -ex;\
   mv -v sonarqube/extensions sonarqube/extensions.ORG;\
   ln -sv /var/opt/sonarqube/logs sonarqube;\
   ln -sv /var/opt/sonarqube/extensions sonarqube;\
-  sed -i.ORG 's%PIDDIR=.*%PIDDIR="/tmp"%' /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;
+  sed -i.ORG 's%PIDDIR=.*%PIDDIR="/tmp"%' /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;\
+  ls -l /usr/local;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

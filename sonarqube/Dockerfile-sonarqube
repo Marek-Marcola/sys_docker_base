@@ -21,12 +21,12 @@ RUN set -ex;\
   unzip -q /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   ln -snfv sonarqube-$VER sonarqube;\
-  mv -v sonarqube/conf sonarqube/conf.ORG;\
-  mv -v sonarqube/logs sonarqube/logs.ORG;\
-  mv -v sonarqube/extensions sonarqube/extensions.ORG;\
+  mv -v sonarqube/conf sonarqube/conf.b$(date +%Y%m%d);\
+  mv -v sonarqube/logs sonarqube/logs.b$(date +%Y%m%d);\
+  mv -v sonarqube/extensions sonarqube/extensions.b$(date +%Y%m%d);\
   ln -sv /var/opt/sonarqube/logs sonarqube;\
   ln -sv /var/opt/sonarqube/extensions sonarqube;\
-  sed -i.ORG 's%PIDDIR=.*%PIDDIR="/tmp"%' /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;\
+  sed -i.b$(date +%Y%m%d) 's%PIDDIR=.*%PIDDIR="/tmp"%' /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;\
   ls -l /usr/local;
 
 RUN set -ex;\

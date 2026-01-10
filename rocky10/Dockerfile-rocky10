@@ -30,7 +30,7 @@ RUN set -ex;\
   yum -y update;\
   yum -y --allowerasing install net-tools iproute nmap lsof strace telnet git curl wget bind-utils which unzip python3 python3-pip;\
   yum -y --allowerasing install coreutils procps-ng iputils glibc-langpack-en environment-modules;\
-  yum -y --allowerasing install yum-utils createrepo;\
+  yum -y --allowerasing install yum-utils createrepo tree;\
   yum clean all;\
   mkdir -pv /usr/local/etc/modulefiles;\
   S=zlocal-0001.sh;\

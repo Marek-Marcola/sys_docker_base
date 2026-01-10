@@ -36,7 +36,7 @@ RUN set -ex;\
   apt-get -yqq install net-tools iproute2 traceroute nmap lsof telnet iputils-ping;\
   apt-get -yqq install git curl wget unzip python-setuptools procps apt-utils debconf-utils;\
   apt-get -yqq install python3 python3-distutils python3-pkg-resources;\
-  apt-get -yqq install jq vim bsdextrautils file;\
+  apt-get -yqq install jq vim bsdextrautils file tree;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
   groupadd -g 666 none;\

@@ -30,7 +30,7 @@ RUN set -ex;\
   yum -y update;\
   yum -y --allowerasing install net-tools iproute nmap lsof strace telnet git curl wget bind-utils which unzip python3 python3-pip;\
   yum -y --allowerasing install coreutils procps-ng iputils glibc-langpack-en environment-modules findutils;\
-  yum -y --allowerasing install yum-utils createrepo;\
+  yum -y --allowerasing install yum-utils createrepo tree;\
   yum clean all;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001570-rocky8/files/$S\

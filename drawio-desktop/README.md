@@ -23,4 +23,7 @@ cman env:
     --env HOME=/tmp
     --env DISPLAY=$DISPLAY
     )
-    DOCS="GTK_THEME=Adwaita:white drawio [file]!!GTK_THEME=Adwaita:dark  drawio [file]"
+    DOCS="
+    GTK_THEME=Adwaita:white drawio [file]
+    GTK_THEME=Adwaita:dark  drawio [file]
+    "

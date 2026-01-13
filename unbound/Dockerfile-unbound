@@ -19,6 +19,7 @@ RUN set -ex;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/unbound/bin/unbound-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv unbound-$VER unbound-${VER%.*};\
+  ls -l /usr/local;\
   unbound -V;
 
 RUN set -ex;\

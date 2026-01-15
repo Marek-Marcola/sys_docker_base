@@ -14,5 +14,5 @@ cman env:
     --env NETXMS_PREFIX=dc1-"
     )
     INIT=(
-     "install -m 755 -o root -g root -v -d /usr/local/etc/ap-netxms-$APN-$API"
+     "install -m 755 -o root -g root -v -d /usr/local/etc/ap-$APN-$API"
     )

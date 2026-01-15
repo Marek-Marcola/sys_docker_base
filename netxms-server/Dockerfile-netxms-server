@@ -38,6 +38,9 @@ RUN set -ex;\
   getcap netxms/bin/netxmsd;\
   setcap cap_net_bind_service,cap_net_raw=ep netxms/bin/netxmsd;\
   getcap netxms/bin/netxmsd;\
+  getcap /usr/bin/ping;\
+  setcap cap_net_raw=ep /usr/bin/ping;\
+  getcap /usr/bin/ping;\
   ls -l /usr/local;\
   netxmsd -v || true;
 

@@ -39,6 +39,7 @@ RUN set -ex;\
   apt-get -yqq install python3 python3-pkg-resources;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils file tree;\
+  apt-get -yqq install environment-modules gettext-base;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
   groupadd -g 666 none;\
@@ -73,6 +74,10 @@ RUN set -ex;\
   S=zlocal-readme.bash;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
     && (chmod a+x /etc/profile.d/$S && mkdir -pv /usr/local/etc/doc)\
+    || (echo Script $S not available);\
+  S=zlocal-env-module.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101630-env_module/files/$S\
+    && (chmod a+x /etc/profile.d/$S && mkdir -pv /usr/local/etc/modulefiles && mkdir -pv /opt/local/etc/modulefiles)\
     || (echo Script $S not available);\
   S=zlocal-cdev-image.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\

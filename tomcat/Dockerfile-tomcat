@@ -19,7 +19,8 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv tomcat-$VER;\
   ln -snfv tomcat-$VER tomcat-${VER%.*};\
-  curl -sS -L -k -f http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat-$VER;\
+  ln -snfv tomcat-${VER%.*} tomcat;\
+  curl -sS -L -k -f http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
   chown -R root:tomcat tomcat-$VER;
 
 RUN set -ex;\
@@ -33,6 +34,7 @@ RUN set -ex;\
   mkdir -pv webapps/ROOT;\
   ln -sv /var/opt/tomcat/webapps/ROOT /as-root;\
   ln -sv /var/opt/tomcat/webapps /as-apps;\
+  ln -sv /usr/local/tomcat/lib /as-prop;\
   echo tomcat $VER > /as-root/index.html;\
   catalina.sh version;
 

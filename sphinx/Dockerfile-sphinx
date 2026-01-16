@@ -17,11 +17,16 @@ RUN set -ex;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
-    apt-get -yqq install openjdk-17-jre openjdk-17-jdk graphviz;\
-    apt-get -yqq install python3-virtualenv;\
-    apt-get -yqq install python3-distutils python3-lib2to3;\
     apt-get -yqq install latexmk texlive-fonts-recommended texlive-latex-recommended texlive-latex-extra;\
-    apt-get -yqq install gnuplot rsync;\
+    apt-get -yqq install gnuplot rsync graphviz;\
+    if expr match $OSN debian13; then\
+      apt-get -yqq install openjdk-21-jre openjdk-21-jdk;\
+      apt-get -yqq install python3-virtualenv python3-distutils-extra;\
+    fi;\
+    if expr match $OSN debian12; then\
+      apt-get -yqq install openjdk-17-jre openjdk-17-jdk;\
+      apt-get -yqq install python3-virtualenv python3-distutils python3-lib2to3;\
+    fi;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
@@ -52,15 +57,6 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv sphinx-$VER sphinx;\
   chown -R none:none sphinx-$VER;\
-  ln -snfv /usr/local/sphinx/bin/activate /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/sphinx-apidoc /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/sphinx-autogen /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/sphinx-build /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/sphinx-quickstart /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/blockdiag /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/nwdiag /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/packetdiag /usr/local/bin;\
-  ln -snfv /usr/local/sphinx/bin/rackdiag /usr/local/bin;\
   mkdir -pv /var/opt/sphinx;\
   chown -R none:none /var/opt/sphinx;\
   touch /.bash_history_all;\

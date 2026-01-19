@@ -21,7 +21,8 @@ RUN set -ex;\
   ln -snfv alertmanager-$VER alertmanager;\
   curl -sS -L -k -f http://repo/sw/opensource/prometheus/bin/alertmanager-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C alertmanager;\
   chown -R root:root alertmanager-$VER;\
-  mkdir -pv etc/alertmanager /var/opt/alertmanager;\
+  mkdir -pv etc/alertmanager;\
+  mkdir -pv /var/opt/alertmanager;\
   chown -R none:none /var/opt/alertmanager;\
   ls -l /usr/local;\
   alertmanager --version;

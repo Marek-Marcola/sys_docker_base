@@ -32,7 +32,8 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/haproxy/bin/haproxy-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv haproxy-$VER haproxy;\
   chown -R root:root haproxy-$VER;\
-  mkdir -pv etc/haproxy /var/opt/haproxy;\
+  mkdir -pv etc/haproxy;\
+  mkdir -pv /var/opt/haproxy;\
   chown haproxy:haproxy /var/opt/haproxy;\
   S=zlocal-haproxy.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101352-haproxy/files/$S\

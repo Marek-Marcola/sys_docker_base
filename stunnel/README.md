@@ -11,7 +11,7 @@ cman env:
     OPTS=(
     --publish 0.0.0.0:5465:5465/tcp
     --volume /usr/local/etc/pki:/usr/local/etc/pki:ro
-    --volume /usr/local/etc/$A:/usr/local/etc/stunnel:ro
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --env STUNNEL_ID=$API
     )
     INIT=(

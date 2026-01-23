@@ -10,6 +10,6 @@ cman env:
     : ${I:=scr.dc.local:5443/is/squid:$V}
     OPTS=(
     --publish $(ipa brsvc1):3128:3128/tcp
-    --volume /usr/local/etc/$A:/usr/local/etc/squid
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
     --env SQUID_ID=$API
     )

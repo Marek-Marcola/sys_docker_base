@@ -15,7 +15,7 @@ cman env:
     --publish $(ipa brint1     ):53:1053/udp
     --publish $(ipa brint1:dns1):53:1053/tcp
     --publish $(ipa brint1:dns1):53:1053/udp
-    --volume /usr/local/etc/$A:/usr/local/etc/coredns:ro
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --env COREDNS_ID=$API
     )
     INIT=(

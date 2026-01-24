@@ -55,8 +55,8 @@ RUN set -ex;\
   install -c -m 2775 -o nagios -g nagcmd -d /var/opt/nagios/spool/checkresults;\
   install -c -m 2775 -o nagios -g nagcmd -d /var/opt/nagios/rw;\
   cd /usr/local/nagios/share;\
-  sed -i.ORG 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' index.php;\
-  sed -i.ORG 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' side.php;\
+  sed -i.b$(date +%Y%m%d) 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' index.php;\
+  sed -i.b$(date +%Y%m%d) 's|main.php|cgi-bin/status.cgi?host=all\&servicestatustypes=28|g' side.php;\
   setcap cap_net_admin,cap_net_raw+p /bin/ping;\
   S=zlocal-mk-livestatus.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101398-mk_livestatus/files/$S\

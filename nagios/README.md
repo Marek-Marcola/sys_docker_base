@@ -12,8 +12,8 @@ cman env:
     --dns $(ipa brsvc1)
     --publish $(ipa brsvc1):8888:8080
     --volume /usr/local/etc/pki:/usr/local/etc/pki:ro
-    --volume /usr/local/etc/$A:/usr/local/etc/nagios:ro
-    --volume /var/opt/nagios/$A:/var/opt/nagios
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
+    --volume /var/opt/$APN/$A:/var/opt/$APN
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --env NGINX_CGI=1
     --env NGINX_PHP=1
@@ -23,8 +23,8 @@ cman env:
     )
     INIT=(
      "install -m 0755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 0775 -o 477 -g 477 -d /var/opt/nagios/$A"
-     "install -m 0775 -o 477 -g 477 -d /var/opt/nagios/$A/archives"
-     "install -m 2775 -o 477 -g 477 -d /var/opt/nagios/$A/spool/checkresults"
-     "install -m 2775 -o 477 -g 477 -d /var/opt/nagios/$A/rw"
+     "install -m 0775 -o 477 -g 477 -d /var/opt/$APN/$A"
+     "install -m 0775 -o 477 -g 477 -d /var/opt/$APN/$A/archives"
+     "install -m 2775 -o 477 -g 477 -d /var/opt/$APN/$A/spool/checkresults"
+     "install -m 2775 -o 477 -g 477 -d /var/opt/$APN/$A/rw"
     )

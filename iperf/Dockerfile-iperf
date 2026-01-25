@@ -22,6 +22,8 @@ RUN set -ex;\
   iperf -v || true;\
   iperf3 -v;
 
+ADD scripts/*.sh /usr/local/bin/
+
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\

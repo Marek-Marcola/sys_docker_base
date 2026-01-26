@@ -17,7 +17,7 @@ if [ "$LIGHTTPD_MODE" = "oos" ]; then
 fi
 
 if [ ! -f $LIGHTTPD_CONF ]; then
-  echo ${0##*/}: error: no conf file: $LIGHTTPD_CONF
+  echo ${0##*/}: error: no config file: $LIGHTTPD_CONF
   exit 1
 fi
 

@@ -28,7 +28,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/socat/bin/socat-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv socat-$VER socat;\
   chown -R root:root socat-$VER;\
-  mkdir -pv /usr/local/etc/socat;\
+  mkdir -pv etc/socat;\
   socat -V;
 
 RUN set -ex;\

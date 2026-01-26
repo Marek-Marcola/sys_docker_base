@@ -26,4 +26,5 @@ umask 002
 chmod a+w /dev/std*
 lighttpd -V
 lighttpd -f $LIGHTTPD_CONF -tt
+lighttpd -f $LIGHTTPD_CONF -p
 exec lighttpd -f $LIGHTTPD_CONF -D

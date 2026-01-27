@@ -19,10 +19,12 @@ RUN set -ex;\
   apt-get clean;\
   [ "$(id -g none)" = "" ] && groupadd -g 666 none;\
   [ "$(id -u none)" = "" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  S=zlocal-iperf.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101312-iperf/files/$S\
+    && (chmod a+x /etc/profile.d/$S)\
+    || (echo Script $S not available);\
   iperf -v || true;\
   iperf3 -v;
-
-ADD scripts/*.sh /usr/local/bin/
 
 RUN set -ex;\
  (echo "info.date = $DATE";\

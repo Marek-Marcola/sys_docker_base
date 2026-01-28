@@ -23,6 +23,10 @@ RUN set -ex;\
   ln -snfv /usr/local/mktxp/bin/mktxp /usr/local/bin;\
   mkdir -pv /var/opt/mktxp;\
   chown -R none:none /var/opt/mktxp;\
+  S=zlocal-mktxp.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/908051-mktxp/files/$S\
+    && (chmod a+x /etc/profile.d/$S)\
+    || (echo Script $S not available);\
   ls -l /usr/local;\
   mktxp info;
 

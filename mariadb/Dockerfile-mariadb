@@ -5,6 +5,7 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG VERS
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -31,9 +32,11 @@ RUN set -ex;\
   groupadd -g 672 mysql;\
   useradd -u 672 -g 672 -m -s /bin/bash mysql;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/mariadb/bin/mariadb-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
-  ln -snfv mariadb-$VER mariadb-${VER%.*};\
-  chown -R root:root mariadb-$VER;\
+  for V in $VERS; do\
+    curl -sS -L -k -f http://repo/sw/opensource/mariadb/bin/mariadb-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    [ -e mariadb-${V%.*} ] || ln -snfv mariadb-$V mariadb-${V%.*};\
+    chown -R root:root mariadb-$V;\
+  done;\
   mkdir -pv /var/opt/mysql/data /var/log/mysql;\
   chown mysql:mysql /var/opt/mysql/data /var/log/mysql;\
   S=zlocal-mariadb.sh;\
@@ -45,12 +48,15 @@ RUN set -ex;\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\
-  mariadbd -V;\
-  mariadb -V;
+  for V in $VERS; do\
+    mariadb-$V/bin/mariadbd -V;\
+    mariadb-$V/bin/mariadb -V;\
+  done;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
+  echo "info.vers = $VERS";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 

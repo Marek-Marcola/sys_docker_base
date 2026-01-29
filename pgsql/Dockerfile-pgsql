@@ -34,7 +34,7 @@ RUN set -ex;\
   cd /usr/local;\
   for V in $VERS; do\
     curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
-    ln -snfv pgsql-$V pgsql-${V%.*};\
+    [ -e pgsql-${V%.*} ] || ln -snfv pgsql-$V pgsql-${V%.*};\
     chown -R root:root pgsql-$V;\
   done;\
   mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\

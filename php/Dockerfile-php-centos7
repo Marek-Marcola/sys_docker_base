@@ -21,7 +21,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | awk '{print $2}');\
+  V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgi-$V fcgi;\
   echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\

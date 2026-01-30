@@ -5,7 +5,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-mariadb-t
+    # cat /usr/local/etc/cman.d/ap-mariadb-cacti-dc1
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/mariadb:$V}
     OPTS=(

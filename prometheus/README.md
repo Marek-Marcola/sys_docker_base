@@ -21,11 +21,11 @@ cman env:
     : ${I:=scr.dc.local:5443/is/prometheus:$V}
     OPTS=(
     --publish $(ipa brsvc1):9090:9090
-    --volume /usr/local/etc/$A:/usr/local/etc/prometheus
-    --volume /var/opt/prometheus/$A:/var/opt/prometheus
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
+    --volume /var/opt/$APN/$A:/var/opt/$APN
     --env PROMETHEUS_OPTS="$(echo $PROMETHEUS_OPTS)"
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/prometheus/$A"
+     "install -m 755 -o root -g root -v -d /var/opt/$APN/$A"
     )

@@ -11,10 +11,12 @@ cman env:
     OPTS=(
     --publish $(ipa brsvc1):25:25/tcp
     --publish $(ipa brext1):25:25/tcp
-    --volume /usr/local/etc/$A:/usr/local/etc/postfix
-    --volume /var/opt/postfix/$A:/var/spool/postfix
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
+    --volume /var/opt/$APN/$A:/var/spool/$APN
+    --volume /etc/resolv.conf:/var/spool/$APN/etc/resolv.conf:ro
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/postfix/$A"
+     "install -m 755 -o root -g root -v -d /var/opt/$APN/$A"
+     "install -m 755 -o root -g root -v -d /var/opt/$APN/$A/etc"
     )

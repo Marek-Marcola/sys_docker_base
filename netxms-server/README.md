@@ -13,7 +13,7 @@ cman env:
     --volume /usr/local/etc/$A:/usr/local/etc/netxms:ro
     --volume /var/opt/netxms/$A:/var/opt/netxms:rw
     --cap-add=CAP_NET_RAW
-    --hostname nms
+    --hostname nms1
     --ip=10.88.88.10
     --mac-address=52:54:00:01:ba:ca
     --env NETXMS_INIT=sqlite

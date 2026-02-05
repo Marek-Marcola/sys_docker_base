@@ -47,6 +47,8 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv php-$VER php-$V;\
   ln -snfv php-$V php;\
+  ln -snfv /usr/local/php/bin/php /usr/local/bin;\
+  ln -snfv /usr/local/bin/php /usr/bin;\
   cd etc;\
   ln -snfv php$V php;\
   cp -v php/php.ini-production php/php.ini;\

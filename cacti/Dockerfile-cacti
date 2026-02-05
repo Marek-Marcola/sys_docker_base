@@ -27,9 +27,10 @@ RUN set -ex;\
   ln -snfv spine-$VER spine;\
   chown -R root:root spine-$VER;\
   chmod u+s spine/bin/spine;\
-  curl -sS -L -k -f http://repo/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf -;\
-  ln -snfv cacti-$VER cacti;\
-  chown -R root:root cacti-$VER;\
+  mkdir -pv cacti;\
+  ln -snfv cacti cacti-$VER;\
+  curl -sS -L -k -f http://repo/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
+  chown -R root:root cacti;\
   mkdir -pv etc/cacti;\
   ln -snfv /usr/local/etc/cacti/config.php /usr/local/cacti/include;\
   mv -v cacti/rra cacti/rra.b$(date +%Y%m%d);\
@@ -51,7 +52,6 @@ RUN set -ex;\
   ln -snfv /var/opt/cacti/resource /usr/local/cacti/;\
   mv -v cacti/include/themes/modern/images/cacti_logo.svg cacti/include/themes/modern/images/cacti_logo.svg.b$(date +%Y%m%d);\
   sed -i.b$(date +%Y%m%d) '/pam_loginuid/ s/^/#/' /etc/pam.d/cron;\
-  fc-cache -rsv;\
   S=zlocal-cacti.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101400-cacti/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

@@ -23,9 +23,9 @@ fi
 if [ "$NGINX_INIT" = "yes" -o "$NGINX_INIT" = "1" ]; then
   if [ ! -d $NGINX_DATA/conf ]; then
     set -x
-    mkdir -p $NGINX_DATA
+    mkdir -pv $NGINX_DATA
     cd $NGINX_DATA
-    mkdir conf html logs temp
+    mkdir -v conf html logs temp
     chown none:none logs temp
     cp -rv /usr/local/nginx/conf/* conf
     echo nginx-$INFO_VER/$NGINX_ID > html/index.html

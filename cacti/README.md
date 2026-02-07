@@ -40,5 +40,6 @@ cman env:
      "install -m 0775 -o none -g none -d /var/opt/$APN/$A/resource/script_server"
      "install -m 0775 -o none -g none -d /var/opt/$APN/$A/resource/snmp_queries"
      "install -m 0775 -o none -g none -d /var/opt/$APN/$A/plugins"
-     "ln -s /usr/local/cacti/include /var/opt/$APN/$A"
+     "ln -snfv /usr/local/cacti/include /var/opt/$APN/$A"
+     "ln -snfv /usr/local/cacti/lib /var/opt/$APN/$A"
     )

@@ -15,6 +15,6 @@ cman env:
     $(ls -1 /dev/media* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
     )
     DOCS="
-    $A -r
-    $A -e cmd
+      $A -r
+      $A -e cmd
     "

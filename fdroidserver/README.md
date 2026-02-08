@@ -14,8 +14,8 @@ cman env:
     --volume $HOME/.ssh:$HOME/.ssh
     )
     DOCS="
-    $A -r
-    lsfdroid -l -v
-    lsfdroid -u -v
-    lsfdroid -d -v
+      $A -r
+      lsfdroid -l -v
+      lsfdroid -u -v
+      lsfdroid -d -v
     "

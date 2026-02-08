@@ -10,8 +10,8 @@ cman env:
     : ${I:=scr.dc.local:5443/is/netxms-server:$V}
     OPTS=(
     --publish $(ipa brsvc1):4701:4701/tcp
-    --volume /usr/local/etc/$A:/usr/local/etc/netxms:ro
-    --volume /var/opt/netxms/$A:/var/opt/netxms:rw
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
+    --volume /var/opt/$APN/$A:/var/opt/$APN:rw
     --cap-add=CAP_NET_RAW
     --hostname nms1
     --ip=10.88.88.10
@@ -20,7 +20,7 @@ cman env:
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/netxms/$A"
-     "install -m 755 -o 486 -g 486 -v -d /var/opt/netxms/$A/server"
-     "install -m 755 -o 486 -g 486 -v -d /var/opt/netxms/$A/sqlite"
+     "install -m 755 -o root -g root -v -d /var/opt/$APN/$A"
+     "install -m 755 -o 486 -g 486 -v -d /var/opt/$APN/$A/server"
+     "install -m 755 -o 486 -g 486 -v -d /var/opt/$APN/$A/sqlite"
     )

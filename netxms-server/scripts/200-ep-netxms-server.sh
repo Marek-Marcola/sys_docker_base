@@ -1,14 +1,22 @@
 #!/bin/bash
 
-[[ -z $NETXMS_ID     ]] && NETXMS_ID=""
-[[ -z $NETXMS_CONF   ]] && NETXMS_CONF=/usr/local/etc/netxms/netxmsd${NETXMS_ID:+-}${NETXMS_ID}.conf
-[[ -z $NETXMS_INIT   ]] && NETXMS_INIT=""
+[[ -z $NETXMS_ID   ]] && NETXMS_ID=""
+[[ -z $NETXMS_CONF ]] && NETXMS_CONF=/usr/local/etc/netxms/netxmsd${NETXMS_ID:+-}${NETXMS_ID}.conf
+[[ -z $NETXMS_INIT ]] && NETXMS_INIT=""
+[[ -z $NETXMS_MODE ]] && NETXMS_MODE=active
 
 echo "env config:"
 echo "    NETXMS_ID   = $NETXMS_ID"
 echo "    NETXMS_CONF = $NETXMS_CONF"
 echo "    NETXMS_INIT = $NETXMS_INIT"
+echo "    NETXMS_MODE = $NETXMS_MODE"
 echo
+
+if [ "$NETXMS_MODE" = "oos" ]; then
+  echo operation mode: out-of-service
+  set -x
+  exec -a '[netxms-server-mode-oos]' sleep 666d
+fi
 
 if [ ! -f $NETXMS_CONF ]; then
   echo ${0##*/}: error: no config file: $NETXMS_CONF

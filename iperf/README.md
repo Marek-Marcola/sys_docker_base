@@ -34,15 +34,15 @@ cman env:
     --privileged
     )
     DOCS="
-    --
-    $A -r -- iperf3 -V -f M -s          # server
-    $A -r -- iperf3 -V -f M -c host     # client (upload)
-    $A -r -- iperf3 -V -f M -c host -R  # client (download)
-    --
-    $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -s          # server
-    $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -c host     # client (upload)
-    $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -c host -R  # client (download)
-    --
-    port 5201 - iperf3
-    port 5001 - iperf
+      --
+      $A -r -- iperf3 -V -f M -s          # server
+      $A -r -- iperf3 -V -f M -c host     # client (upload)
+      $A -r -- iperf3 -V -f M -c host -R  # client (download)
+      --
+      $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -s          # server
+      $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -c host     # client (upload)
+      $A -r -- setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs iperf3 -V -f M -c host -R  # client (download)
+      --
+      port 5201 - iperf3
+      port 5001 - iperf
     "

@@ -21,7 +21,8 @@ RUN set -ex;\
   ln -snfv tomcat-$VER tomcat-${VER%.*};\
   ln -snfv tomcat-${VER%.*} tomcat;\
   curl -sS -L -k -f http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
-  chown -R root:tomcat tomcat-$VER;
+  chown -R root:tomcat tomcat-$VER;\
+  ls -l /usr/local;
 
 RUN set -ex;\
   mkdir -pv /var/opt/tomcat;\
@@ -42,7 +43,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/

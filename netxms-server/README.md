@@ -24,3 +24,9 @@ cman env:
      "install -m 755 -o 486 -g 486 -v -d /var/opt/$APN/$A/server"
      "install -m 755 -o 486 -g 486 -v -d /var/opt/$APN/$A/sqlite"
     )
+    DOCS="
+      $A -rs
+      su - netxms -c '/usr/local/netxms/bin/nxdbmgr unlock -f'
+      su - netxms -c '/usr/local/netxms/bin/nxdbmgr check'
+      su - netxms -c '/usr/local/netxms/bin/nxdbmgr upgrade'
+    "

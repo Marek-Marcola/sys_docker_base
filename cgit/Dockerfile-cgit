@@ -45,5 +45,5 @@ RUN set -ex;\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

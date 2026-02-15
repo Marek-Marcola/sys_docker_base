@@ -1,6 +1,12 @@
 net-snmp
 ========
 
+Build
+-----
+cdev env:
+
+    # sed -n '/REPO.*net-snmp/,/^$/p' /usr/local/etc/cdev.env 
+
 Deploy
 ------
 cman env:

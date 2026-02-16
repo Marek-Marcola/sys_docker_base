@@ -13,7 +13,7 @@ cman env:
     --publish $(ipa bradm1):2222:22
     --volume /usr/local/etc/$A:/usr/local/etc/ssh:rw
     --volume /var/opt/$APN/$A/home:/home
-    --volume /u01/gitroot:/u01/gitroot
+    --volume /scm/dc1/gitroot:/scm/gitroot
     --hostname $(hostname -s)
     --env SSHD_ID=$APN-$API
     )

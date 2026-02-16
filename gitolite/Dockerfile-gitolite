@@ -34,6 +34,8 @@ RUN set -ex;\
   echo $VER > /usr/local/gitolite/VERSION;\
   ln -snfv /usr/local/gitolite/gitolite /usr/local/bin;\
   ln -snfv /usr/local/gitolite/gitolite-shell /usr/local/bin;\
+  mkdir -pv /usr/local/lib/site_perl;\
+  ln -snfv /usr/local/gitolite/lib/Gitolite /usr/local/lib/site_perl;\
   S=zlocal-git.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

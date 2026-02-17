@@ -1,6 +1,12 @@
 cgit
 ====
 
+Build
+-----
+cdev env:
+
+    # sed -n '/^if.*cgit/,/^fi/p' /usr/local/etc/cdev.env
+
 Deploy
 ------
 cman env:

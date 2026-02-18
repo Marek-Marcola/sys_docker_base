@@ -18,7 +18,7 @@ cman env:
     --publish $(ipa brsvc1):8085:8080
     --volume /usr/local/etc/$A:/usr/local/etc/$APN
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
-    --volume /scm:/scm
+    --volume /scm:/scm:ro
     --env NGINX_CGI=1
     --env NGINX_ID=ap-nginx-$APN-$API
     )

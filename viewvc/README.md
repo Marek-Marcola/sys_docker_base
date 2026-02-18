@@ -1,6 +1,12 @@
 viewvc
 ======
 
+Build
+-----
+cdev env:
+
+    # sed -n '/^if.*viewvc/,/^fi/p' /usr/local/etc/cdev.env
+
 Deploy
 ------
 cman env:
@@ -12,11 +18,11 @@ cman env:
     --publish $(ipa brsvc1):8086:8080
     --volume /usr/local/etc/$A:/usr/local/etc/viewvc:ro
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
-    --volume /u01:/u01:ro
+    --volume /scm:/scm:ro
     --env NGINX_CGI=1
     --env NGINX_ID=ap-nginx-$APN-$API
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/nginx/$A"
+     "install -m 755 -o root -g root -v -d /var/opt/nginx/ap-nginx-$APN-$API"
     )

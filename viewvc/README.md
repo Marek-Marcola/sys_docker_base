@@ -16,7 +16,7 @@ cman env:
     : ${I:=scr.dc.local:5443/is/viewvc:$V}
     OPTS=(
     --publish $(ipa brsvc1):8086:8080
-    --volume /usr/local/etc/$A:/usr/local/etc/viewvc:ro
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --volume /scm:/scm:ro
     --env NGINX_CGI=1

@@ -42,12 +42,13 @@ RUN set -ex;\
   cd /usr/local/viewvc/templates/include;\
   mv -v header.ezt header.ezt.ORG;\
   cat header.ezt.ORG | grep -v viewvc-logo.png > header.ezt;\
-  /usr/local/viewvc-$VER/bin/cgi/viewvc.cgi | grep -i power;
+  ls -l /usr/local;\
+  /usr/local/viewvc-$VER/bin/cgi/viewvc.cgi | grep -i powered;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

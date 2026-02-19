@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-cadvisor
+    # cat /usr/local/etc/cman.d/ap-cadvisor-dc1
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/cadvisor:$V}
     OPTS=(

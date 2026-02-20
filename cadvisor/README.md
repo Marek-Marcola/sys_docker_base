@@ -19,7 +19,7 @@ cman env:
     --pid host
     --volume /:/rootfs:ro
     --volume /etc/machine-id:/etc/machine-id:ro
-    --volume /var/run:/var/run:ro
+    --volume /run:/run:ro
     --volume /sys:/sys:ro
     --volume /sys/fs/cgroup:/sys/fs/cgroup:ro
     --volume /dev/disk/:/dev/disk:ro

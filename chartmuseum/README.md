@@ -11,10 +11,10 @@ cman env:
     OPTS=(
     --publish $(ipa brsvc1):5448:8080
     --publish $(ipa brint1):5448:8080
-    --volume /usr/local/etc/$A:/usr/local/etc/chartmuseum
-    --volume /var/opt/chartmuseum/$A:/var/opt/chartmuseum
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
+    --volume /var/opt/$APN/$A:/var/opt/$APN
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o none -g none -v -d /var/opt/chartmuseum/$A"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A"
     )

@@ -12,6 +12,15 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-cadvisor-dc1
+    CADVISOR_OPTS="
+    --url_base_prefix=/$API/cadvisor/$(hostname -s)
+    --containerd=/tmp/none.sock
+    --enable_metrics=cpu,memory,network
+    --docker_only=true
+    --housekeeping_interval=10s
+    --v=1 
+    "
+
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/cadvisor:$V}
     OPTS=(
@@ -27,5 +36,5 @@ cman env:
     $(ls -1d /var/lib/containers 2>/dev/null|awk '{printf "--volume %s:%s:ro ",$1,$1}')
     --device /dev/kmsg
     --privileged
-    --env CADVISOR_OPTS="-url_base_prefix=/$API/cadvisor/$(hostname -s) -v 1 -containerd /tmp/none.sock"
+    --env CADVISOR_OPTS="$(echo $CADVISOR_OPTS)"
     )

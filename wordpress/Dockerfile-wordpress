@@ -24,10 +24,10 @@ RUN set -ex;\
   ln -sv /var/opt/wordpress/wp-content .;\
   ln -sv /var/opt/wordpress/wp-config.php .;\
   if [ -f /usr/local/etc/php7/php.ini ]; then\
-    sed -i.ORG -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php7/php.ini;\
+    sed -i.b$(date +%Y%m%d) -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php7/php.ini;\
   fi;\
   if [ -f /usr/local/etc/php8/php.ini ]; then\
-    sed -i.ORG -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php8/php.ini;\
+    sed -i.b$(date +%Y%m%d) -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php8/php.ini;\
   fi;\
   V=$(curl -s http://repo/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
   curl -sS -L -k -f -o /usr/local/bin/wp http://repo/sw/opensource/wp-cli/bin/wp-cli-$V.phar;\
@@ -45,5 +45,5 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

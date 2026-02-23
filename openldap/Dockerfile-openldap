@@ -31,7 +31,8 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/openldap/bin/openldap-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openldap-$VER openldap;\
   chown -R root:root openldap-$VER;\
-  mkdir -pv /usr/local/etc/openldap /var/opt/openldap;\
+  mkdir -pv etc/openldap;\
+  mkdir -pv /var/opt/openldap;\
   chown ldap:ldap /var/opt/openldap;\
   cd /usr/local/etc;\
   ln -snfv openldap/ldap-server.conf .;\
@@ -39,13 +40,14 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101322-openldap/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  ls -l /usr/local;\
   ldapwhoami -VV;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/

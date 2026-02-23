@@ -21,16 +21,20 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/munge/bin/munge-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv munge-$VER munge;\
   chown -R root:root munge-$VER;\
-  mkdir -pv /usr/local/etc/munge /var/lib/munge /var/log/munge /var/run/munge;\
-  chown munge:munge /usr/local/etc/munge /var/lib/munge /var/log/munge /var/run/munge;\
-  chmod 700 /usr/local/etc/munge /var/lib/munge;\
+  mkdir -pv etc/munge;\
+  chown munge:munge etc/munge;\
+  chmod 700 etc/munge;\
+  mkdir -pv /var/lib/munge /var/log/munge /var/run/munge;\
+  chown munge:munge /var/lib/munge /var/log/munge /var/run/munge;\
+  chmod 700 /var/lib/munge;\
+  ls -l /usr/local;\
   munged -V;
 
 RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD supervisord/supervisord-*.conf /usr/local/etc/supervisord.d

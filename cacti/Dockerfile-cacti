@@ -52,6 +52,9 @@ RUN set -ex;\
   ln -snfv /var/opt/cacti/resource /usr/local/cacti/;\
   mv -v cacti/include/themes/modern/images/cacti_logo.svg cacti/include/themes/modern/images/cacti_logo.svg.b$(date +%Y%m%d);\
   sed -i.b$(date +%Y%m%d) '/pam_loginuid/ s/^/#/' /etc/pam.d/cron;\
+  getcap /usr/bin/ping;\
+  setcap cap_net_raw=ep /usr/bin/ping;\
+  getcap /usr/bin/ping;\
   S=zlocal-cacti.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101400-cacti/files/$S\
     && (chmod a+x /etc/profile.d/$S)\

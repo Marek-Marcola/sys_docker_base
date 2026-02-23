@@ -6,7 +6,7 @@
 [[ -z $OPENLDAP_DEBUG  ]] && OPENLDAP_DEBUG=stats
 [[ -z $OPENLDAP_ULIMIT ]] && OPENLDAP_ULIMIT="-n 1024"
 
-OPENLDAP_URLS=$(echo $OPENLDAP_URLS|sed 's/,/ /g')
+OPENLDAP_URLS=$(echo $OPENLDAP_URLS|sed 's/__/ /g')
 
 echo "env config:"
 echo "    OPENLDAP_ID     = $OPENLDAP_ID"

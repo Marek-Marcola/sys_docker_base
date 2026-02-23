@@ -43,6 +43,7 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101363-hpc_slurm/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
+  ls -l /usr/local;\
   slurmd -V;\
   slurmrestd -V;
 
@@ -50,7 +51,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD supervisord/supervisord-*.conf /usr/local/etc/supervisord.d/

@@ -16,6 +16,7 @@ cman env:
     --volume /var/opt/$APN/$A:/var/opt/$APN
     --volume /var/opt/$APN/$A/plugins:/usr/local/cacti/plugins
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
+    --cap-add CAP_NET_RAW
     --hostname nms2
     --ip=10.88.88.20
     --env NGINX_CGI=0

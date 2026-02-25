@@ -1,0 +1,52 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG TYPE
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/rsyslog-$VER/bin:/usr/local/rsyslog-$VER/sbin:$PATH
+
+RUN set -ex;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq install libssl-dev libyaml-dev libprotobuf-c-dev libsnappy-dev;\
+    apt-get -yqq install uuid-dev libgcrypt20-dev libcurl4-openssl-dev;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  V=$(curl -s http://repo/sw/opensource/rsyslog/bin/version.txt | grep ^libestr: | awk '{print $2}');\
+  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/libestr-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv libestr-$V libestr;\
+  echo "info.vers = libestr/$V" >> /tmp/vers.txt;\
+  V=$(curl -s http://repo/sw/opensource/rsyslog/bin/version.txt | grep ^libfastjson: | awk '{print $2}');\
+  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/libfastjson-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv libfastjson-$V libfastjson;\
+  echo "info.vers = libfastjson/$V" >> /tmp/vers.txt;\
+  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/rsyslog-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv rsyslog-$VER rsyslog;\
+  mkdir -pv etc/rsyslog;\
+  ls -l /usr/local;\
+  rsyslogd -v;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.type = ${TYPE:-[none]}";\
+  echo "info.from = $FROM";\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

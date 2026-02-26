@@ -47,6 +47,7 @@ RUN set -ex;\
   mkdir -pv /var/opt/vmail;\
   chown vmail:vmail /var/opt/vmail;\
   chmod 770 /var/opt/vmail;\
+  ls -l /usr/local;\
   postconf -c /usr/local/postfix/etc/postfix mail_version;
 
 RUN set -ex;\

@@ -21,7 +21,7 @@ if [ ! -f $CUPS_FILE ]; then
 fi
 
 set -x
-mkdir /run/cups
+mkdir -pv /run/cups
 cups-config --version
 cupsd -t -c $CUPS_CONF -s $CUPS_FILE
 exec cupsd -f -c $CUPS_CONF -s $CUPS_FILE

@@ -1,6 +1,12 @@
 postfix
 =======
 
+Build
+-----
+cdev env:
+
+    # sed -n '/^if.*postfix/,/^fi/p' /usr/local/etc/cdev.env
+
 Deploy
 ------
 cman env:

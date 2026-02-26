@@ -25,5 +25,6 @@ fi
 
 set -x
 rsyslogd -v
+rsyslogd -N1 -f $RSYSLOG_CONF
 exec setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs \
   rsyslogd -n -f $RSYSLOG_CONF $RSYSLOG_OPTS

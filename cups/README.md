@@ -11,11 +11,11 @@ cman env:
     OPTS=(
     --publish $(ipa brsvc1  ):631:631/tcp
     --publish $(ipa brint1:1):631:631/tcp
-    --volume /usr/local/etc/$A:/usr/local/etc/cups
-    --volume /var/opt/cups/$A:/var/opt/cups
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
+    --volume /var/opt/$APN/$A:/var/opt/$APN
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/cups/$A"
-     "install -m 777 -o root -g root -v -d /var/opt/cups/$A/tmp"
+     "install -m 755 -o root -g root -v -d /var/opt/$APN/$A"
+     "install -m 777 -o root -g root -v -d /var/opt/$APN/$A/tmp"
     )

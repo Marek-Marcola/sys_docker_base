@@ -1,6 +1,12 @@
 cups
 ====
 
+Build
+-----
+cdev env:
+
+    # sed -n '/^if.*cups/,/^fi/p' /usr/local/etc/cdev.env
+
 Deploy
 ------
 cman env:

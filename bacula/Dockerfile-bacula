@@ -23,7 +23,7 @@ RUN set -ex;\
   groupadd -g 26 postgres;\
   useradd -u 26 -g 26 -m -s /bin/bash postgres;\
   cd /usr/local;\
-  V=$(curl -s http://repo/sw/opensource/pgsql/bin/version.txt | grep ^pgsql-16: | awk '{print $2}');\
+  V=$(curl -s http://repo/sw/opensource/pgsql/bin/version.txt | grep ^pgsql-18: | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   chown -R root:root pgsql-$V;\
   ln -snfv pgsql-$V pgsql-${V%.*};\
@@ -31,9 +31,10 @@ RUN set -ex;\
   echo "info.vers = pgsql/$V" >> /tmp/vers.txt;\
   curl -sS -L -k -f http://repo/sw/opensource/bacula/$VER/bin/bacula-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv bacula-$VER bacula;\
-  mkdir -pv etc/bacula/bacula-dir.d /var/opt/bacula /var/log/bacula;\
+  mkdir -pv etc/bacula/bacula-dir.d;\
   chown root:root etc/bacula/bacula-dir.d;\
   chmod 0750 etc/bacula/bacula-dir.d;\
+  mkdir -pv /var/opt/bacula /var/log/bacula;\
   S=zlocal-bacula.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001012-bacula/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
@@ -45,7 +46,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/

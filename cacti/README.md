@@ -14,7 +14,7 @@ cman env:
     --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini:ro
     --volume /var/opt/$APN/$A:/var/opt/$APN
-    --volume /var/opt/$APN/$A/plugins:/usr/local/cacti/plugins
+    --volume /var/opt/$APN/$A/plugins:/usr/local/$APN/plugins
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --cap-add CAP_NET_RAW
     --hostname nms2

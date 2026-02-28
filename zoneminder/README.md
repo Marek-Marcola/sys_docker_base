@@ -16,7 +16,7 @@ cman env:
     $(ls -1 /dev/media* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
     --volume /usr/local/etc/$A:/usr/local/etc/zm
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
-    --volume /var/opt/zoneminder/$A:/var/opt/zoneminder
+    --volume /var/opt/$APN/$A:/var/opt/$APN
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --shm-size=1g
     --group-add audio
@@ -29,12 +29,12 @@ cman env:
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
      "install -m 755 -o root -g root -v -d /var/opt/nginx/ap-nginx-$APN-$API"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/cache"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/events"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/export"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/images"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/swap"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/log"
-     "install -m 755 -o 666 -g 666 -v -d /var/opt/zoneminder/$A/tmp"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/cache"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/events"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/export"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/images"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/swap"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/log"
+     "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/tmp"
     )

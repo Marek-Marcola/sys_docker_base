@@ -20,6 +20,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install imagemagick;\
     apt-get -yqq --no-install-recommends install mercurial bzr cvs subversion ghostscript;\
     apt-get -yqq --no-install-recommends install libssl-dev libgmp-dev libpq-dev;\
+    apt-get -yqq --no-install-recommends install libyaml-dev;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
@@ -46,14 +47,14 @@ RUN set -ex;\
   ln -snfv /usr/local/etc/redmine/config/database.yml /usr/local/redmine/config/database.yml;\
   ln -snfv /usr/local/etc/redmine/config/configuration.yml /usr/local/redmine/config/configuration.yml;\
   ln -snfv /usr/local/etc/redmine/config/initializers/secret_token.rb /usr/local/redmine/config/initializers/secret_token.rb;\
-  mv -v files files.ORG;\
-  mv -v log log.ORG;\
-  mv -v tmp tmp.ORG;\
-  mv -v public/plugin_assets public/plugin_assets.ORG;\
+  mv -v files files.b$(date +%Y%m%d);\
+  mv -v log log.b$(date +%Y%m%d);\
+  mv -v tmp tmp.b$(date +%Y%m%d);\
+  mv -v public public.b$(date +%Y%m%d);\
   ln -sv /var/opt/redmine/files .;\
   ln -sv /var/opt/redmine/log .;\
   ln -sv /var/opt/redmine/tmp .;\
-  ln -sv /var/opt/redmine/public/plugin_assets public/;\
+  ln -sv /var/opt/redmine/public .;\
   ln -sv /var/opt/redmine/schema.rb db/;\
   chown redmine:redmine Gemfile.lock;\
   mkdir -pv /var/opt/redmine/files /var/opt/redmine/log /var/opt/redmine/tmp/pdf /var/opt/redmine/public/plugin_assets;\

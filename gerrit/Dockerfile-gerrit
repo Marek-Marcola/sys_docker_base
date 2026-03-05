@@ -14,7 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
 RUN set -ex;\
   groupadd -g 701 gerrit;\
-  useradd -u 701 -g 701 -m -s /bin/bash gerrit;\
+  useradd -r -u 701 -g 701 -m -s /bin/bash gerrit;\
   cd /usr/local;\
   mkdir -pv gerrit-$VER;\
   ln -snfv gerrit-$VER gerrit;\

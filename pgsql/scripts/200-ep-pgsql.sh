@@ -38,7 +38,12 @@ if [ "$PGSQL_INIT" = "yes" -o "$PGSQL_INIT" = "1" ]; then
 fi
 
 if [ ! -d $PGSQL_DATA ]; then
-  echo error: no pgdata directory: $PGSQL_DATA
+  echo error: no data directory: $PGSQL_DATA
+  exit 1
+fi
+
+if [ ! -f $PGSQL_DATA/postgresql.conf ]; then
+  echo error: no config file: $PGSQL_DATA/postgresql.conf
   exit 1
 fi
 

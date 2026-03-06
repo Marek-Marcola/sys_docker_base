@@ -22,7 +22,7 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   groupadd -g 321 git;\
-  useradd -u 321 -g 321 -m -s /bin/bash git;\
+  useradd -r -u 321 -g 321 -m -s /bin/bash git;\
   usermod -a -G git none;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/cgit/bin/cgit-$VER-$OSN-$OSA.tar.gz | tar xzf -;\

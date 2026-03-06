@@ -11,7 +11,7 @@ cman env:
     OPTS=(
     --network host
     --device /dev/ppp
-    --volume /usr/local/etc/$A:/usr/local/etc/openfortivpn
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
     --privileged
     --env OPENFORTIVPN_PROXY=http://10.100.1.11:3128
     --env OPENFORTIVPN_ID=$API

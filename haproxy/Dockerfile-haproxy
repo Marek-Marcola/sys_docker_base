@@ -27,7 +27,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 188 haproxy;\
-  useradd -u 188 -g 188 -m -s /bin/bash haproxy;\
+  useradd -r -u 188 -g 188 -m -s /bin/bash haproxy;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/haproxy/bin/haproxy-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv haproxy-$VER haproxy;\

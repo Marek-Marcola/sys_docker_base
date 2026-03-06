@@ -12,7 +12,7 @@ cman env:
     --publish $(ipa brext1:orion):80:8080/tcp
     --publish $(ipa brext1:orion):443:8443/tcp
     --volume /usr/local/etc/pki:/usr/local/etc/pki:ro
-    --volume /usr/local/etc/$A:/usr/local/etc/haproxy:ro
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --env HAPROXY_ID=$API
     )
     INIT=(
@@ -28,7 +28,7 @@ cman env:
     --publish $(n2a lbe1i):9201:9201
     --publish $(n2a lbe1i):9301:9301
     --publish 0.0.0.0:5511:5511
-    --volume /usr/local/etc/$A:/usr/local/etc/haproxy:ro
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --env HAPROXY_ID=$API
     )
     INIT=(

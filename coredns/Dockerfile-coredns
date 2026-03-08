@@ -15,7 +15,7 @@ ENV PATH /usr/local/coredns-$VER:$PATH
 
 RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
-  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv coredns-$VER;\
   ln -snfv coredns-$VER coredns;\

@@ -25,4 +25,5 @@ echo
 
 set -x
 node_exporter --version
-exec node_exporter $NODE_EXPORTER_OPTS
+exec setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs \
+  node_exporter $NODE_EXPORTER_OPTS

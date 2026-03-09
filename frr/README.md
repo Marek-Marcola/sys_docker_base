@@ -11,7 +11,7 @@ cman env:
     OPTS=(
     --net host
     --pid host
-    --volume /usr/local/etc/$A:/usr/local/etc/frr
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
     --privileged
     --ulimit nofile=2048:2048
     --env FRR_MGMTD=1

@@ -15,7 +15,7 @@ ENV PATH /usr/local/registry-$VER:$PATH
 
 RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
-  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv registry-$VER;\
   ln -snfv registry-$VER registry;\
@@ -31,7 +31,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD config/ /usr/local/etc/registry/

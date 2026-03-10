@@ -1,0 +1,39 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /opt/local/ffmpeg-$VER/bin:$PATH
+ENV LD_LIBRARY_PATH /opt/local/ffmpeg-$VER/lib:$LD_LIBRARY_PATH
+
+RUN set -ex;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libxv-dev libfribidi-dev libfreetype-dev libharfbuzz-dev;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists/*;\
+  fi;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
+  mkdir -pv /opt/local;\
+  cd /opt/local;\
+  curl -sS -L -k -f http://repo/sw/opensource/ffmpeg/bin/ffmpeg-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv ffmpeg-$VER ffmpeg;\
+  chown -R root:root ffmpeg-$VER;\
+  ls -l /opt/local;\
+  ffmpeg -version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;

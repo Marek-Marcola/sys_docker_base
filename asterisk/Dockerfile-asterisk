@@ -40,7 +40,7 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   groupadd -g 700 asterisk;\
-  useradd -u 700 -g 700 -c "asterisk" -m -s /bin/bash asterisk;\
+  useradd -r -u 700 -g 700 -c "asterisk" -m -s /bin/bash asterisk;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/asterisk/bin/asterisk-$VER-$OSN-$OSA${TYPE:+-}${TYPE}.tar.gz | tar xzf -;\
   ln -snfv asterisk-$VER asterisk;\

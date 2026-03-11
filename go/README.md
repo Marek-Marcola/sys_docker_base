@@ -10,4 +10,5 @@ cman env:
     : ${I:=scr.dc.local:5443/is/go:$V}
     WDIR=/tmp
     OPTS=(
+    --workdir /tmp
     )

@@ -26,7 +26,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 55 ldap;\
-  useradd -u 55 -g 55 -m -s /bin/bash ldap;\
+  useradd -r -u 55 -g 55 -m -s /bin/bash ldap;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/openldap/bin/openldap-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openldap-$VER openldap;\

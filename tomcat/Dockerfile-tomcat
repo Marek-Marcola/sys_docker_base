@@ -30,7 +30,7 @@ RUN set -ex;\
   mkdir -pv conf logs temp webapps work;\
   chown tomcat:tomcat conf logs temp webapps work;\
   cp -v /usr/local/tomcat-$VER/conf/* conf;\
-  cp -v conf/server.xml conf/server.xml.ORG;\
+  cp -v conf/server.xml conf/server.xml.b$(date +%Y%m%d);\
   chown -R tomcat:tomcat conf;\
   mkdir -pv webapps/ROOT;\
   ln -sv /var/opt/tomcat/webapps/ROOT /as-root;\

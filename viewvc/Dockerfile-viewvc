@@ -40,8 +40,8 @@ RUN set -ex;\
   mkdir -pv /usr/local/etc/viewvc;\
   ln -snfv /usr/local/etc/viewvc/viewvc.conf .;\
   cd /usr/local/viewvc/templates/include;\
-  mv -v header.ezt header.ezt.ORG;\
-  cat header.ezt.ORG | grep -v viewvc-logo.png > header.ezt;\
+  mv -v header.ezt header.ezt.b$(date +%Y%m%d);\
+  cat header.ezt.b$(date +%Y%m%d) | grep -v viewvc-logo.png > header.ezt;\
   ls -l /usr/local;\
   /usr/local/viewvc-$VER/bin/cgi/viewvc.cgi | grep -i powered;
 

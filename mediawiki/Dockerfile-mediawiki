@@ -18,7 +18,7 @@ RUN set -ex;\
   curl -sS -L -k -f http://repo/sw/opensource/mediawiki/${VER%.*}/mediawiki-$VER.tar.gz | tar xzf -;\
   ln -snfv mediawiki-$VER mediawiki;\
   cd mediawiki;\
-  mv -v images images.ORG;\
+  mv -v images images.b$(date +%Y%m%d);\
   ln -sv /var/opt/mediawiki/images .;\
   ln -sv /var/opt/mediawiki/resources/local resources/;\
   ln -sv /var/opt/mediawiki/LocalSettings.php .;\

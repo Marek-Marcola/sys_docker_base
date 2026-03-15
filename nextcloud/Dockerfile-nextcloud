@@ -24,7 +24,7 @@ RUN set -ex;\
   ln -snfv nextcloud-$VER nextcloud;\
   curl -sS -L -k -f http://repo/sw/opensource/nextcloud/src/nextcloud-$VER.tar.bz2 | tar xjf - --strip-components=1 -C nextcloud;\
   chown -R root:root nextcloud-$VER;\
-  mv -v nextcloud/config nextcloud/config.ORG;\
+  mv -v nextcloud/config nextcloud/config.b$(date +%Y%m%d);\
   mkdir -pv /usr/local/etc/nextcloud;\
   touch /usr/local/etc/nextcloud/CAN_INSTALL;\
   chown none:none /usr/local/etc/nextcloud;\

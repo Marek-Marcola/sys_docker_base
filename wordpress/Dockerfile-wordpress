@@ -20,7 +20,7 @@ RUN set -ex;\
   chown -R root:root wordpress-$VER;\
   cd wordpress;\
   mkdir -pv /var/opt/wordpress/wp-content/plugins /var/opt/wordpress/wp-content/themes;\
-  mv -v wp-content wp-content.ORG;\
+  mv -v wp-content wp-content.b$(date +%Y%m%d);\
   ln -sv /var/opt/wordpress/wp-content .;\
   ln -sv /var/opt/wordpress/wp-config.php .;\
   if [ -f /usr/local/etc/php7/php.ini ]; then\

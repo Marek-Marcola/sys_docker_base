@@ -14,7 +14,7 @@ cman env:
     --device /dev/dri
     $(ls -1 /dev/video* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
     $(ls -1 /dev/media* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
-    --volume /usr/local/etc/$A:/usr/local/etc/zm
+    --volume /usr/local/etc/$A:/usr/local/etc/$APN
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/$APN/$A:/var/opt/$APN
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API

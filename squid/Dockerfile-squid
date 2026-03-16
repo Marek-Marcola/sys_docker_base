@@ -26,7 +26,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 23 squid;\
-  useradd -u 23 -g 23  -m -s /bin/bash squid;\
+  useradd -r -u 23 -g 23  -m -s /bin/bash squid;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv squid-$VER squid;\
@@ -41,7 +41,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/

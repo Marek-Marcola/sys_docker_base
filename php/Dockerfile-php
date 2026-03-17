@@ -37,7 +37,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
-  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
   curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
@@ -67,7 +67,7 @@ RUN set -ex;\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/

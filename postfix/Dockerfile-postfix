@@ -34,7 +34,7 @@ RUN set -ex;\
   useradd -g 5000 -u 5000 -m -s /bin/bash vmail;\
   groupadd -g 840 postfix;\
   groupadd -g 841 postdrop;\
-  useradd -u 840 -g 840 -c Postfix -m -s /bin/bash postfix;\
+  useradd -r -u 840 -g 840 -c Postfix -m -s /bin/bash postfix;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snvf postfix-$VER postfix;\

@@ -1,0 +1,37 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/go2rtc-$VER:$PATH
+
+RUN set -ex;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  mkdir -pv go2rtc-$VER;\
+  ln -snfv go2rtc-$VER go2rtc;\
+  curl -sS -L -k -f -o go2rtc/go2rtc http://repo/sw/opensource/go2rtc/bin/go2rtc_linux_amd64_$VER;\
+  chown -R root:root go2rtc-$VER;\
+  chmod a+x go2rtc/go2rtc;\
+  mkdir -pv etc/go2rtc;\
+  ls -l /opt/local;\
+  ls -l /usr/local;\
+  go2rtc -v;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

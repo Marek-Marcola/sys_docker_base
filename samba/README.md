@@ -5,7 +5,7 @@ Build
 -----
 cdev env:
 
-    # sed -n "/^if.*samba/,/^fi/p" /usr/local/etc/cdev.env
+    # c -s [-R samba]
 
 Deploy
 ------

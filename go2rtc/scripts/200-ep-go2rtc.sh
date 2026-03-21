@@ -6,8 +6,8 @@ echo "env config:"
 echo "    GO2RTC_CONF = $GO2RTC_CONF"
 echo
 
-if [ ! -d $DNSMASQ_CONF ]; then
-  echo ${0##*/}: error: no config directory: $DNSMASQ_CONF
+if [ ! -d "$GO2RTC_CONF" ]; then
+  echo ${0##*/}: error: no config directory: $GO2RTC_CONF
   exit 1
 fi
 

@@ -1,6 +1,12 @@
 dnsmasq
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s [-R dnsmasq]
+
 Deploy
 ------
 cman env:

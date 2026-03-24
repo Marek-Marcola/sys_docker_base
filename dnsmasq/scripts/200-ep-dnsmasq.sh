@@ -4,8 +4,8 @@
 [[ -z $DNSMASQ_CONF ]] && DNSMASQ_CONF=/usr/local/etc/dnsmasq${DNSMASQ_ID:+-}${DNSMASQ_ID}.d
 
 echo "env config:"
-echo "    DNSMASQ_ID    = $DNSMASQ_ID"
-echo "    DNSMASQ_CONF  = $DNSMASQ_CONF"
+echo "    DNSMASQ_ID   = $DNSMASQ_ID"
+echo "    DNSMASQ_CONF = $DNSMASQ_CONF"
 echo
 
 if [ -f $DNSMASQ_CONF ]; then

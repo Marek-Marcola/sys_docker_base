@@ -1,6 +1,12 @@
 zoneminder
 ==========
 
+Build
+-----
+cdev env:
+
+    # c -s [-R zoneminder]
+
 Deploy
 ------
 cman env:

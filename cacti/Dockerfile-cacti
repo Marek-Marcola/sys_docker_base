@@ -33,11 +33,11 @@ RUN set -ex;\
   chown -R root:root cacti;\
   mkdir -pv etc/cacti;\
   ln -snfv /usr/local/etc/cacti/config.php /usr/local/cacti/include;\
-  mv -v cacti/rra cacti/rra.b$(date +%Y%m%d);\
-  mv -v cacti/log cacti/log.b$(date +%Y%m%d);\
-  mv -v cacti/cache cacti/cache.b$(date +%Y%m%d);\
-  mv -v cacti/scripts cacti/scripts.b$(date +%Y%m%d);\
-  mv -v cacti/resource cacti/resource.b$(date +%Y%m%d);\
+  mv -v cacti/rra cacti/rra.b$(date +%y%m%d);\
+  mv -v cacti/log cacti/log.b$(date +%y%m%d);\
+  mv -v cacti/cache cacti/cache.b$(date +%y%m%d);\
+  mv -v cacti/scripts cacti/scripts.b$(date +%y%m%d);\
+  mv -v cacti/resource cacti/resource.b$(date +%y%m%d);\
   mkdir -pv /var/opt/cacti/rra;\
   mkdir -pv /var/opt/cacti/log;\
   mkdir -pv /var/opt/cacti/csrf;\
@@ -50,8 +50,8 @@ RUN set -ex;\
   ln -snfv /var/opt/cacti/cache /usr/local/cacti/;\
   ln -snfv /var/opt/cacti/scripts /usr/local/cacti/;\
   ln -snfv /var/opt/cacti/resource /usr/local/cacti/;\
-  mv -v cacti/include/themes/modern/images/cacti_logo.svg cacti/include/themes/modern/images/cacti_logo.svg.b$(date +%Y%m%d);\
-  sed -i.b$(date +%Y%m%d) '/pam_loginuid/ s/^/#/' /etc/pam.d/cron;\
+  mv -v cacti/include/themes/modern/images/cacti_logo.svg cacti/include/themes/modern/images/cacti_logo.svg.b$(date +%y%m%d);\
+  sed -i.b$(date +%y%m%d) '/pam_loginuid/ s/^/#/' /etc/pam.d/cron;\
   getcap /usr/bin/ping;\
   setcap cap_net_raw=ep /usr/bin/ping;\
   getcap /usr/bin/ping;\

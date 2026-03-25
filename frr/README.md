@@ -1,6 +1,12 @@
 frr
 ===
 
+Build
+-----
+cdev env:
+
+    # c -s frr
+
 Deploy
 ------
 cman env:

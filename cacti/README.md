@@ -1,6 +1,12 @@
 cacti
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s cacti
+
 Deploy
 ------
 cman env:

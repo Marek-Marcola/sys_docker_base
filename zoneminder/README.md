@@ -5,7 +5,7 @@ Build
 -----
 cdev env:
 
-    # c -s [-R zoneminder]
+    # c -s zoneminder
 
 Deploy
 ------

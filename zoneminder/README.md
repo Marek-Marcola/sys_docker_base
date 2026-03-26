@@ -27,7 +27,7 @@ cman env:
     --shm-size=1g
     --group-add audio
     --group-add video
-    --env FCGIWRAP_PREFORK=50
+    --env FCGIWRAP_PREFORK=200
     --env NGINX_CGI=1
     --env NGINX_PHP=1
     --env NGINX_ID=ap-nginx-$APN-$API

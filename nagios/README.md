@@ -28,3 +28,8 @@ cman env:
      "install -m 2775 -o 477 -g 477 -d /var/opt/$APN/$A/spool/checkresults"
      "install -m 2775 -o 477 -g 477 -d /var/opt/$APN/$A/rw"
     )
+
+    # cat /usr/local/etc/cman.d/lsng
+    A=ap-nagios-dc1
+    EXEC=1
+    ARGS=lsng

@@ -24,7 +24,7 @@ cman env:
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/$APN/$A:/var/opt/$APN
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
-    --shm-size=1g
+    --shm-size=4g
     --group-add audio
     --group-add video
     --env FCGIWRAP_PREFORK=200

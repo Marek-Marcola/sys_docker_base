@@ -27,7 +27,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   groupadd -g 477 nagios;\
-  useradd -u 477 -g 477 -c 'Nagios Monitoring System' -m -s /bin/bash nagios;\
+  useradd -r -u 477 -g 477 -c 'Nagios Monitoring System' -m -s /bin/bash nagios;\
   groupadd -g 478 nagcmd;\
   usermod -a -G nagcmd nagios;\
   usermod -a -G nagcmd,nagios none;\
@@ -72,7 +72,7 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
 ADD supervisord/*.conf /usr/local/etc/supervisord.d/

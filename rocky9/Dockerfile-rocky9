@@ -25,7 +25,7 @@ ADD config/rocky-$VER.repo /etc/yum.repos.d/
 
 RUN set -ex;\
   cd /etc/yum.repos.d;\
-  sed -i.ORG 's/enabled=1/enabled=0/' *.repo;\
+  sed -i.b$(date +%Y%m%d) 's/enabled=1/enabled=0/' *.repo;\
   rpm --import /etc/pki/rpm-gpg/*;\
   yum -y update;\
   yum -y --allowerasing install net-tools iproute nmap lsof strace telnet git curl wget bind-utils which unzip python3 python3-pip;\

@@ -34,7 +34,7 @@ RUN set -ex;\
     echo "Acquire::http::proxy \"$APT_PROXY\";" > /etc/apt/apt.conf.d/02proxy;\
   fi;\
   echo "deb http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware" > /etc/apt/sources.list.d/kali-rolling-official.list.disabled;\
-  sed -i.b$(date +%Y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
+  sed -i.b$(date +%y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq full-upgrade -y;\

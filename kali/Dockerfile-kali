@@ -40,7 +40,7 @@ RUN set -ex;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\
   wpscan --update;\
-  cp -v /root/.bashrc /root/.bashrc.b$(date +%Y%m%d);\
+  cp -v /root/.bashrc /root/.bashrc.b$(date +%y%m%d);\
   cp -v /root/.bashrc.original /root/.bashrc;\
   S=zlocal-0001.sh;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001900-kali/files/$S\

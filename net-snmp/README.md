@@ -5,7 +5,7 @@ Build
 -----
 cdev env:
 
-    # sed -n "/^if.*net-snmp/,/^fi/p" /usr/local/etc/cdev.env
+    # c -s net-snmp
 
 Deploy
 ------

@@ -27,8 +27,8 @@ RUN set -ex;\
   else\
     curl -sS -L -k -f http://repo/sw/opensource/nexus/bin/nexus-$VER-linux-x86_64.tar.gz | tar xzf - --strip-components=1 -C nexus;\
   fi;\
-  sed -i.b$(date +%Y%m%d) 's%#run_as_user=.*%run_as_user="nexus"%' /usr/local/nexus/nexus/bin/nexus;\
-  sed -i.b$(date +%Y%m%d) 's%../sonatype-work%/var/opt%' /usr/local/nexus/nexus/bin/nexus.vmoptions;\
+  sed -i.b$(date +%y%m%d) 's%#run_as_user=.*%run_as_user="nexus"%' /usr/local/nexus/nexus/bin/nexus;\
+  sed -i.b$(date +%y%m%d) 's%../sonatype-work%/var/opt%' /usr/local/nexus/nexus/bin/nexus.vmoptions;\
   mkdir -pv /var/opt/nexus3;\
   chown -R nexus:nexus /var/opt/nexus3;
 

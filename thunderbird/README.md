@@ -1,6 +1,12 @@
 thunderbird
 ===========
 
+Build
+-----
+cdev env:
+
+    # c -s thunderbird
+
 Deploy
 ------
 cman env:

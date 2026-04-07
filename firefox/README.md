@@ -1,6 +1,12 @@
 firefox
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s firefox
+
 Deploy
 ------
 cman env:

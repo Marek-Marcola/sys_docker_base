@@ -1,6 +1,12 @@
 openvpn
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s openvpn
+
 Deploy
 ------
 cman env:

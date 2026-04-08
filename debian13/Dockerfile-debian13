@@ -24,6 +24,7 @@ ENV OSA=x86_64
 ENV OSC=trixie
 
 ADD config/debian-$VER.list config/debian-$VER-updates.list config/debian-13-official.list.disabled /etc/apt/sources.list.d/
+ADD config/vimrc /root/.vimrc
 
 RUN set -ex;\
   touch /etc/apt/sources.list;\

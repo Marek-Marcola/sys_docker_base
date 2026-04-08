@@ -1,6 +1,12 @@
 debian13
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s debian13
+
 Deploy
 ------
 cman env:

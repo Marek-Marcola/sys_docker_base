@@ -33,7 +33,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv zoneminder-$VER zoneminder;\
   ln -snfv /usr/local/zoneminder/perl5/vendor_perl /usr/local/lib/site_perl;\
   chown -R root:root zoneminder-$VER;\
@@ -46,7 +46,7 @@ RUN set -ex;\
   mkdir -pv /var/opt/zoneminder/tmp;\
   chown -Rv none:none /var/opt/zoneminder;\
   S=zlocal-zoneminder.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/503010-zoneminder/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/503010-zoneminder/files/$S\
     && (chmod a+rx /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

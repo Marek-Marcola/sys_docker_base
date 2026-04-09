@@ -1,6 +1,12 @@
 haproxy
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s haproxy
+
 Deploy
 ------
 cman env:

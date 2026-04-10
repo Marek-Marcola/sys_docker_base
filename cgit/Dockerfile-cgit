@@ -25,19 +25,20 @@ RUN set -ex;\
   useradd -r -u 321 -g 321 -m -s /bin/bash git;\
   usermod -a -G git none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/cgit/bin/cgit-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/cgit/bin/cgit-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv cgit-$VER cgit;\
   mkdir -pv etc/cgit;\
   V=$(curl -s http://repo/sw/opensource/pandoc/bin/version.txt | grep ^pandoc: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf -;\
   ln -snfv pandoc-$V pandoc;\
   ln -snfv /usr/local/pandoc/bin/pandoc /usr/bin;\
   echo "info.vers = pandoc/$V" >> /tmp/vers.txt;\
   S=cgit-about-formatting-pandoc.sh;\
-  curl -sS -L -k -f -o /usr/local/bin/$S http://repo/sw/opensource/cgit/filter/$S\
+  curl -sSL -f -k -o /usr/local/bin/$S http://repo/sw/opensource/cgit/filter/$S\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Filter $S not available);\
   ls -l /usr/local;\
+  pandoc --version;\
   /usr/local/cgit/www/cgi-bin/cgit.cgi --version;
 
 RUN set -ex;\

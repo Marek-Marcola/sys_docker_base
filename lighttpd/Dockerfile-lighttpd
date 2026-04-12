@@ -14,6 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/lighttpd-$VER/sbin:$PATH
 
 RUN set -ex;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -23,15 +24,16 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
-  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   curl -sS -L -k -f http://repo/sw/opensource/lighttpd/bin/lighttpd-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv lighttpd-$VER lighttpd;\
   chown -R root:root lighttpd-$VER;\
   mkdir -pv etc/lighttpd;\
-  mkdir -pv /var/opt/lighttpd/html;\
+  mkdir -pv /var/opt/lighttpd/html /var/opt/lighttpd/cgi-bin;\
   chown -R none:none /var/opt/lighttpd;\
   ln -snfv /var/opt/lighttpd/html /html;\
+  ln -snfv /var/opt/lighttpd/cgi-bin /cgi-bin;\
   echo lighttpd-$INFO_VER > /html/index.html;\
   ls -l /usr/local;\
   lighttpd -V;\
@@ -46,4 +48,5 @@ RUN set -ex;\
  ) > /version.d/version-$REPO.txt;
 
 ADD scripts/[0-9]*.sh /cmd.d/
+ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
 CMD ["/cmd.sh"]

@@ -36,6 +36,7 @@ cman env:
     --env NGINX_ID=ap-nginx-$APN-$API
     )
     [[ $I =~ lighttpd ]] && OPTS=("${OPTS[@]}"
+    --volume /usr/local/etc/ap-lighttpd-$APN-$API:/usr/local/etc/lighttpd:ro
     --volume /usr/local/etc/ap-lighttpd-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/lighttpd/ap-lighttpd-$APN-$API:/var/opt/lighttpd
     )

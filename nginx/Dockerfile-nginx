@@ -27,36 +27,36 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/nginx/bin/nginx-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/nginx/bin/nginx-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv nginx-$VER nginx;\
   chown -R root:root nginx-$VER;\
   V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgi-$V fcgi;\
   ln -snfv /usr/local/fcgi/bin/cgi-fcgi /usr/local/bin;\
   echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/fcgiwrap/bin/version.txt | grep ^fcgiwrap: | tail -1 | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/fcgiwrap/bin/fcgiwrap-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/fcgiwrap/bin/fcgiwrap-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgiwrap-$V fcgiwrap;\
   ln -snfv /usr/local/fcgiwrap/sbin/fcgiwrap /usr/local/bin;\
   echo "info.vers = fcgiwrap/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/modsecurity/bin/version.txt | grep ^modsecurity: | tail -1 | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/modsecurity/bin/modsecurity-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/modsecurity/bin/modsecurity-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv modsecurity-$V modsecurity;\
   echo "info.vers = modsecurity/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/modsecurity/src/version.txt | grep ^coreruleset: | tail -1 | awk '{print $2}');\
   mkdir -pv coreruleset-$V;\
   ln -snfv coreruleset-$V coreruleset;\
-  curl -sS -L -k -f http://repo/sw/opensource/modsecurity/src/coreruleset-$V.tar.gz | tar xzf - --strip-components=1 -C coreruleset;\
+  curl -sSL -f -k http://repo/sw/opensource/modsecurity/src/coreruleset-$V.tar.gz | tar xzf - --strip-components=1 -C coreruleset;\
   echo "info.vers = coreruleset/$V" >> /tmp/vers.txt;\
   mkdir -pv /var/opt/nginx;\
   chown none:none /var/opt/nginx;\
   S=zlocal-nginx.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101610-nginx/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101610-nginx/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-php-fpm.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
   ls -l /usr/local;\

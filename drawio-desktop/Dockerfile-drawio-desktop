@@ -23,7 +23,7 @@ RUN set -ex;\
   apt-get -yqq --no-install-recommends install fonts-liberation fonts-arphic-ukai fonts-arphic-uming fonts-noto;\
   apt-get -yqq --no-install-recommends install fonts-noto-cjk fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core ;\
   apt-get -yqq --no-install-recommends install libcanberra-gtk3-module;\
-  curl -sS -L -k -f -o /tmp/f.deb http://repo/sw/opensource/drawio/bin/drawio-amd64-$VER.deb;\
+  curl -sSL -f -k -o /tmp/f.deb http://repo/sw/opensource/drawio/bin/drawio-amd64-$VER.deb;\
   apt-get -yqq install /tmp/f.deb;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists/*;\

@@ -14,6 +14,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/zoneminder-$VER/bin:$PATH
 
 RUN set -ex;\
+  mv -v /usr/local/etc/supervisord.d/supervisord-cron.conf.disabled /usr/local/etc/supervisord.d/supervisord-cron.conf;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\

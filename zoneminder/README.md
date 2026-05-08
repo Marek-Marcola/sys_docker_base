@@ -12,8 +12,8 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-zoneminder-dc1
-    : ${V:=m.m.p-nginx129-php84}
-    : ${V:=m.m.p-lighttpd14-php84}
+    : ${V:=x.y.z-nginx129-php84}
+    : ${V:=x.y.z-lighttpd14-php84}
     : ${I:=scr.dc.local:5443/is/zoneminder:$V}
     OPTS=(
     --publish $(ipa brsvc1):8066:8080

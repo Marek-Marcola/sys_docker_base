@@ -69,6 +69,10 @@ RUN set -ex;\
   curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001650-debian13/files/$S\
     && (chmod a+rx /etc/profile.d/$S)\
     || (echo Script $S not available);\
+  S=zlocal-process.sh;\
+  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001650-debian13/files/$S\
+    && (chmod a+rx /etc/profile.d/$S)\
+    || (echo Script $S not available);\
   S=vimrc.local;\
   curl -sS -L -k -f -o /etc/vim/${S} http://repo/pkb/pb/playbooks/001650-debian13/files/$S\
     && (chmod a+r /etc/vim/$S)\

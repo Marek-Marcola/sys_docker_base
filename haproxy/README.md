@@ -12,7 +12,7 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-haproxy-www
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/haproxy:$V}
     OPTS=(
     --publish $(ipa brext1:orion):80:8080/tcp

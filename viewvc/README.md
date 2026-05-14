@@ -5,14 +5,14 @@ Build
 -----
 cdev env:
 
-    # sed -n '/^if.*viewvc/,/^fi/p' /usr/local/etc/cdev.env
+    # c -s viewvc
 
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-viewvc-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/viewvc:$V}
     OPTS=(
     --publish $(ipa brsvc1):8086:8080

@@ -1,12 +1,18 @@
 certbot
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s certbot
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-certbot-www
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/certbot:$V}
     OPTS=(
     --volume /usr/local/etc/ap-letsencrypt:/etc/letsencrypt

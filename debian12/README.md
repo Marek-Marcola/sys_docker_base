@@ -1,12 +1,18 @@
 debian12
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s debian12
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-debian12
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/debian12:$V}
     WDIR=/tmp
     OPTS=(

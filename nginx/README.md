@@ -1,12 +1,18 @@
 nginx
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s nginx
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-nginx-sys
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/nginx:$V}
     OPTS=(
     --publish $(ipa brsvc1):80:8080

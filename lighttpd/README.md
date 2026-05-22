@@ -1,12 +1,18 @@
 lighttpd
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s lighttpd
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-lighttpd-sys
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/lighttpd:$V}
     OPTS=(
     --publish $(ipa brsvc1):80:8080

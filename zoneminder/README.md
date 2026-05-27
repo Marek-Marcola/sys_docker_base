@@ -27,6 +27,9 @@ cman env:
     --group-add audio
     --group-add video
     )
+    [[ $OSN =~ debian ]] && OPTS=("${OPTS[@]}"
+    --security-opt apparmor=unconfined
+    )
     [[ $I =~ nginx ]] && OPTS=("${OPTS[@]}"
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API

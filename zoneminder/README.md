@@ -27,10 +27,10 @@ cman env:
     --group-add audio
     --group-add video
     )
-    [[ $OSN =~ debian ]] && OPTS=("${OPTS[@]}"
+    [[ $OSN =~ debian ]] && OPTS+=(
     --security-opt apparmor=unconfined
     )
-    [[ $I =~ nginx ]] && OPTS=("${OPTS[@]}"
+    [[ $I =~ nginx ]] && OPTS+=(
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --env FCGIWRAP_PREFORK=200
@@ -38,7 +38,7 @@ cman env:
     --env NGINX_PHP=1
     --env NGINX_ID=ap-nginx-$APN-$API
     )
-    [[ $I =~ lighttpd ]] && OPTS=("${OPTS[@]}"
+    [[ $I =~ lighttpd ]] && OPTS+=(
     --volume /usr/local/etc/ap-lighttpd-$APN-$API:/usr/local/etc/lighttpd:ro
     --volume /usr/local/etc/ap-lighttpd-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/lighttpd/ap-lighttpd-$APN-$API:/var/opt/lighttpd

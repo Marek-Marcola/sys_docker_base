@@ -21,6 +21,9 @@ cman env:
     --volume /var/opt/net-snmp/$A:/var/opt/net-snmp
     --env NETSNMPD_OPTS=""
     )
+    [[ $OSN =~ debian ]] && OPTS+=(
+    --security-opt apparmor=unconfined
+    )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
      "install -m 755 -o none -g none -v -d /var/opt/net-snmp/$A"

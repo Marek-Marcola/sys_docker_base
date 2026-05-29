@@ -1,12 +1,18 @@
 apt-cacher-ng
 =============
 
+Build
+-----
+cdev env:
+
+    # c -s acng
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-acng-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/acng:$V}
     OPTS=(
     --publish $(ipa brsvc1):3142:3142

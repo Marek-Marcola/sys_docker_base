@@ -1,12 +1,18 @@
 ansible
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s ansible
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-ansible
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/ansible:$V}
     OPTS=(
     --volume /pub/pkb/pb:/pub/pkb/pb:ro

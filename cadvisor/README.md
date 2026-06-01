@@ -5,7 +5,7 @@ Build
 -----
 cdev env:
 
-    # sed -n "/^if.*cadvisor/,/^fi/p" /usr/local/etc/cdev.env
+    # c -s cadvisor
 
 Deploy
 ------
@@ -21,7 +21,7 @@ cman env:
     --v=1 
     "
 
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/cadvisor:$V}
     OPTS=(
     --publish $(ipa brsvc1):8071:8080

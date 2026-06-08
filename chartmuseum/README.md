@@ -1,12 +1,18 @@
 chartmuseum
 ===========
 
+Build
+-----
+cdev env:
+
+    # c -s chartmuseum
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-chartmuseum-scm
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/chartmuseum:$V}
     OPTS=(
     --publish $(ipa brsvc1):5448:8080

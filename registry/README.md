@@ -1,12 +1,18 @@
 registry
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s registry
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-registry-scr
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=is/registry:$V}
     OPTS=(
     --publish $(ipa brsvc1):5443:8443
@@ -22,7 +28,7 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/ap-registry-dcr
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=is/registry:$V}
     OPTS=(
     --publish $(ipa brsvc1):5442:8443
@@ -38,7 +44,7 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/ap-registry-kcr
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=is/registry:$V}
     OPTS=(
     --publish $(ipa brsvc1):5440:8443

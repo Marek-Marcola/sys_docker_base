@@ -5,7 +5,7 @@ Build
 -----
 cdev env:
 
-    # c -s [-R samba]
+    # c -s samba
 
 Deploy
 ------

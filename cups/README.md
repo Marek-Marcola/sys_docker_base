@@ -5,14 +5,14 @@ Build
 -----
 cdev env:
 
-    # sed -n '/^if.*cups/,/^fi/p' /usr/local/etc/cdev.env
+    # c -s cups
 
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-cups-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/cups:$V}
     OPTS=(
     --publish $(ipa brsvc1  ):631:631/tcp

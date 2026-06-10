@@ -15,7 +15,7 @@ ENV PATH /usr/local/cups-$VER/bin:/usr/local/cups-$VER/sbin:$PATH
 
 RUN set -ex;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/cups/bin/cups-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -k -f http://repo/sw/opensource/cups/bin/cups-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv cups-$VER cups;\
   mkdir -pv etc/cups;\
   ls -l /usr/local;\

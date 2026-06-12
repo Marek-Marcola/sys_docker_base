@@ -1,12 +1,18 @@
 sshd
 ====
 
+Build
+-----
+cdev env:
+
+    # c -s sshd
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-sshd-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/sshd:$V}
     OPTS=(
     --publish 0.0.0.0:22822:22/tcp
@@ -15,7 +21,7 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/ap-sshd-gitolite-dc5
-    : ${V:=m.m.n}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/sshd:$V}
     OPTS=(
     --publish $(ipa brsvc1):2222:22

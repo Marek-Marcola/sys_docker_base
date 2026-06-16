@@ -1,12 +1,18 @@
 drawio-desktop
 ==============
 
+Build
+-----
+cdev env:
+
+    # c -s drawio-desktop
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-drawio-dcp-platform
-    : ${V=m.m.p}
+    : ${V=x.y.z}
     : ${I:=scr.dc.local:5443/is/drawio-desktop:$V}
     [ -z $DISPLAY ] && DISPLAY=:1
     WDIR=/home/work/doc_dcp_platform

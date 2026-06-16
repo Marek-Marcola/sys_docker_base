@@ -31,7 +31,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv firefox-$VER;\
   ln -snfv firefox-$VER firefox;\
-  curl -sS -L -k -f http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
+  curl -sSL -k -f http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
   chown -R root:root firefox-$VER;\
   ls -l /usr/local;\
   firefox --version;

@@ -28,7 +28,7 @@ RUN set -ex;\
   groupadd -g 23 squid;\
   useradd -r -u 23 -g 23  -m -s /bin/bash squid;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -k -f http://repo/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv squid-$VER squid;\
   chown -R root:root squid-$VER;\
   mkdir -pv etc/squid;\

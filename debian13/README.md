@@ -24,3 +24,18 @@ cman env:
       $A -r
       $A -e cmd
     "
+
+    # cat /usr/local/etc/cman.d/ap-debian13-km
+    : ${V:=x.y.z}
+    : ${I:=scr.dc.local:5443/is/debian13:$V}
+    WDIR=/tmp
+    OPTS=(
+    --workdir /tmp
+    --volume /etc/profile.d/zlocal-kman.sh:/etc/profile.d/zlocal-kman.sh:ro
+    --volume /usr/local/etc:/usr/local/etc:ro
+    --volume /usr/local/bin:/usr/local/bin:ro
+    )
+    DOCS="
+      $A -r
+      $A -e id
+    "

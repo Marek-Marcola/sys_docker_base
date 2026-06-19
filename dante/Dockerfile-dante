@@ -26,7 +26,7 @@ RUN set -ex;\
     yum clean all;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/dante/bin/dante-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/dante/bin/dante-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv dante-$VER dante;\
   chown -R root:root dante-$VER;\
   mkdir -pv etc/dante;\

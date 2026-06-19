@@ -28,6 +28,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends --no-install-suggests install mariadb-client;\
     apt-get -yqq --no-install-recommends --no-install-suggests install v4l-utils zip arp-scan;\
     apt-get -yqq --no-install-recommends --no-install-suggests install intel-media-va-driver i965-va-driver;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install strace;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\

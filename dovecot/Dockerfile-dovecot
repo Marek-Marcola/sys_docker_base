@@ -28,7 +28,7 @@ RUN set -ex;\
   useradd -u 850 -g 850 -m -c "" dovecot;\
   useradd -u 851 -g 851 -m -c "" dovenull;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/dovecot/bin/dovecot-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/dovecot/bin/dovecot-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snvf dovecot-$VER dovecot;\
   chown -R root:root dovecot-$VER;\
   mkdir -pv etc/dovecot;\
@@ -36,7 +36,7 @@ RUN set -ex;\
   chown vmail:vmail /var/opt/vmail;\
   chmod 770 /var/opt/vmail;\
   S=zlocal-dovecot.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101008-mail_dovecot/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101008-mail_dovecot/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

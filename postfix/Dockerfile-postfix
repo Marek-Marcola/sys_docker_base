@@ -36,7 +36,7 @@ RUN set -ex;\
   groupadd -g 841 postdrop;\
   useradd -r -u 840 -g 840 -c Postfix -m -s /bin/bash postfix;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/postfix/bin/postfix-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snvf postfix-$VER postfix;\
   chown -R root:root postfix-$VER;\
   cd postfix/usr/sbin;\

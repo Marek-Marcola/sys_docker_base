@@ -27,6 +27,8 @@ cman env:
     --group-add audio
     --group-add video
     --ulimit nofile=65536:65536
+    --memory=50g
+    --memory-swap=50g
     )
     [[ $OSN =~ debian ]] && OPTS+=(
     --security-opt apparmor=unconfined

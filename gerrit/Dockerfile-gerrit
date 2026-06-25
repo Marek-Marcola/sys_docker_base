@@ -19,7 +19,7 @@ RUN set -ex;\
   mkdir -pv gerrit-$VER;\
   ln -snfv gerrit-$VER gerrit;\
   cd gerrit;\
-  curl -sS -L -k -f -o gerrit-$VER.war http://repo/sw/opensource/gerrit/war/gerrit-$VER.war;\
+  curl -sSL -f -k -o gerrit-$VER.war http://repo/sw/opensource/gerrit/war/gerrit-$VER.war;\
   ln -snfv gerrit-$VER.war gerrit.war;\
   chown -R root:root gerrit-$VER.war;\
   mkdir -pv /var/opt/gerrit;\

@@ -27,14 +27,14 @@ RUN set -ex;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/rsyslog/bin/version.txt | grep ^libestr: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/libestr-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/libestr-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv libestr-$V libestr;\
   echo "info.vers = libestr/$V" >> /tmp/vers.txt;\
   V=$(curl -s http://repo/sw/opensource/rsyslog/bin/version.txt | grep ^libfastjson: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/libfastjson-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/libfastjson-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv libfastjson-$V libfastjson;\
   echo "info.vers = libfastjson/$V" >> /tmp/vers.txt;\
-  curl -sS -L -k -f http://repo/sw/opensource/rsyslog/bin/rsyslog-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/rsyslog-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv rsyslog-$VER rsyslog;\
   mkdir -pv etc/rsyslog;\
   ls -l /usr/local;\

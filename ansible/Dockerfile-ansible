@@ -15,16 +15,16 @@ ENV PATH /usr/local/ansible-$VER/bin:$PATH
 
 RUN set -ex;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/ansible/bin/ansible-$VER-$OSN-venv.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/ansible/bin/ansible-$VER-$OSN-venv.tar.gz | tar xzf -;\
   chown -R root:root ansible-$VER;\
   ln -snfv ansible-$VER ansible;\
   mkdir -pv /var/tmp/sw;\
   S=zlocal-ansible.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101420-ansible/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101420-ansible/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-pkb.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999030-work_pkb/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999030-work_pkb/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

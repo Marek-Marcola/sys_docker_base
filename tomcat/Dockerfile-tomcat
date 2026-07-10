@@ -20,7 +20,7 @@ RUN set -ex;\
   mkdir -pv tomcat-$VER;\
   ln -snfv tomcat-$VER tomcat-${VER%.*};\
   ln -snfv tomcat-${VER%.*} tomcat;\
-  curl -sS -L -k -f http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
+  curl -sSL -f -k http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
   chown -R root:tomcat tomcat-$VER;\
   ls -l /usr/local;
 

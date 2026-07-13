@@ -24,13 +24,13 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv spine-$VER spine;\
   chown -R root:root spine-$VER;\
   chmod u+s spine/bin/spine;\
   mkdir -pv cacti;\
   ln -snfv cacti cacti-$VER;\
-  curl -sS -L -k -f http://repo/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
+  curl -sSL -f -k http://repo/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
   chown -R root:root cacti;\
   mkdir -pv etc/cacti;\
   ln -snfv /usr/local/etc/cacti/config.php /usr/local/cacti/include;\
@@ -57,7 +57,7 @@ RUN set -ex;\
   setcap cap_net_raw=ep /usr/bin/ping;\
   getcap /usr/bin/ping;\
   S=zlocal-cacti.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101400-cacti/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101400-cacti/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;

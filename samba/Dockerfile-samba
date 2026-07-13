@@ -29,7 +29,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv samba-$VER samba;\
   mkdir -pv etc/samba;\
   mkdir -pv /var/opt/samba/private;\
@@ -39,7 +39,7 @@ RUN set -ex;\
   mkdir -pv /etc/cups;\
   ln -snfv /usr/local/etc/samba/cups-client.conf /etc/cups/client.conf;\
   S=zlocal-samba.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101005-samba/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101005-samba/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script ${S} not available);\
   ls -l /usr/local;\

@@ -24,7 +24,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv jdk-$VER;\
   ln -snfv jdk-$VER jdk-${VER%%.*};\
-  curl -sS -L -k -f $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
+  curl -sSL -f -k $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
   ls -l /usr/local;\
   java -version;

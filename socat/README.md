@@ -1,12 +1,18 @@
 socat
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s socat
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-socat-ssoldap
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/socat:$V}
     OPTS=(
     --publish $(ipa brsvc1):8099:8080

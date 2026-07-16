@@ -15,7 +15,7 @@ ENV PATH /opt/local/erlang-$VER/bin:$PATH
 
 RUN set -ex;\
   cd /opt/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/erlang/bin/erlang-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/erlang/bin/erlang-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv erlang-$VER erlang;\
   chown -R root:root erlang-$VER;\
   ls -l /opt/local;\

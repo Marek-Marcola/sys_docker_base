@@ -18,7 +18,7 @@ RUN set -ex;\
   groupadd -g 910 munge;\
   useradd -u 910 -g 910 -m -s /bin/bash munge;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/munge/bin/munge-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/munge/bin/munge-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv munge-$VER munge;\
   chown -R root:root munge-$VER;\
   mkdir -pv etc/munge;\

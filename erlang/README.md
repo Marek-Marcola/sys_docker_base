@@ -1,6 +1,12 @@
 erlang
 ======
 
+Build
+-----
+cdev env:
+
+    # c -s erlang
+
 Deploy
 ------
 cman env:

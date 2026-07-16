@@ -34,35 +34,35 @@ RUN set -ex;\
   yum clean all;\
   mkdir -pv /usr/local/etc/modulefiles;\
   S=zlocal-0001.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-0002.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-0010.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-ip.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-process.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-readme.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
     && (chmod a+x /etc/profile.d/$S && mkdir -p /usr/local/etc/doc)\
     || (echo Script $S not available);\
   S=zlocal-env-module.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001580-rocky9/files/$S\
     && (chmod a+x /etc/profile.d/$S && mkdir -p /usr/local/etc/doc)\
     || (echo Script $S not available);\
   S=zlocal-cdev-image.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/${S} http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/${S} http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   groupadd -g 666 none;\
@@ -74,7 +74,7 @@ RUN set -ex;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   supervisord --version;

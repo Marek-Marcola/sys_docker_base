@@ -19,7 +19,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv coredns-$VER;\
   ln -snfv coredns-$VER coredns;\
-  curl -sS -L -k -f http://repo/sw/opensource/coredns/bin/coredns_${VER}_linux_amd64.tgz | tar xzf - -C coredns;\
+  curl -sSL -f -k http://repo/sw/opensource/coredns/bin/coredns_${VER}_linux_amd64.tgz | tar xzf - -C coredns;\
   ls -l /usr/local;\
   coredns -version;
 

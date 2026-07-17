@@ -26,7 +26,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/lighttpd/bin/lighttpd-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/lighttpd/bin/lighttpd-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv lighttpd-$VER lighttpd;\
   chown -R root:root lighttpd-$VER;\
   mkdir -pv etc/lighttpd;\

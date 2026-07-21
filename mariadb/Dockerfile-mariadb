@@ -33,18 +33,18 @@ RUN set -ex;\
   useradd -u 672 -g 672 -m -s /bin/bash mysql;\
   cd /usr/local;\
   for V in $VERS; do\
-    curl -sS -L -k -f http://repo/sw/opensource/mariadb/bin/mariadb-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    curl -sSL -f -k http://repo/sw/opensource/mariadb/bin/mariadb-$V-$OSN-$OSA.tar.gz | tar xzf -;\
     [ -e mariadb-${V%.*} ] || ln -snfv mariadb-$V mariadb-${V%.*};\
     chown -R root:root mariadb-$V;\
   done;\
   mkdir -pv /var/opt/mysql/data /var/log/mysql;\
   chown mysql:mysql /var/opt/mysql/data /var/log/mysql;\
   S=zlocal-mariadb.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101260-mariadb/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101260-mariadb/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=mydev.sh;\
-  curl -sS -L -k -f -o /usr/local/bin/$S http://repo/pkb/pb/playbooks/999320-mydev/files/$S\
+  curl -sSL -f -k -o /usr/local/bin/$S http://repo/pkb/pb/playbooks/999320-mydev/files/$S\
     && (chmod a+x /usr/local/bin/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

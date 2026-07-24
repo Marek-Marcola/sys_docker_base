@@ -25,7 +25,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/net-snmp/bin/net-snmp-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/net-snmp/bin/net-snmp-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv net-snmp-$VER net-snmp;\
   chown -R root:root net-snmp-$VER;\
   mkdir -pv etc/net-snmp;\

@@ -12,7 +12,7 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-net-snmp
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/net-snmp:$V}
     OPTS=(
     --network host

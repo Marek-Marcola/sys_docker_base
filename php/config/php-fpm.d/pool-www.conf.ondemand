@@ -2,10 +2,16 @@
 user = 666
 group = 666
 
-listen = 0.0.0.0:9011
+;listen = 0.0.0.0:9011
+
+listen = /tmp/php.socket
+listen.owner = 666
+listen.group = 666
+listen.mode = 0666
 
 pm = ondemand
 pm.max_children = 50
+pm.max_requests = 1000
 pm.process_idle_timeout = 10s
 pm.status_path = /status
 

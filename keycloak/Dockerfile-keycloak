@@ -17,7 +17,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/keycloak/bin/keycloak-$VER.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/keycloak/bin/keycloak-$VER.tar.gz | tar xzf -;\
   ln -snfv keycloak-$VER keycloak;\
   chown -R none:none keycloak-$VER;\
   mkdir -pv /var/opt/keycloak/data;\

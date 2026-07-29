@@ -29,6 +29,7 @@ cman env:
     --ulimit nofile=65536:65536
     --memory=128g
     --memory-swap=128g
+    --pids-limit=-1
     )
     [[ $OSN =~ debian ]] && OPTS+=(
     --security-opt apparmor=unconfined

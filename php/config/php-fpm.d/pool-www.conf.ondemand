@@ -4,7 +4,7 @@ group = 666
 
 ;listen = 0.0.0.0:9011
 
-listen = /tmp/php.socket
+listen = /tmp/php.sock
 listen.owner = 666
 listen.group = 666
 listen.mode = 0666

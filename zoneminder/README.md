@@ -16,6 +16,7 @@ cman env:
     : ${V:=x.y.z-lighttpd14-php84}
     : ${I:=scr.dc.local:5443/is/zoneminder:$V}
     OPTS=(
+    --env ZONEMINDER_MODE=active
     --publish $(ipa brsvc1):8066:8080
     --device /dev/snd
     --device /dev/dri

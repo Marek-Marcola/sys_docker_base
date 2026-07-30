@@ -41,11 +41,11 @@ RUN set -ex;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgi-$V fcgi;\
   echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\
   V=${VER%%.*};\
-  curl -sS -L -k -f http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv php-$VER php-$V;\
   ln -snfv php-$V php;\
   ln -snfv /usr/local/php/bin/php /usr/local/bin;\
@@ -55,7 +55,7 @@ RUN set -ex;\
   cp -v php/php.ini-production php/php.ini;\
   mkdir -pv php/php-fpm.d;\
   S=zlocal-php-fpm.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

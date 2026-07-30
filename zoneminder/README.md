@@ -39,6 +39,7 @@ cman env:
     --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
     --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
     --env FCGIWRAP_PREFORK=500
+    --env FCGIWRAP_SOCKET=unix:/tmp/fcgiwrap.sock
     --env NGINX_CGI=1
     --env NGINX_PHP=1
     --env NGINX_ID=ap-nginx-$APN-$API

@@ -32,7 +32,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv tor-browser-$VER;\
   ln -snfv tor-browser-$VER tor-browser;\
-  curl -sSL -k -f http://repo/sw/opensource/tor-browser/bin/tor-browser-linux-x86_64-$VER.tar.xz | tar xf - --xz --strip-components=1 -C tor-browser;\
+  curl -sSL -f -k http://repo/sw/opensource/tor-browser/bin/tor-browser-linux-x86_64-$VER.tar.xz | tar xf - --xz --strip-components=1 -C tor-browser;\
   chown -R none:none tor-browser-$VER;\
   ls -l /usr/local;
 

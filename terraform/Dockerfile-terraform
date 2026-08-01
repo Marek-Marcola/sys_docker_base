@@ -1,0 +1,41 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/terraform-$VER:$PATH
+
+RUN set -ex;\
+  cd /usr/local;\
+  mkdir -pv terraform-$VER;\
+  ln -snfv terraform-$VER terraform;\
+  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/opensource/terraform/bin/terraform_${VER}_linux_amd64.zip;\
+  unzip -d terraform /tmp/f.zip;\
+  chown -R root:root terraform-$VER;\
+  mkdir -pv etc/terraform;\
+  V=$(curl -s http://repo/sw/opensource/terraform/providers/version.txt | grep ^terraform-provider-libvirt: | tail -1 | awk '{print $2}');\
+  mkdir -pv /usr/local/terraform-providers/dc.local/local/libvirt;\
+  cd /usr/local/terraform-providers/dc.local/local/libvirt;\
+  curl -sSL -f -k -O http://repo/sw/opensource/terraform/providers/terraform-provider-libvirt_${V}_linux_amd64.zip;\
+  S=zlocal-terraform.sh;\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo//pkb/pb/playbooks/005012-terraform/files/$S\
+    && (chmod a+rx /etc/profile.d/$S)\
+    || (echo Script $S not available);\
+  ls -l /usr/local;\
+  find /usr/local/terraform-providers;\
+  terraform version;
+
+RUN set -ex;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
+ ) > /version.d/version-$REPO.txt;

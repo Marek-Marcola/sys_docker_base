@@ -17,7 +17,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv vdbench-$VER;\
   ln -snfv vdbench-$VER vdbench;\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/oracle/vdbench/vdbench-$VER.zip;\
+  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/oracle/vdbench/vdbench-$VER.zip;\
   unzip -d vdbench /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   chown -R root:root vdbench-$VER;\

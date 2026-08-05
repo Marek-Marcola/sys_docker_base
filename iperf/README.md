@@ -12,7 +12,8 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-iperf-nat
-    : ${I:=scr.dc.local:5443/is/iperf}
+    : ${V:=x.y.z}
+    : ${I:=scr.dc.local:5443/is/iperf:$V}
     OPTS=(
     --publish 5201:5201/tcp
     --publish 5201:5201/udp
@@ -34,7 +35,8 @@ cman env:
     "
     
     # cat /usr/local/etc/cman.d/ap-iperf-raw
-    : ${I:=scr.dc.local:5443/is/iperf}
+    : ${V:=x.y.z}
+    : ${I:=scr.dc.local:5443/is/iperf:$V}
     OPTS=(
     --net host
     --privileged
@@ -54,7 +56,8 @@ cman env:
     "
 
     # cat /usr/local/etc/cman.d/ap-iperf-server
-    : ${I:=scr.dc.local:5443/is/iperf}
+    : ${V:=x.y.z}
+    : ${I:=scr.dc.local:5443/is/iperf:$V}
     OPTS=(
     --net host
     --privileged

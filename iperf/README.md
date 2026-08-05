@@ -1,6 +1,12 @@
 iperf
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s iperf
+
 Deploy
 ------
 cman env:

@@ -19,7 +19,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv registry-$VER;\
   ln -snfv registry-$VER registry;\
-  curl -sS -L -k -f http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
+  curl -sSL -f -k http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
   chown -R root:root registry-$VER;\
   mkdir -pv etc/registry;\
   mkdir -pv /var/opt/registry;\

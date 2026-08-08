@@ -42,7 +42,7 @@ cman env:
     : ${I:=scr.dc.local:5443/is/fio:$V}
     OPTS=(
     --volume /vol/$API/tmp:/work
-    --env FIO_OPTS="$(echo "$FIO_OPTS"|grep -v ^#)"
+    --env FIO_OPTS="$(echo "$FIO_OPTS"|grep -v ^#|xargs)"
     )
     INIT=(
      "install -m 1777 -o root -g root -v -d /vol/$API/tmp"

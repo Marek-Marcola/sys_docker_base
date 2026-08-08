@@ -14,4 +14,4 @@ fi
 
 set -x
 fio --version
-exec fio $FIO_OPTS
+fio $FIO_OPTS

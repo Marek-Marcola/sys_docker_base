@@ -13,6 +13,8 @@ cman env:
 
     # cat /usr/local/etc/cman.d/ap-fio-v01
     FIO_OPTS="
+    --loops=1
+    --numjobs=1
     --time_based
     --runtime=30s
     --directory=/work
@@ -25,15 +27,11 @@ cman env:
 
     --name=write-$API
     --description=seq_write
-    --loops=1
-    --numjobs=1
     --rw=write
     --stonewall=1
 
     --name=read-$API
     --description=seq_read
-    --loops=1
-    --numjobs=1
     --rw=read
     --stonewall=1
     "

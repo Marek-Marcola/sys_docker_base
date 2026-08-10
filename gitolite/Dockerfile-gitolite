@@ -28,7 +28,7 @@ RUN set -ex;\
   mkdir -pv gitolite;\
   ln -snfv gitolite gitolite-$VER;\
   mkdir -pv /tmp/d;\
-  curl -sS -L -k -f http://repo/sw/opensource/gitolite/src/gitolite-$VER.tar.gz | tar xzf - --strip-components=1 -C /tmp/d;\
+  curl -sSL -f -k http://repo/sw/opensource/gitolite/src/gitolite-$VER.tar.gz | tar xzf - --strip-components=1 -C /tmp/d;\
   /tmp/d/install -to /usr/local/gitolite;\
   rm -rf /tmp/d;\
   echo $VER > /usr/local/gitolite/VERSION;\
@@ -37,7 +37,7 @@ RUN set -ex;\
   mkdir -pv /usr/local/lib/site_perl;\
   ln -snfv /usr/local/gitolite/lib/Gitolite /usr/local/lib/site_perl;\
   S=zlocal-git.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;

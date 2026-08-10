@@ -31,13 +31,13 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/certbot/bin/certbot-$VER-$OSN-venv.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/certbot/bin/certbot-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv certbot-$VER certbot;\
   ln -snfv /usr/local/certbot/bin/certbot /usr/local/bin;\
   mkdir -pv /var/log/letsencrypt;\
   chown none:none /var/log/letsencrypt;\
   S=zlocal-certbot.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101045-letsencrypt/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101045-letsencrypt/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\
@@ -47,5 +47,5 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

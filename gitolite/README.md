@@ -6,7 +6,7 @@ Deploy
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-gitolite-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/gitolite:$V}
     OPTS=(
     --publish $(ipa brsvc1):2222:22

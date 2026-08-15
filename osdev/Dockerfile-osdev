@@ -25,12 +25,12 @@ RUN set -ex;\
   fi;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
-  curl -sS -L -k -f http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
   ln -snfv git-repo-$V git-repo;\
   echo "info.vers = git-repo/$V" >> /tmp/vers.txt;\
   cd /usr/local;\
   V=$(curl -s http://repo/sw/opensource/android-sdk/bin/version.txt | grep ^platform-tools: | awk '{print $2}');\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/android-sdk/bin/platform-tools_r$V-linux.zip;\
+  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/opensource/android-sdk/bin/platform-tools_r$V-linux.zip;\
   mkdir -pv android-platform-tools-$V;\
   ln -snfv android-platform-tools-$V android-platform-tools;\
   unzip -d android-platform-tools /tmp/f.zip;\
@@ -43,15 +43,15 @@ RUN set -ex;\
   V=$(adevtool version|awk '{print $1}');\
   echo "info.vers = $V" >> /tmp/vers.txt;\
   S=zlocal-git.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-repo.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101524-scm_repo/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101524-scm_repo/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-gos.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/004821-grapheneos_build/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/004821-grapheneos_build/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   cat /etc/os-release;\

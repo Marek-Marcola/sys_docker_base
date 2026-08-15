@@ -1,12 +1,18 @@
 osdev
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s osdev
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-osdev-sync-aosp
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/osdev:$V}
     OPTS=(
     --volume /sw/android/aosp:/sw/android/aosp:rw
@@ -15,7 +21,7 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/ap-osdev-sync-gos
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/osdev:$V}
     OPTS=(
     --volume /sw/android/aosp:/sw/android/aosp:ro

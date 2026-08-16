@@ -15,6 +15,8 @@ cman env:
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/terraform:$V}
     OPTS=(
+    --volume $HOME/.ssh:$HOME/.ssh
+    --volume $HOME/.terraformrc:$HOME/.terraformrc
     --volume /usr/local/etc/$A:/usr/local/etc/terraform
     --workdir /usr/local/etc/terraform
     )

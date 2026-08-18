@@ -22,7 +22,7 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/openfortivpn/bin/openfortivpn-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/openfortivpn/bin/openfortivpn-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openfortivpn-$VER openfortivpn;\
   openfortivpn --version;
 

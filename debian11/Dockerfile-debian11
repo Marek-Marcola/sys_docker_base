@@ -25,7 +25,7 @@ ENV OSC=bullseye
 
 ADD config/debian-$VER.list config/debian-$VER-updates.list /etc/apt/sources.list.d/
 
-RUN set -ex;\
+RUN set -eux;\
   touch /etc/apt/sources.list;\
   sed -i.b$(date +%y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
   grep ^[^#] /etc/apt/sources.list /etc/apt/sources.list.d/*;\
@@ -45,37 +45,37 @@ RUN set -ex;\
   echo $TZ > /etc/timezone;\
   sed -i.b$(date +%y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-0002.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-0010.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=zlocal-ip.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   S=vimrc.local;\
-  curl -sS -L -k -f -o /etc/vim/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
+  curl -sSL -f -k -o /etc/vim/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
     && (chmod a+r /etc/vim/$S)\
     || (echo Script $S not available);\
   S=zlocal-readme.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
     && (chmod a+x /etc/profile.d/$S && mkdir -p /usr/local/etc/doc)\
     || (echo Script $S not available);\
   S=zlocal-cdev-image.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   cat /etc/os-release;\
   cat /etc/debian_version;
 
-RUN set -ex;\
+RUN set -eux;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
@@ -84,19 +84,19 @@ RUN set -ex;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
+  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   supervisord --version;
 
 ADD config/supervisord.conf /usr/local/etc
 
-RUN set -ex;\
-  curl -sS -L -k -f -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
+RUN set -eux;\
+  curl -sSL -f -k -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 
-RUN set -ex;\
+RUN set -eux;\
   mkdir -pv /cmd.d /version.d;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\

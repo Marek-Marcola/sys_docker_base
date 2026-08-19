@@ -1,6 +1,12 @@
 debian11
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s debian11
+
 Deploy
 ------
 cman env:

@@ -13,7 +13,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/firefox-$VER:$PATH
 
-RUN set -ex;\
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -31,12 +31,12 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv firefox-$VER;\
   ln -snfv firefox-$VER firefox;\
-  curl -sSL -k -f http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
+  curl -sSL -f -k http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
   chown -R root:root firefox-$VER;\
   ls -l /usr/local;\
   firefox --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

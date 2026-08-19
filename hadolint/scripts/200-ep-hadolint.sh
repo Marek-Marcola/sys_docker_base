@@ -8,4 +8,11 @@ echo
 
 set -x
 hadolint --version
-hadolint $HADOLINT_OPTS Dockerfile*
+{ set +x; } 2>/dev/null
+
+for f in Dockerfile*; do
+  echo
+  set -x
+  hadolint $HADOLINT_OPTS $f
+  { set +x; } 2>/dev/null
+done

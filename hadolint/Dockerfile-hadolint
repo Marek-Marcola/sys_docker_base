@@ -1,0 +1,36 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/hadolint-$VER:$PATH
+
+RUN set -eux;\
+  cd /usr/local;\
+  mkdir -pv hadolint-$VER;\
+  ln -snfv hadolint-$VER hadolint;\
+  cd hadolint;\
+  curl -sSL -f -k -O http://repo/sw/opensource/hadolint/bin/hadolint-$VER-linux-x86_64;\
+  chmod a+x hadolint-$VER-linux-x86_64;\
+  ln -snfv hadolint-$VER-linux-x86_64 hadolint;\
+  mkdir -pv /work;\
+  hadolint --version;
+
+WORKDIR /work
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+ADD scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

@@ -10,9 +10,16 @@ set -x
 hadolint --version
 { set +x; } 2>/dev/null
 
-for f in Dockerfile*; do
+DF=$(ls Dockerfile* 2>/dev/null)
+
+if [ -n "$DF" ]; then
+  for f in $DF; do
+    echo
+    set -x
+    hadolint $HADOLINT_OPTS $f
+    { set +x; } 2>/dev/null
+  done
+else
   echo
-  set -x
-  hadolint $HADOLINT_OPTS $f
-  { set +x; } 2>/dev/null
-done
+  echo "No Dockerfile* files found"
+fi

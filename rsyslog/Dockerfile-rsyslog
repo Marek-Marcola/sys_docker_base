@@ -14,7 +14,7 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/rsyslog-$VER/bin:/usr/local/rsyslog-$VER/sbin:$PATH
 
-RUN set -ex;\
+RUN set -eux -o pipefail;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -34,13 +34,16 @@ RUN set -ex;\
   curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/libfastjson-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv libfastjson-$V libfastjson;\
   echo "info.vers = libfastjson/$V" >> /tmp/vers.txt;\
+  V=$(curl -s http://repo/sw/opensource/rsyslog/bin/version.txt | grep ^liblognorm: | awk '{print $2}');\
+  curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/liblognorm-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv liblognorm-$V liblognorm;\
   curl -sSL -f -k http://repo/sw/opensource/rsyslog/bin/rsyslog-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv rsyslog-$VER rsyslog;\
   mkdir -pv etc/rsyslog;\
   ls -l /usr/local;\
   rsyslogd -v;
 
-RUN set -ex;\
+RUN set -eux -o pipefail;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\

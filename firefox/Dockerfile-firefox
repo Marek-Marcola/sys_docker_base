@@ -27,7 +27,7 @@ RUN set -eux;\
     apt-get -yqq install libdbus-glib-1-2;\
     apt-get -yqq install xfce4-terminal;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   cd /usr/local;\
   mkdir -pv firefox-$VER;\

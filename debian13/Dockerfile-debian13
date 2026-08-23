@@ -23,10 +23,12 @@ ENV OSN=debian13
 ENV OSA=x86_64
 ENV OSC=trixie
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ADD config/debian-$VER.list config/debian-$VER-updates.list config/debian-13-official.list.disabled /etc/apt/sources.list.d/
 ADD config/vimrc /root/.vimrc
 
-RUN set -ex;\
+RUN set -eux;\
   touch /etc/apt/sources.list;\
   sed -i.b$(date +%y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
   mv -v /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.disabled;\
@@ -43,7 +45,7 @@ RUN set -ex;\
   apt-get -yqq install environment-modules gettext-base;\
   apt-get -yqq install cron;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   groupadd -g 666 none;\
   useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
@@ -92,12 +94,12 @@ RUN set -ex;\
   cat /etc/os-release;\
   cat /etc/debian_version;
 
-RUN set -ex;\
+RUN set -eux;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
@@ -109,12 +111,12 @@ RUN set -ex;\
 ADD supervisord/supervisord.conf /usr/local/etc
 ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
 
-RUN set -ex;\
+RUN set -eux;\
   curl -sSL -f -k -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 
-RUN set -ex;\
+RUN set -eux;\
   mkdir -pv /cmd.d /version.d;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\

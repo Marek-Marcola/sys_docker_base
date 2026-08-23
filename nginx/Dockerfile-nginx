@@ -15,6 +15,8 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/nginx-$VER/sbin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN set -eux;\
   mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if expr match $OSN debian; then\

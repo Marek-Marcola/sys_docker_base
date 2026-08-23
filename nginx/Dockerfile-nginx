@@ -15,14 +15,14 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/nginx-$VER/sbin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib
 
-RUN set -ex;\
+RUN set -eux;\
   mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libyajl2 libgeoip1 liblua5.4-0;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
@@ -64,7 +64,7 @@ RUN set -ex;\
 
 ADD config/ /usr/local/nginx/conf/
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\

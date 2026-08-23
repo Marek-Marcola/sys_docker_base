@@ -14,7 +14,9 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/php-$VER/bin:/usr/local/php-$VER/sbin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian13; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -22,7 +24,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install postgresql-client;\
     apt-get -yqq --no-install-recommends install libpng16-16t64 libjpeg62-turbo libfreetype6 libicu76;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   if expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
@@ -30,7 +32,7 @@ RUN set -ex;\
     apt-get -yqq --no-install-recommends install libpq-dev libxml2-dev libsnmp40 libzip-dev libonig-dev;\
     apt-get -yqq --no-install-recommends install libpng16-16 libjpeg62-turbo libfreetype6 libicu72;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   if expr match $OSN centos; then\
     yum -y install postgresql-libs libpng libjpeg-turbo freetype libicu net-snmp-libs;\
@@ -63,7 +65,7 @@ RUN set -ex;\
 
 ADD config/ /usr/local/etc/php/
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\

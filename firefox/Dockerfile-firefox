@@ -13,7 +13,9 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/firefox-$VER:$PATH
 
-RUN set -eux;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux -o pipefail;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -41,7 +43,7 @@ RUN set -eux;\
   ls -l /usr/local;\
   firefox --version;
 
-RUN set -eux;\
+RUN set -eux -o pipefail;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

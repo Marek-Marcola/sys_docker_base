@@ -25,3 +25,8 @@ cman env:
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
      "install -m 755 -o none -g none -v -d /var/opt/chrony/$A"
     )
+
+    # cat /usr/local/etc/cman.d/lsntp
+    A=ap-chrony-dc1
+    EXEC=1
+    ARGS=lsntp

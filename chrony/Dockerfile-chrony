@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -19,13 +21,13 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/chrony/bin/chrony-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/chrony/bin/chrony-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv chrony-$VER chrony;\
   mkdir -pv etc/chrony;\
   mkdir -pv /var/opt/chrony;\
   chown none:none /var/opt/chrony;\
   S=zlocal-chrony.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/010140-chrony/files/$S\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/010140-chrony/files/$S\
     && (chmod a+rx /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\

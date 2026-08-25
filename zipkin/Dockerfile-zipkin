@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,23 +14,25 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv zipkin-$VER;\
   ln -snfv zipkin-$VER zipkin;\
-  curl -sSL -f -k -o zipkin/zipkin-server-$VER-exec.jar http://repo/sw/opensource/zipkin/bin/zipkin-server-$VER-exec.jar;\
+  curl $DOPT -o zipkin/zipkin-server-$VER-exec.jar $DURL/sw/opensource/zipkin/bin/zipkin-server-$VER-exec.jar;\
   cd zipkin;\
   ln -snfv zipkin-server-$VER-exec.jar zipkin-server-exec.jar;\
   ls -l /usr/local;\
   unzip -p zipkin-server-exec.jar BOOT-INF/classes/info.json;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

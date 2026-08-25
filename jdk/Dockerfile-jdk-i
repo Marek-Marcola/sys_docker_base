@@ -15,6 +15,8 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/jdk-$VER/bin:$PATH
 ENV JAVA_HOME /usr/local/jdk-$VER
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN set -eux;\
   if expr match $OSN centos; then\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
@@ -24,7 +26,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv jdk-$VER;\
   ln -snfv jdk-$VER jdk-${VER%%.*};\
-  curl -sSL -f -k $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
+  curl $DOPT $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
   ls -l /usr/local;\
   java -version;

@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,6 +15,8 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/jdk-$VER/bin:$PATH
 ENV JAVA_HOME /usr/local/jdk-$VER
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   if expr match $VER 11; then\
@@ -27,7 +31,7 @@ RUN set -eux;\
     cd /usr/local;\
     mkdir -pv jdk-$VER;\
     ln -snfv jdk-$VER jdk-${VER%%.*};\
-    curl -sSL -f -k http://repo/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
+    curl $DOPT $DURL/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
     chown -R root:root jdk-${VER};\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
     yum -y install fontconfig dejavu-sans-fonts;\

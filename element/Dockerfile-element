@@ -13,16 +13,18 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/element-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/matrix/bin/element-v$VER.tar.gz | tar xzf -;\
+  curl -sSL -f -k http://repo/sw/opensource/matrix/bin/element-v$VER.tar.gz | tar xzf -;\
   ln -snfv element-v$VER element;\
   cd element;\
   ln -sv /usr/local/etc/element/config.json .;\
   ls -l /usr/local;\
   cat /usr/local/element/version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

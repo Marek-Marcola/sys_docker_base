@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -21,7 +23,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv coredns-$VER;\
   ln -snfv coredns-$VER coredns;\
-  curl -sSL -f -k http://repo/sw/opensource/coredns/bin/coredns_${VER}_linux_amd64.tgz | tar xzf - -C coredns;\
+  curl $DOPT $DURL/sw/opensource/coredns/bin/coredns_${VER}_linux_amd64.tgz | tar xzf - -C coredns;\
   ls -l /usr/local;\
   coredns -version;
 
@@ -31,5 +33,5 @@ RUN set -eux;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

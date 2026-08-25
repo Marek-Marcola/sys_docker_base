@@ -19,7 +19,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   cd /usr/local;\
-  curl $DOPT $DURL/matrix/bin/element-v$VER.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/matrix/bin/element-v$VER.tar.gz | tar xzf -;\
   ln -snfv element-v$VER element;\
   cd element;\
   ln -sv /usr/local/etc/element/config.json .;\

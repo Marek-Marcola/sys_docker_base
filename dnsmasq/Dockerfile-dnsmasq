@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -15,11 +17,13 @@ ENV PATH /usr/local/dnsmasq-$VER/sbin:$PATH
 
 STOPSIGNAL SIGTERM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/dnsmasq/bin/dnsmasq-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/dnsmasq/bin/dnsmasq-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv dnsmasq-$VER dnsmasq;\
   mkdir -pv etc/dnsmasq.d;\
   mkdir -pv /var/opt/tftp;\
@@ -27,11 +31,11 @@ RUN set -ex;\
   ls -l /usr/local;\
   dnsmasq --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

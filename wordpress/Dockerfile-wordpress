@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,11 +14,13 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv wordpress-$VER;\
   ln -snfv wordpress-$VER wordpress;\
-  curl -sSL -f -k http://repo/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
+  curl $DOPT $DURL/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
   chown -R root:root wordpress-$VER;\
   cd wordpress;\
   mkdir -pv /var/opt/wordpress/wp-content/plugins /var/opt/wordpress/wp-content/themes;\
@@ -29,19 +33,19 @@ RUN set -ex;\
   if [ -f /usr/local/etc/php8/php.ini ]; then\
     sed -i.b$(date +%y%m%d) -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php8/php.ini;\
   fi;\
-  V=$(curl -s http://repo/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
-  curl -sSL -f -k -o /usr/local/bin/wp http://repo/sw/opensource/wp-cli/bin/wp-cli-$V.phar;\
+  V=$(curl -s $DURL/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
+  curl $DOPT -o /usr/local/bin/wp $DURL/sw/opensource/wp-cli/bin/wp-cli-$V.phar;\
   chmod a+x /usr/local/bin/wp;\
   echo "info.vers = wp-cli/$V" >> /tmp/vers.txt;\
   S=zlocal-wp-cli.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101018-wordpress/files/$S\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101018-wordpress/files/$S\
     && (chmod a+x /etc/profile.d/$S)\
     || (echo Script $S not available);\
   ls -l /usr/local;\
   grep '^\$' /usr/local/wordpress/wp-includes/version.php;\
   su none -c "wp --path=/usr/local/wordpress core version --extra";
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

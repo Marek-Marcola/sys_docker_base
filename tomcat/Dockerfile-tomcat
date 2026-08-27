@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,18 +15,20 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/tomcat-$VER/bin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   groupadd -g 91 tomcat;\
   useradd -r -u 91 -g 91 -c "Apache Tomcat" -m -s /bin/bash tomcat;\
   cd /usr/local;\
   mkdir -pv tomcat-$VER;\
   ln -snfv tomcat-$VER tomcat-${VER%.*};\
   ln -snfv tomcat-${VER%.*} tomcat;\
-  curl -sSL -f -k http://repo/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
+  curl $DOPT $DURL/sw/opensource/apache-tomcat/bin/apache-tomcat-$VER.tar.gz | tar xzf - --strip-components=1 -C tomcat;\
   chown -R root:tomcat tomcat-$VER;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
   mkdir -pv /var/opt/tomcat;\
   cd /var/opt/tomcat;\
   mkdir -pv conf logs temp webapps work;\
@@ -39,12 +43,12 @@ RUN set -ex;\
   echo tomcat $VER > /as-root/index.html;\
   catalina.sh version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
   [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

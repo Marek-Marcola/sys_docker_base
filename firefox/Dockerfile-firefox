@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -15,7 +17,7 @@ ENV PATH /usr/local/firefox-$VER:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -eux -o pipefail;\
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -35,15 +37,15 @@ RUN set -eux -o pipefail;\
   mkdir -pv firefox-$VER;\
   ln -snfv firefox-$VER firefox;\
   if [ ${VER%%.*} -lt 135 ]; then\
-    curl -sSL -f -k http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.bz2 | tar xf - --bzip2 --strip-components=1 -C firefox;\
+    curl $DOPT $DURL/sw/opensource/firefox/bin/firefox-$VER.tar.bz2 | tar xf - --bzip2 --strip-components=1 -C firefox;\
   else\
-    curl -sSL -f -k http://repo/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
+    curl $DOPT $DURL/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
   fi;\
   chown -R root:root firefox-$VER;\
   ls -l /usr/local;\
   firefox --version;
 
-RUN set -eux -o pipefail;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

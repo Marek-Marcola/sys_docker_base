@@ -38,9 +38,7 @@ RUN set -eux;\
   chmod a+x /usr/local/bin/wp;\
   echo "info.vers = wp-cli/$V" >> /tmp/vers.txt;\
   S=zlocal-wp-cli.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101018-wordpress/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101018-wordpress/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   grep '^\$' /usr/local/wordpress/wp-includes/version.php;\
   su none -c "wp --path=/usr/local/wordpress core version --extra";

@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -15,7 +17,9 @@ ENV PATH /usr/local/samba-$VER/bin:/usr/local/samba-$VER/sbin:$PATH
 
 STOPSIGNAL SIGTERM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
@@ -24,12 +28,12 @@ RUN set -ex;\
     apt-get -yqq install sssd sssd-tools;\
     apt-get -yqq install cups-client cups-bsd;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sSL -f -k http://repo/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/samba/bin/samba-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv samba-$VER samba;\
   mkdir -pv etc/samba;\
   mkdir -pv /var/opt/samba/private;\
@@ -39,18 +43,16 @@ RUN set -ex;\
   mkdir -pv /etc/cups;\
   ln -snfv /usr/local/etc/samba/cups-client.conf /etc/cups/client.conf;\
   S=zlocal-samba.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101005-samba/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script ${S} not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101005-samba/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   samba --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
-ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
+COPY scripts/[0-9]*.sh /cmd.d/
+COPY supervisord/supervisord-* /usr/local/etc/supervisord.d/
 CMD ["/cmd.sh"]

@@ -52,9 +52,7 @@ RUN set -eux;\
   mkdir -pv /var/opt/zoneminder/tmp;\
   chown -Rv none:none /var/opt/zoneminder;\
   S=zlocal-zoneminder.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/503010-zoneminder/files/$S\
-    && (chmod a+rx /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/503010-zoneminder/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   zmc --version;
 
@@ -64,5 +62,5 @@ RUN set -eux;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
-ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
+COPY scripts/[0-9]*.sh /cmd.d/
+COPY supervisord/supervisord-* /usr/local/etc/supervisord.d/

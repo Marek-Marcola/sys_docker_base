@@ -43,9 +43,21 @@ RUN set -eux;\
   cd viewvc;\
   mkdir -pv /usr/local/etc/viewvc;\
   ln -snfv /usr/local/etc/viewvc/viewvc.conf .;\
-  cd /usr/local/viewvc/templates/include;\
-  mv -v header.ezt header.ezt.b$(date +%y%m%d);\
-  cat header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > header.ezt;\
+  if expr match $VER 1.1; then\
+    cd /usr/local/viewvc/templates/include;\
+    mv -v header.ezt header.ezt.b$(date +%y%m%d);\
+    cat header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > header.ezt;\
+  fi;\
+  if expr match $VER 1.2; then\
+    cd /usr/local/viewvc/templates/default/include;\
+    mv -v header.ezt header.ezt.b$(date +%y%m%d);\
+    cat header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > header.ezt;\
+  fi;\
+  if expr match $VER 1.3; then\
+    cd /usr/local/viewvc/templates/default;\
+    mv -v _header.ezt _header.ezt.b$(date +%y%m%d);\
+    cat _header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > _header.ezt;\
+  fi;\
   ls -l /usr/local;\
   /usr/local/viewvc-$VER/bin/cgi/viewvc.cgi | grep -i powered;
 

@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,16 +15,18 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/roundcube-$VER/maintenance:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
-  curl -sSL -f -k http://repo/sw/opensource/roundcube/roundcubemail-$VER-complete.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/roundcube/roundcubemail-$VER-complete.tar.gz | tar xzf -;\
   ln -snfv roundcubemail-$VER roundcube;\
   chown root:root -R roundcubemail-$VER;\
   cd roundcube;\
   ln -snfv /usr/local/etc/roundcube/config/config.inc.php config/;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

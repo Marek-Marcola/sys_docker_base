@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,7 +15,9 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/fdroidserver-$VER/bin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -27,12 +31,12 @@ RUN set -ex;\
       apt-get -yqq install python3-virtualenv python3-distutils python3-lib2to3;\
     fi;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/fdroidserver/bin/fdroidserver-$VER-$OSN-venv.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/fdroidserver/bin/fdroidserver-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv fdroidserver-$VER fdroidserver;\
   chown -R none:none fdroidserver-$VER;\
   ln -snfv /usr/local/fdroidserver/bin/activate /usr/local/bin;\
@@ -42,15 +46,13 @@ RUN set -ex;\
   touch /.bash_history_all;\
   chmod a+rw /.bash_history_all;\
   S=zlocal-fdroidserver.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/004910-fdroid/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/004910-fdroid/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   fdroid --version;
 
 WORKDIR /var/opt/fdroidserver
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

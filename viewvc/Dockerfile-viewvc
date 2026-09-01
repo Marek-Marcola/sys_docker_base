@@ -37,6 +37,7 @@ RUN set -eux;\
   curl $DOPT $DURL/sw/opensource/viewvc/viewvc-$VER.tar.gz | tar xzf -;\
   cd viewvc-$VER;\
   ./viewvc-install --prefix=/usr/local/viewvc-$VER --destdir=;\
+  cd /tmp;\
   rm -rf viewvc-$VER;\
   cd /usr/local;\
   ln -snfv viewvc-$VER viewvc;\

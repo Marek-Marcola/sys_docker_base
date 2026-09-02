@@ -36,7 +36,7 @@ RUN set -eux;\
     echo "info.vers = python/$V" >> /tmp/vers.txt;\
   else\
     apt-get update;\
-    apt-get -yqq install python-is-python3 python3-svn;\
+    apt-get -yqq install python-is-python3 python3-subversion subversion subversion-tools;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists;\
   fi;\

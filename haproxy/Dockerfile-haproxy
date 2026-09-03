@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -14,13 +16,15 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/haproxy-$VER/sbin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install socat liblua5.4-dev;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   if expr match $OSN centos; then\
     yum -y install socat;\
@@ -29,25 +33,23 @@ RUN set -ex;\
   groupadd -g 188 haproxy;\
   useradd -r -u 188 -g 188 -m -s /bin/bash haproxy;\
   cd /usr/local;\
-  curl -sSL -f -k http://repo/sw/opensource/haproxy/bin/haproxy-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/haproxy/bin/haproxy-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv haproxy-$VER haproxy;\
   chown -R root:root haproxy-$VER;\
   mkdir -pv etc/haproxy;\
   mkdir -pv /var/opt/haproxy;\
   chown haproxy:haproxy /var/opt/haproxy;\
   S=zlocal-haproxy.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101352-haproxy/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101352-haproxy/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   haproxy -v;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -23,12 +25,12 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  V=$(curl -s http://repo/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
-  curl -sSL -f -k http://repo/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  V=$(curl -s $DURL/sw/opensource/fcgi/bin/version.txt | grep ^fcgi: | tail -1 | awk '{print $2}');\
+  curl $DOPT $DURL/sw/opensource/fcgi/bin/fcgi-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv fcgi-$V fcgi;\
   echo "info.vers = fcgi/$V" >> /tmp/vers.txt;\
   V=${VER%%.*};\
-  curl -sSL -f -k http://repo/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/php/bin/php-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv php-$VER php-$V;\
   ln -snfv php-$V php;\
   cd etc;\
@@ -36,21 +38,19 @@ RUN set -eux;\
   cp -v php/php.ini-production php/php.ini;\
   mkdir -pv php/php-fpm.d;\
   S=zlocal-php-fpm.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101600-php/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101600-php/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   php --version;
 
-ADD config/ /usr/local/etc/php/
+COPY config/ /usr/local/etc/php/
 
 RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
-ADD supervisord/supervisord-* /usr/local/etc/supervisord.d/
+COPY scripts/[0-9]*.sh /cmd.d/
+COPY supervisord/supervisord-* /usr/local/etc/supervisord.d/

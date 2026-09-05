@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -21,7 +23,9 @@ ENV OS_ARCH=x86_64
 ENV OSN=centos7
 ENV OSA=x86_64
 
-ADD config/centos-$VER.repo /etc/yum.repos.d/
+COPY config/centos-$VER.repo /etc/yum.repos.d/
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   yum-config-manager --disable '*' > /dev/null;\
@@ -31,52 +35,37 @@ RUN set -eux;\
   yum -y install net-tools iproute nmap lsof strace telnet git curl wget bind-utils which unzip python-setuptools;\
   yum clean all;\
   S=zlocal-0001.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001540-centos7/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001540-centos7/files/$S || echo Script $S not available;\
   S=zlocal-0002.bash;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001540-centos7/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001540-centos7/files/$S || echo Script $S not available;\
   S=zlocal-0010.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001540-centos7/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001540-centos7/files/$S || echo Script $S not available;\
   S=zlocal-ip.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001540-centos7/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001540-centos7/files/$S || echo Script $S not available;\
   S=zlocal-process.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001540-centos7/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001540-centos7/files/$S || echo Script $S not available;\
   S=zlocal-readme.bash;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
-    && (chmod a+x /etc/profile.d/$S && mkdir -p /usr/local/etc/doc)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
+  mkdir -pv /usr/local/etc/doc;\
   S=zlocal-cdev-image.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   cat /etc/redhat-release;
 
 RUN set -eux;\
-  curl -sSL -f -k http://repo/sw/opensource/python-modules/pip.tar.gz | tar xzf - -C /tmp;\
+  curl $DOPT $DURL/sw/opensource/python-modules/pip.tar.gz | tar xzf - -C /tmp;\
   python /tmp/pip/$(ls /tmp/pip|grep py2.py3|head -1)/pip install --no-index --find-links=/tmp/pip --upgrade pip;\
   rm -rf /tmp/pip;\
   pip install --no-index --trusted-host repo --find-links=http://repo/sw/opensource/python-modules/supervisor/ supervisor;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008330-supervisor/files/$S || echo Script $S not available;\
   supervisord --version;
 
-ADD config/supervisord.conf /usr/local/etc
+COPY config/supervisord.conf /usr/local/etc
 
 RUN set -eux;\
-  curl -sSL -f -k -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
+  curl $DOPT -o /tini $DURL/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 
@@ -88,5 +77,5 @@ RUN set -eux;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]* /cmd.d/
-ADD scripts/cmd.sh /
+COPY scripts/[0-9]* /cmd.d/
+COPY scripts/cmd.sh /

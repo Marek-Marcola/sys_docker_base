@@ -32,5 +32,5 @@ RUN set -ex;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]* /cmd.d/
-ADD scripts/cmd.sh /
+COPY scripts/[0-9]* /cmd.d/
+COPY scripts/cmd.sh /

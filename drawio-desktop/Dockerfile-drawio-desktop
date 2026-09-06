@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -14,7 +16,9 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /opt/drawio:$PATH
 ENV DRAWIO_DISABLE_UPDATE=true
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   export DEBIAN_FRONTEND=noninteractive;\
@@ -23,10 +27,10 @@ RUN set -ex;\
   apt-get -yqq --no-install-recommends install fonts-liberation fonts-arphic-ukai fonts-arphic-uming fonts-noto;\
   apt-get -yqq --no-install-recommends install fonts-noto-cjk fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core ;\
   apt-get -yqq --no-install-recommends install libcanberra-gtk3-module;\
-  curl -sSL -f -k -o /tmp/f.deb http://repo/sw/opensource/drawio/bin/drawio-amd64-$VER.deb;\
+  curl $DOPT -o /tmp/f.deb $DURL/sw/opensource/drawio/bin/drawio-amd64-$VER.deb;\
   apt-get -yqq install /tmp/f.deb;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   rm -fv /tmp/f.deb;\
   mkdir -pv /var/opt/drawio;\
   chmod a+rwx /home/none;\
@@ -34,7 +38,7 @@ RUN set -ex;\
 
 WORKDIR /var/opt/drawio
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

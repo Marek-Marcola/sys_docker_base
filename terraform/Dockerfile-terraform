@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -19,18 +21,16 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv terraform-$VER;\
   ln -snfv terraform-$VER terraform;\
-  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/opensource/terraform/bin/terraform_${VER}_linux_amd64.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/terraform/bin/terraform_${VER}_linux_amd64.zip;\
   unzip -d terraform /tmp/f.zip;\
   chown -R root:root terraform-$VER;\
   mkdir -pv etc/terraform;\
-  V=$(curl -s http://repo/sw/opensource/terraform/providers/version.txt | grep ^terraform-provider-libvirt: | tail -1 | awk '{print $2}');\
+  V=$(curl -s $DURL/sw/opensource/terraform/providers/version.txt | grep ^terraform-provider-libvirt: | tail -1 | awk '{print $2}');\
   mkdir -pv /usr/local/terraform-providers/dc.local/local/libvirt;\
   cd /usr/local/terraform-providers/dc.local/local/libvirt;\
-  curl -sSL -f -k -O http://repo/sw/opensource/terraform/providers/terraform-provider-libvirt_${V}_linux_amd64.zip;\
+  curl $DOPT -O $DURL/sw/opensource/terraform/providers/terraform-provider-libvirt_${V}_linux_amd64.zip;\
   S=zlocal-terraform.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo//pkb/pb/playbooks/005012-terraform/files/$S\
-    && (chmod a+rx /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/005012-terraform/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   find /usr/local/terraform-providers;\
   terraform version;

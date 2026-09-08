@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -23,9 +25,11 @@ ENV OSN=debian12
 ENV OSA=x86_64
 ENV OSC=bookworm
 
-ADD config/debian-$VER.list config/debian-$VER-updates.list config/debian-12-official.list.disabled /etc/apt/sources.list.d/
+COPY config/debian-$VER.list config/debian-$VER-updates.list config/debian-12-official.list.disabled /etc/apt/sources.list.d/
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   touch /etc/apt/sources.list;\
   sed -i.b$(date +%y%m%d) -e 's/^deb/#deb/' /etc/apt/sources.list;\
   mv -v /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.disabled;\
@@ -40,73 +44,54 @@ RUN set -ex;\
   apt-get -yqq install jq vim xz-utils bsdextrautils jigdo-file man;\
   apt-get -yqq install apt-mirror debmirror gnupg xz-utils file tree;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   groupadd -g 666 none;\
   useradd -u 666 -g 666 -m -s /bin/bash none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
   sed -i.b$(date +%y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-0002.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-0010.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-ip.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-apt.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+rx /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-process.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+rx /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=vimrc.local;\
-  curl -sS -L -k -f -o /etc/vim/${S} http://repo/pkb/pb/playbooks/001640-debian12/files/$S\
-    && (chmod a+r /etc/vim/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/vim/$S $DURL/pkb/pb/playbooks/001640-debian12/files/$S || echo Script $S not available;\
   S=zlocal-readme.bash;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
-    && (chmod a+x /etc/profile.d/$S && mkdir -pv /usr/local/etc/doc)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
+  mkdir -pv /usr/local/etc/doc;\
   S=zlocal-cdev-image.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   cat /etc/os-release;\
   cat /etc/debian_version;
 
-RUN set -ex;\
+RUN set -eux;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008330-supervisor/files/$S || echo Script $S not available;\
   supervisord --version;
 
-ADD config/supervisord.conf /usr/local/etc
+COPY config/supervisord.conf /usr/local/etc
 
-RUN set -ex;\
-  curl -sS -L -k -f -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
+RUN set -eux;\
+  curl $DOPT -o /tini $DURL/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 
-RUN set -ex;\
+RUN set -eux;\
   mkdir -pv /cmd.d /version.d;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
@@ -114,6 +99,6 @@ RUN set -ex;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]* /cmd.d/
-ADD scripts/cmd.sh /
+COPY scripts/[0-9]* /cmd.d/
+COPY scripts/cmd.sh /
 CMD ["/bin/bash","-l"]

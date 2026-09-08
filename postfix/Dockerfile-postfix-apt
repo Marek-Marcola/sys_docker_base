@@ -12,7 +12,9 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   groupadd -g 5000 vmail;\
   useradd -g 5000 -u 5000 -m vmail;\
   mkdir -p /var/opt/vmail;\
@@ -29,10 +31,11 @@ RUN set -ex;\
   postconf maillog_file=/dev/stdout;\
   postconf mail_version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
-  echo "info.from = $FROM") > /version.d/version-$REPO.txt;
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

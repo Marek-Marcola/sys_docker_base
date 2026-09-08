@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,6 +14,8 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/tor-browser-$VER:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   if expr match $OSN debian; then\
@@ -32,7 +36,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv tor-browser-$VER;\
   ln -snfv tor-browser-$VER tor-browser;\
-  curl -sSL -f -k http://repo/sw/opensource/tor-browser/bin/tor-browser-linux-x86_64-$VER.tar.xz | tar xf - --xz --strip-components=1 -C tor-browser;\
+  curl $DOPT $DURL/sw/opensource/tor-browser/bin/tor-browser-linux-x86_64-$VER.tar.xz | tar xf - --xz --strip-components=1 -C tor-browser;\
   chown -R none:none tor-browser-$VER;\
   ls -l /usr/local;
 

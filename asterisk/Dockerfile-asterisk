@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -14,7 +16,9 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/asterisk-$VER/sbin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -37,28 +41,26 @@ RUN set -ex;\
       libspeexdsp1 libsnmp30 libresample1 libcodec2-dev libgmime-2.6-0 libvorbisenc2;\
     fi;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   groupadd -g 700 asterisk;\
   useradd -r -u 700 -g 700 -c "asterisk" -m -s /bin/bash asterisk;\
   cd /usr/local;\
-  curl -sSL -f -k http://repo/sw/opensource/asterisk/bin/asterisk-$VER-$OSN-$OSA${TYPE:+-}${TYPE}.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/asterisk/bin/asterisk-$VER-$OSN-$OSA${TYPE:+-}${TYPE}.tar.gz | tar xzf -;\
   ln -snfv asterisk-$VER asterisk;\
   chown -R root:root asterisk-$VER;\
   mkdir -pv etc/asterisk;\
   S=zlocal-asterisk.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101990-asterisk/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101990-asterisk/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   asterisk -V;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

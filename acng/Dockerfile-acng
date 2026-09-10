@@ -15,7 +15,7 @@ ENV PATH /usr/local/acng-$VER/bin:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -ex;\
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -28,7 +28,7 @@ RUN set -ex;\
   chown none:none /var/opt/acng/cache /var/opt/acng/log;\
   dpkg -l apt-cacher-ng;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

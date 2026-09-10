@@ -17,7 +17,7 @@ ENV PATH /usr/local/alertmanager-$VER:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -ex;\
+RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
@@ -33,7 +33,7 @@ RUN set -ex;\
 
 COPY config/ /usr/local/etc/alertmanager/
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

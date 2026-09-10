@@ -13,6 +13,8 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/acng-$VER/bin:$PATH
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN set -ex;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
@@ -32,6 +34,6 @@ RUN set -ex;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD config/acng.conf /usr/local/etc/acng/
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY config/acng.conf /usr/local/etc/acng/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

@@ -17,7 +17,7 @@ ENV PATH /usr/local/ansible-$VER/bin:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -ex;\
+RUN set -eux;\
   cd /usr/local;\
   curl $DOPT $DURL/sw/opensource/ansible/bin/ansible-$VER-$OSN-venv.tar.gz | tar xzf -;\
   chown -R root:root ansible-$VER;\
@@ -31,7 +31,7 @@ RUN set -ex;\
   which ansible-community && ansible-community --version;\
   ansible --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

@@ -69,7 +69,7 @@ RUN set -eux;\
 COPY config/supervisord.conf /usr/local/etc
 
 RUN set -eux;\
-  curl -sS -L -k -f -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
+  curl $DOPT -o /tini $DURL/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 

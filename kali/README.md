@@ -1,6 +1,12 @@
 kali
 ====
 
+Build
+-----
+cdev env:
+
+    # c -s kali
+
 Deploy
 ------
 cman env:

@@ -1,0 +1,43 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/helm-$VER:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  cd /usr/local;\
+  mkdir -pv helm-$VER;\
+  ln -snfv helm-$VER helm;\
+  curl $DOPT $DURL/sw/opensource/helm/bin/helm-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C helm;\
+  chown -R root:root helm-$VER;\
+  mkdir -pv etc/helm;\
+  V=$(curl -s $DURL/sw/opensource/helm-diff/bin/version.txt | grep ^helm-diff: | tail -1 | awk '{print $2}');\
+  mkdir -pv helm-diff-$V;\
+  ln -snfv helm-diff-$V helm-diff;\
+  curl $DOPT $DURL/sw/opensource/helm-diff/bin/helm-diff-linux-amd64-$V.tgz | tar xzf - --strip-components=1 -C helm-diff;\
+  helm plugin install /usr/local/helm-diff;\
+  S=zlocal-helm.sh;\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008146-k8s_helm/files/$S || echo Script $S not available;\
+  ls -l /usr/local;\
+  helm version --short;\
+  helm plugin list;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
+ ) > /version.d/version-$REPO.txt;

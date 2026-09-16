@@ -1,8 +1,5 @@
 #!/bin/bash
 
-SN="${0##*/}"
-ID="[$SN]"
-
 [[ -z $NGINX_ID     ]] && NGINX_ID=""
 [[ -z $NGINX_DATA   ]] && NGINX_DATA=/var/opt/nginx${NGINX_ID:+/}${NGINX_ID}
 [[ -z $NGINX_GROUPS ]] && NGINX_GROUPS=""
@@ -20,7 +17,7 @@ echo "    NGINX_INIT = $NGINX_INIT"
 echo
 
 if [ "$NGINX_MODE" = "oos" ]; then
-  echo "$ID: I: operation mode: out-of-service"
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[nginx-mode-oos]' sleep 666d
 fi
@@ -37,7 +34,7 @@ if [ "$NGINX_INIT" = "yes" -o "$NGINX_INIT" = "1" ]; then
     echo "<?php phpinfo(); ?>" > html/info.php
     { set +ex; } 2>/dev/null
   else
-    echo "$ID: W: instance already exists"
+    echo "W: instance already exists"
   fi
   echo
 fi
@@ -54,7 +51,7 @@ if [ -n "$NGINX_GROUPS" ]; then
 fi
 
 if [ ! -d $NGINX_DATA ]; then
-  echo "$ID: E: no data directory: $NGINX_DATA"
+  echo "E: no data directory: $NGINX_DATA"
   exit 1
 fi
 

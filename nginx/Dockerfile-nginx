@@ -56,15 +56,11 @@ RUN set -eux;\
   mkdir -pv /var/opt/nginx;\
   chown none:none /var/opt/nginx;\
   S=zlocal-nginx.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101610-nginx/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101610-nginx/files/$S || echo Script $S not available;\
   S=zlocal-php-fpm.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101600-php/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script ${S} not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101600-php/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
-  nginx -V 2>&1 |  sed 's/--/\n  --/g';
+  nginx -V 2>&1 | sed 's/--/\n  --/g';
 
 COPY config/ /usr/local/nginx/conf/
 

@@ -34,7 +34,7 @@ if [ "$NGINX_INIT" = "yes" -o "$NGINX_INIT" = "1" ]; then
     echo "<?php phpinfo(); ?>" > html/info.php
     { set +ex; } 2>/dev/null
   else
-    echo "W: instance already exists"
+    echo "W: instance already exists: $NGINX_DATA"
   fi
   echo
 fi

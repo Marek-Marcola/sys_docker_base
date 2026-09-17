@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -23,7 +25,9 @@ ENV OSN=debian11
 ENV OSA=x86_64
 ENV OSC=bullseye
 
-ADD config/debian-$VER.list config/debian-$VER-updates.list /etc/apt/sources.list.d/
+COPY config/debian-$VER.list config/debian-$VER-updates.list /etc/apt/sources.list.d/
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   touch /etc/apt/sources.list;\
@@ -38,40 +42,27 @@ RUN set -eux;\
   apt-get -yqq install python3 python3-distutils python3-pkg-resources;\
   apt-get -yqq install jq vim bsdextrautils file tree;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   groupadd -g 666 none;\
   useradd -u 666 -g 666 -m -s /bin/bash none;\
   ln -snfv /usr/share/zoneinfo/$TZ /etc/localtime;\
   echo $TZ > /etc/timezone;\
   sed -i.b$(date +%y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-0002.bash;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-0010.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-ip.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=vimrc.local;\
-  curl -sSL -f -k -o /etc/vim/$S http://repo/pkb/pb/playbooks/001630-debian11/files/$S\
-    && (chmod a+r /etc/vim/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/vim/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-readme.bash;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001500-linux_admin/files/$S\
-    && (chmod a+x /etc/profile.d/$S && mkdir -p /usr/local/etc/doc)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
+  mkdir -pv /usr/local/etc/doc;\
   S=zlocal-cdev-image.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   cat /etc/os-release;\
   cat /etc/debian_version;
 
@@ -80,19 +71,17 @@ RUN set -eux;\
   apt-get update;\
   apt-get -yqq install python3-pip supervisor;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/008330-supervisor/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008330-supervisor/files/$S || echo Script $S not available;\
   supervisord --version;
 
-ADD config/supervisord.conf /usr/local/etc
+COPY config/supervisord.conf /usr/local/etc
 
 RUN set -eux;\
-  curl -sSL -f -k -o /tini http://repo/sw/opensource/tini/bin/tini-amd64-current;\
+  curl $DOPT -o /tini $DURL/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 
@@ -104,6 +93,6 @@ RUN set -eux;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]* /cmd.d/
-ADD scripts/cmd.sh /
+COPY scripts/[0-9]* /cmd.d/
+COPY scripts/cmd.sh /
 CMD ["/bin/bash","-l"]

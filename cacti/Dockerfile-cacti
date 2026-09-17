@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -14,23 +16,25 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/nagios-$VER/bin:$PATH
 ENV LD_LIBRARY_PATH /usr/local/fcgi/lib:$LD_LIBRARY_PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   mv -v /usr/local/etc/supervisord.d/supervisord-cron.conf.disabled /usr/local/etc/supervisord.d/supervisord-cron.conf;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install mariadb-client rrdtool snmp;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   cd /usr/local;\
-  curl -sSL -f -k http://repo/sw/opensource/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv spine-$VER spine;\
   chown -R root:root spine-$VER;\
   chmod u+s spine/bin/spine;\
   mkdir -pv cacti;\
   ln -snfv cacti cacti-$VER;\
-  curl -sSL -f -k http://repo/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
+  curl $DOPT $DURL/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
   chown -R root:root cacti;\
   mkdir -pv etc/cacti;\
   ln -snfv /usr/local/etc/cacti/config.php /usr/local/cacti/include;\
@@ -57,16 +61,14 @@ RUN set -ex;\
   setcap cap_net_raw=ep /usr/bin/ping;\
   getcap /usr/bin/ping;\
   S=zlocal-cacti.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101400-cacti/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101400-cacti/files/$S || echo Script $S not available;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
   [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/

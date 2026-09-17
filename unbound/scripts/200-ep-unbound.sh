@@ -11,13 +11,13 @@ echo "    UNBOUND_MODE = $UNBOUND_MODE"
 echo
 
 if [ "$UNBOUND_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[unbound-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $UNBOUND_CONF ]; then
-  echo ${0##*/}: error: no config file: $UNBOUND_CONF
+  echo "E: no config file: $UNBOUND_CONF"
   exit 1
 fi
 

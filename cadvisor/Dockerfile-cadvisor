@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,22 +15,24 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/cadvisor-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv cadvisor-$VER;\
   ln -snfv cadvisor-$VER cadvisor;\
   cd cadvisor;\
-  curl -sS -L -k -f -O http://repo/sw/opensource/cadvisor/bin/cadvisor-v$VER-linux-amd64;\
+  curl $DOPT -O $DURL/sw/opensource/cadvisor/bin/cadvisor-v$VER-linux-amd64;\
   ln -snfv cadvisor-v$VER-linux-amd64 cadvisor;\
   chmod a+x cadvisor-v$VER-linux-amd64;\
   ls -l /usr/local;\
   cadvisor -version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

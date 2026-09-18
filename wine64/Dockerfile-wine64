@@ -56,9 +56,7 @@ RUN set -eux;\
   ln -snfv wine64-$VER wine64;\
   chown -R root:root wine64-$VER;\
   S=zlocal-wine.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008120-wine/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008120-wine/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   wine --version;
 

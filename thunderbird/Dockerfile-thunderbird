@@ -38,7 +38,7 @@ RUN set -eux;\
   ln -snfv thunderbird-$VER thunderbird;\
   curl $DOPT $DURL/sw/opensource/thunderbird/bin/thunderbird-$VER.tar.xz | tar xf - --xz --strip-components=1 -C thunderbird;\
   chown -R root:root thunderbird-$VER;\
-  V=$(curl -s $DURL/sw/opensource/firefox/bin/version.txt | grep ^firefox: | tail -1 | awk '{print $2}');\
+  V=$(curl $DOPT $DURL/sw/opensource/firefox/bin/version.txt | grep ^firefox: | tail -1 | awk '{print $2}');\
   mkdir -pv firefox-$V;\
   ln -snfv firefox-$V firefox;\
   curl $DOPT $DURL/sw/opensource/firefox/bin/firefox-$V.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\

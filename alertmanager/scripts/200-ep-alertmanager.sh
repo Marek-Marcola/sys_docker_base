@@ -11,7 +11,7 @@ echo "    ALERTMANAGER_OPTS = $ALERTMANAGER_OPTS"
 echo
 
 if [ ! -f $ALERTMANAGER_CONF ]; then
-  echo ${0##*/}: error: no config file: $ALERTMANAGER_CONF
+  echo "E: no config file: $ALERTMANAGER_CONF"
   exit 1
 fi
 

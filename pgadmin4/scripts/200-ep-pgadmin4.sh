@@ -11,13 +11,13 @@ echo "    GUNICORN_OPTS = $GUNICORN_OPTS"
 echo
 
 if [ "$PGADMIN4_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[pgadmin4-mode-oos]' sleep 666d
 fi
 
 if [ ! -f /var/opt/pgadmin4/pgadmin4.db ]; then
-  echo ${0##*/}: error: no database file: /var/opt/pgadmin4/pgadmin4.db
+  echo "E: no database file: /var/opt/pgadmin4/pgadmin4.db"
   exit 1
 fi
 

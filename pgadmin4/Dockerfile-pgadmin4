@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,15 +14,19 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/pgadmin4-$VER/bin:$PATH
+ENV PGADMIN4_PGVERS "18 17 16"
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian13; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install python3-distutils-extra;\
     apt-get -yqq install python3-virtualenv;\
+    apt-get -yqq install libicu-dev;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   if expr match $OSN debian12; then\
     export DEBIAN_FRONTEND=noninteractive;\
@@ -33,7 +39,7 @@ RUN set -ex;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/pgadmin4/bin/pgadmin4-$VER-$OSN-venv.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/pgadmin4/bin/pgadmin4-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv pgadmin4-$VER pgadmin4;\
   ln -snfv /usr/local/pgadmin4/bin/activate /usr/local/bin;\
   ln -snfv /usr/local/pgadmin4/bin/pgadmin4 /usr/local/bin;\
@@ -45,18 +51,27 @@ RUN set -ex;\
   S=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])');\
   mkdir -pv /usr/local/etc/pgadmin4;\
   ln -snfv /usr/local/etc/pgadmin4/config_local.py $S/pgadmin4/;\
+  for V in $PGADMIN4_PGVERS; do\
+    V=$(curl $DOPT $DURL/sw/opensource/pgsql/bin/version.txt|grep ^pgsql-$V:|tail -1|awk '{print $2}');\
+    curl $DOPT $DURL/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    [ -e pgsql-${V%.*} ] || ln -snfv pgsql-$V pgsql-${V%.*};\
+    chown -R root:root pgsql-$V;\
+  done;\
   ls -l /usr/local;\
+  for V in $PGADMIN4_PGVERS; do\
+    pgsql-$V/bin/postgres --version;\
+  done;\
   pip show gunicorn;\
   pip show pgadmin4;
 
-ADD config/config_local.py /usr/local/etc/pgadmin4/
+COPY config/config_local.py /usr/local/etc/pgadmin4/
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

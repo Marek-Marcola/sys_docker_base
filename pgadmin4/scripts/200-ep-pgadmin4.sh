@@ -5,9 +5,10 @@
 [[ -z $GUNICORN_OPTS ]] && GUNICORN_OPTS="-w 1 --threads 10 -b 0.0.0.0:8080 -u none -g none --error-logfile - --access-logfile - --log-level debug --forwarded-allow-ips=*"
 
 echo "env config:"
-echo "    PGADMIN4_ID   = $PGADMIN4_ID"
-echo "    PGADMIN4_MODE = $PGADMIN4_MODE"
-echo "    GUNICORN_OPTS = $GUNICORN_OPTS"
+echo "    PGADMIN4_ID     = $PGADMIN4_ID"
+echo "    PGADMIN4_PGVERS = $PGADMIN4_PGVERS"
+echo "    PGADMIN4_MODE   = $PGADMIN4_MODE"
+echo "    GUNICORN_OPTS   = $GUNICORN_OPTS"
 echo
 
 if [ "$PGADMIN4_MODE" = "oos" ]; then

@@ -9,7 +9,7 @@ echo "    ACNG_CONF = $ACNG_CONF"
 echo
 
 if [ ! -d $ACNG_CONF ]; then
-  echo ${0##*/}: error: no config dir: $ACNG_CONF
+  echo "E: no config dir: $ACNG_CONF"
   exit 1
 fi
 

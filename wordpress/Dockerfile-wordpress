@@ -33,7 +33,7 @@ RUN set -eux;\
   if [ -f /usr/local/etc/php8/php.ini ]; then\
     sed -i.b$(date +%y%m%d) -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php8/php.ini;\
   fi;\
-  V=$(curl -s $DURL/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
+  V=$(curl $DOPT $DURL/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
   curl $DOPT -o /usr/local/bin/wp $DURL/sw/opensource/wp-cli/bin/wp-cli-$V.phar;\
   chmod a+x /usr/local/bin/wp;\
   echo "info.vers = wp-cli/$V" >> /tmp/vers.txt;\

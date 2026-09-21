@@ -24,7 +24,8 @@ cman env:
     --volume /run/user/$(id -u $USER):/run/user/$(id -u $USER)
     --volume /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
     --volume /etc/passwd:/etc/passwd:ro
-    --volume $HOME:$HOME
+    --volume $HOME/.thunderbird:$HOME/.thunderbird
+    --volume $HOME/tmp:$HOME/tmp
     --user $(id -u)
     --group-add audio
     --group-add video

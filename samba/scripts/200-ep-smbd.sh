@@ -9,7 +9,7 @@ echo "    SAMBA_CONF = $SAMBA_CONF"
 echo
 
 if [ ! -f $SAMBA_CONF ]; then
-  echo ${0##*/}: error: no config file: $SAMBA_CONF
+  echo "E: no config file: $SAMBA_CONF"
   exit 1
 fi
 

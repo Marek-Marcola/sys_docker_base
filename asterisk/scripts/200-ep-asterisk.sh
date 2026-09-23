@@ -16,7 +16,7 @@ echo "    ASTERISK_INIT = $ASTERISK_INIT"
 echo
 
 if [ ! -f $ASTERISK_CONF ]; then
-  echo ${0##*/}: error: no config file: $ASTERISK_CONF
+  echo "E: no config file: $ASTERISK_CONF"
   exit 1
 fi
 
@@ -29,13 +29,13 @@ if [ "$ASTERISK_INIT" = "yes" -o "$ASTERISK_INIT" = "1" ]; then
     chown -R asterisk:asterisk $ASTERISK_DATA
     { set +ex; } 2>/dev/null
   else
-    echo warning: data already exists
+    echo "W: instance already exists: $ASTERISK_DATA"
   fi
   echo
 fi
 
 if [ ! -d $ASTERISK_DATA/spool ]; then
-  echo error: no data directory: $ASTERISK_DATA
+  echo "E: no data directory: $ASTERISK_DATA"
   exit 1
 fi
 

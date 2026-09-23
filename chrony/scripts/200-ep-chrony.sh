@@ -9,7 +9,7 @@ echo "    CHRONY_CONF = $CHRONY_CONF"
 echo
 
 if [ ! -f $CHRONY_CONF ]; then
-  echo ${0##*/}: error: no config file: $CHRONY_CONF
+  echo "E: no config file: $CHRONY_CONF"
   exit 1
 fi
 

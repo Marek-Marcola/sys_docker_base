@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,13 +15,15 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/chartmuseum-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv chartmuseum-$VER;\
   ln -snfv chartmuseum-$VER chartmuseum;\
-  curl -sS -L -k -f http://repo/sw/opensource/chartmuseum/bin/chartmuseum-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C chartmuseum;\
+  curl $DOPT $DURL/sw/opensource/chartmuseum/bin/chartmuseum-v$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C chartmuseum;\
   chown -R root:root chartmuseum-$VER;\
   mkdir -pv etc/chartmuseum;\
   mkdir -pv /var/opt/chartmuseum;\
@@ -27,12 +31,12 @@ RUN set -ex;\
   ls -l /usr/local;\
   chartmuseum --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD config/ /usr/local/etc/chartmuseum/
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY config/ /usr/local/etc/chartmuseum/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

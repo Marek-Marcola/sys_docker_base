@@ -27,9 +27,7 @@ RUN set -eux;\
   mkdir -pv /var/opt/chrony;\
   chown none:none /var/opt/chrony;\
   S=zlocal-chrony.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/010140-chrony/files/$S\
-    && (chmod a+rx /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/010140-chrony/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   chronyc --version;\
   chronyd --version;

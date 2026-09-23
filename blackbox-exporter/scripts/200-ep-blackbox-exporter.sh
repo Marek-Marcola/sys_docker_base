@@ -11,7 +11,7 @@ echo "    BLACKBOX_EXPORTER_OPTS = $BLACKBOX_EXPORTER_OPTS"
 echo
 
 if [ ! -f $BLACKBOX_EXPORTER_CONF ]; then
-  echo ${0##*/}: error: no config file: $BLACKBOX_EXPORTER_CONF
+  echo "E: no config file: $BLACKBOX_EXPORTER_CONF"
   exit 1
 fi
 

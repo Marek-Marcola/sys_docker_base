@@ -13,7 +13,7 @@ if [ -f $DNSMASQ_CONF ]; then
 elif [ -d $DNSMASQ_CONF ]; then
   DNSMASQ_CONFIG=--conf-dir=$DNSMASQ_CONF
 else
-  echo ${0##*/}: error: no config file/directory: $DNSMASQ_CONF
+  echo "E: no config file/directory: $DNSMASQ_CONF"
   exit 1
 fi
 

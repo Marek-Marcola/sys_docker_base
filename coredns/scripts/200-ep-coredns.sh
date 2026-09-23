@@ -11,13 +11,13 @@ echo "    COREDNS_MODE = $COREDNS_MODE"
 echo
 
 if [ "$COREDNS_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I:operation mode: out-of-service"
   set -x
   exec -a '[coredns-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $COREDNS_CONF ]; then
-  echo error: no config file: $COREDNS_CONF
+  echo "E: no config file: $COREDNS_CONF"
   exit 1
 fi
 

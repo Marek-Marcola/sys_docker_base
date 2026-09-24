@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,14 +14,16 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   groupadd -g 701 gerrit;\
   useradd -r -u 701 -g 701 -m -s /bin/bash gerrit;\
   cd /usr/local;\
   mkdir -pv gerrit-$VER;\
   ln -snfv gerrit-$VER gerrit;\
   cd gerrit;\
-  curl -sSL -f -k -o gerrit-$VER.war http://repo/sw/opensource/gerrit/war/gerrit-$VER.war;\
+  curl $DOPT -o gerrit-$VER.war $DURL/sw/opensource/gerrit/war/gerrit-$VER.war;\
   ln -snfv gerrit-$VER.war gerrit.war;\
   chown -R root:root gerrit-$VER.war;\
   mkdir -pv /var/opt/gerrit;\
@@ -28,11 +32,11 @@ RUN set -ex;\
   ls -l /usr/local;\
   java -jar gerrit.war version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

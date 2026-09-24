@@ -13,7 +13,7 @@ echo "    GERRIT_INIT = $GERRIT_INIT"
 echo
 
 if [ "$GERRIT_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[gerrit-mode-oos]' sleep 666d
 fi
@@ -27,13 +27,13 @@ if [ "$GERRIT_INIT" = "yes" -o "$GERRIT_INIT" = "1" ]; then
       java -jar /usr/local/gerrit/gerrit.war init -d $GERRIT_DATA --batch --no-auto-start --skip-all-downloads --skip-plugins
     { set +ex; } 2>/dev/null
   else
-    echo ${0##*/}: info: instance already exists
+    echo "W: instance already exists: $GERRIT_DATA"
   fi
   echo
 fi
 
 if [ ! -d $GERRIT_DATA ]; then
-  echo ${0##*/}: error: no data directory: $GERRIT_DATA
+  echo "E: no data directory: $GERRIT_DATA"
   exit 1
 fi
 

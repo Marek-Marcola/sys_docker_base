@@ -21,5 +21,5 @@ if [ -n "$DF" ]; then
   done
 else
   echo
-  echo "No Dockerfile* files found"
+  echo "I: no Dockerfile(s) found"
 fi

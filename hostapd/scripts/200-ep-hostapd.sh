@@ -11,7 +11,7 @@ echo "    HOSTAPD_OPTS = $HOSTAPD_OPTS"
 echo
 
 if [ ! -f $HOSTAPD_CONF ]; then
-  echo ${0##*/}: error: no config file: $HOSTAPD_CONF
+  echo "E: no config file: $HOSTAPD_CONF"
   exit 1
 fi
 

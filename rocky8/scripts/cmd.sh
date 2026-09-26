@@ -1,6 +1,6 @@
 #!/bin/bash
 
-_ID=${0##*/}
+_ID="[${0##*/}]"
 
 echo "$_ID: start: $(date '+%Y-%m-%d %H:%M:%S')"
 

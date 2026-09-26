@@ -11,7 +11,7 @@ echo "    SQUID_ULIMIT = $SQUID_ULIMIT"
 echo
 
 if [ ! -f $SQUID_CONF ]; then
-  echo ${0##*/}: error: no config file: $SQUID_CONF
+  echo "E: no config file: $SQUID_CONF"
   exit 1
 fi
 

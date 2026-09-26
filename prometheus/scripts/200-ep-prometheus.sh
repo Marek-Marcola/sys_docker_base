@@ -11,7 +11,7 @@ echo "    PROMETHEUS_OPTS = $PROMETHEUS_OPTS"
 echo
 
 if [ ! -f $PROMETHEUS_CONF ]; then
-  echo ${0##*/}: error: no config file: $PROMETHEUS_CONF
+  echo "E: no config file: $PROMETHEUS_CONF"
   exit 1
 fi
 

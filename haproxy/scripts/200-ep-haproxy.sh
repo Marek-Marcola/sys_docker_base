@@ -11,13 +11,13 @@ echo "    HAPROXY_MODE = $HAPROXY_MODE"
 echo
 
 if [ "$HAPROXY_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[haproxy-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $HAPROXY_CONF ]; then
-  echo ${0##*/}: error: no config file: $HAPROXY_CONF
+  echo "E: no config file: $HAPROXY_CONF"
   exit 1
 fi
 

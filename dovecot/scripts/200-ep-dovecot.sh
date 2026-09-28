@@ -13,13 +13,13 @@ echo "    DOVECOT_MODE = $DOVECOT_MODE"
 echo
 
 if [ "$DOVECOT_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[dovecot-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $DOVECOT_CONF ]; then
-  echo ${0##*/}: error: no config file: $DOVECOT_CONF
+  echo "E: no config file: $DOVECOT_CONF"
   exit 1
 fi
 

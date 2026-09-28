@@ -31,7 +31,7 @@ RUN set -eux;\
     echo "TLS_REQCERT allow" >> /etc/openldap/ldap.conf;\
   fi;\
   cd /usr/local;\
-  V=$(curl $DOPT $DURL/sw/opensource/smarty/src/version.txt | grep ^smarty: | awk '{print $2}');\
+  V=$(curl $DOPT $DURL/sw/opensource/smarty/src/version.txt | grep ^smarty-4: | awk '{print $2}');\
   mkdir -pv smarty-$V;\
   ln -snfv smarty-$V smarty;\
   curl $DOPT $DURL/sw/opensource/smarty/src/smarty-$V.tar.gz | tar xzf - --strip-components=2 -C smarty;\

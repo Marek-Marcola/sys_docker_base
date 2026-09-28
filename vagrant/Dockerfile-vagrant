@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,30 +14,26 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install vagrant vagrant-libvirt vagrant-sshfs libvirt-clients;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   S=zlocal-kvm.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/001541-centos7_kvm/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001541-centos7_kvm/files/$S || echo Script $S not available;\
   S=zlocal-vagrant.sh;\
-  curl -sS -L -k -f -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/005010-vagrant/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/005010-vagrant/files/$S || echo Script $S not available;\
   S=/usr/local/bin/yq;\
-  curl -sS -L -k -f -o $S http://repo/sw/opensource/yq/bin/yq-latest-x86_64\
-    && (chmod a+x $S)\
-    || (echo Prog $S not available);\
+  curl $DOPT -o $S $DURL/sw/opensource/yq/bin/yq-latest-x86_64 || echo Prog $S not available;\
   vagrant --version;\
   vagrant plugin list;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

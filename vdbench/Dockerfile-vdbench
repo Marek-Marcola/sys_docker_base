@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,23 +15,25 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/vdbench-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv vdbench-$VER;\
   ln -snfv vdbench-$VER vdbench;\
-  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/oracle/vdbench/vdbench-$VER.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/oracle/vdbench/vdbench-$VER.zip;\
   unzip -d vdbench /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   chown -R root:root vdbench-$VER;\
   mkdir -pv /work;\
   mkdir -pv /usr/local/etc/vdbench;
 
-ADD scripts/*.sh /usr/local/bin/
-ADD scripts/*.conf /usr/local/etc/vdbench/
+COPY scripts/*.sh /usr/local/bin/
+COPY scripts/*.conf /usr/local/etc/vdbench/
 
 WORKDIR /work
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

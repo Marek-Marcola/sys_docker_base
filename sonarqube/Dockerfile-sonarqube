@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,11 +15,13 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/sonarqube-$VER/bin/linux-x86-64:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   groupadd -g 435 sonarqube;\
   useradd -r -u 435 -g 435 -c "SonarQube" -m -s /bin/bash sonarqube;\
   cd /usr/local;\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/sonarqube/bin/sonarqube-$VER.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/sonarqube/bin/sonarqube-$VER.zip;\
   unzip -q /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   ln -snfv sonarqube-$VER sonarqube;\
@@ -27,13 +31,14 @@ RUN set -ex;\
   ln -sv /var/opt/sonarqube/logs sonarqube;\
   ln -sv /var/opt/sonarqube/extensions sonarqube;\
   sed -i.b$(date +%y%m%d) 's%PIDDIR=.*%PIDDIR="/tmp"%' /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;\
+  chmod a+x /usr/local/sonarqube/bin/linux-x86-64/sonar.sh;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

@@ -1,0 +1,40 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/pandoc-$VER/bin:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install texlive;\
+    rm -rf /var/lib/apt/lists;\
+  fi;\
+  cd /usr/local;\
+  mkdir -pv pandoc-$VER;\
+  ln -snfv pandoc-$VER pandoc;\
+  curl $DOPT $DURL/sw/opensource/pandoc/bin/pandoc-$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
+  chown -R root:root pandoc-$VER;\
+  ls -l /usr/local;\
+  pandoc -v;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
+ ) > /version.d/version-$REPO.txt;

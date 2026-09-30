@@ -2,7 +2,7 @@
 
 [[ -z $JETTY_HOME ]] && JETTY_HOME=/usr/local/jetty
 [[ -z $JETTY_BASE ]] && JETTY_BASE=/var/opt/jetty/default
-[[ -z $JAVA_OPTS  ]] && JAVA_OPTS=
+[[ -z $JAVA_OPTS  ]] && JAVA_OPTS=""
 
 echo "env config:"
 echo "    JETTY_HOME = $JETTY_HOME"

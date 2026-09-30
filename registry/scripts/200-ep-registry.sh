@@ -15,7 +15,7 @@ echo "    OTEL_TRACES_EXPORTER = $OTEL_TRACES_EXPORTER"
 echo
 
 if [ "$REGISTRY_MODE" = "oos" ]; then
-  echo "E: operation mode: out-of-service"
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[registry-mode-oos]' sleep 666d
 fi

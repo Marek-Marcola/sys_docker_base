@@ -13,13 +13,13 @@ echo "    RSYSLOG_MODE = $RSYSLOG_MODE"
 echo
 
 if [ "$RSYSLOG_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "E: operation mode: out-of-service"
   set -x
   exec -a '[rsyslog-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $RSYSLOG_CONF ]; then
-  echo ${0##*/}: error: no config file: $RSYSLOG_CONF
+  echo "E: no config file: $RSYSLOG_CONF"
   exit 1
 fi
 

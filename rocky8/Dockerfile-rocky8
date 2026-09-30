@@ -52,7 +52,7 @@ RUN set -eux;\
   mkdir -pv /usr/local/etc/modulefiles;\
   mkdir -pv /opt/local/etc/modulefiles;\
   S=zlocal-cdev-image.sh;\
-  curl $DOPT -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   groupadd -g 666 none;\
   useradd -u 666 -g 666 -s /bin/bash -m none;\
   cat /etc/redhat-release;

@@ -1,0 +1,1 @@
+23 23 * * * /usr/local/registry/registry garbage-collect /usr/local/etc/registry/config.yml > /tmp/registry-gc.log 2>&1

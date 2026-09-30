@@ -15,13 +15,13 @@ echo "    OTEL_TRACES_EXPORTER = $OTEL_TRACES_EXPORTER"
 echo
 
 if [ "$REGISTRY_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "E: operation mode: out-of-service"
   set -x
   exec -a '[registry-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $REGISTRY_CONF ]; then
-  echo ${0##*/}: error: no config file: $REGISTRY_CONF
+  echo "E: no config file: $REGISTRY_CONF"
   exit 1
 fi
 

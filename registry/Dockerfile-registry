@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,13 +15,17 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/registry-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
+  mv -v /usr/local/etc/supervisord.d/supervisord-cron.conf.disabled /usr/local/etc/supervisord.d/supervisord-cron.conf;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
   mkdir -pv registry-$VER;\
   ln -snfv registry-$VER registry;\
-  curl -sSL -f -k http://repo/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
+  curl $DOPT $DURL/sw/opensource/registry/bin/registry_${VER}_linux_amd64.tar.gz | tar xzf - -C registry;\
   chown -R root:root registry-$VER;\
   mkdir -pv etc/registry;\
   mkdir -pv /var/opt/registry;\
@@ -27,13 +33,14 @@ RUN set -ex;\
   ls -l /usr/local;\
   registry --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
   [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;
 
-ADD config/ /usr/local/etc/registry/
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY config/ /usr/local/etc/registry/
+COPY scripts/[0-9]*.sh /cmd.d/
+COPY supervisord/supervisord-* /usr/local/etc/supervisord.d/
 CMD ["/cmd.sh"]

@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,7 +15,9 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /sw/android/os/script:/usr/local/python3-osdev/bin:/usr/local/git-repo:/usr/local/android-platform-tools:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -24,13 +28,13 @@ RUN set -ex;\
     rm -rf /var/lib/apt/lists/*;\
   fi;\
   cd /usr/local;\
-  V=$(curl -s http://repo/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
-  curl -sSL -f -k http://repo/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
+  V=$(curl $DOPT $DURL/sw/opensource/git-repo/src/version.txt | grep ^git-repo: | awk '{print $2}');\
+  curl $DOPT $DURL/sw/opensource/git-repo/src/git-repo-$V.tar.gz | tar xzf -;\
   ln -snfv git-repo-$V git-repo;\
   echo "info.vers = git-repo/$V" >> /tmp/vers.txt;\
   cd /usr/local;\
-  V=$(curl -s http://repo/sw/opensource/android-sdk/bin/version.txt | grep ^platform-tools: | awk '{print $2}');\
-  curl -sSL -f -k -o /tmp/f.zip http://repo/sw/opensource/android-sdk/bin/platform-tools_r$V-linux.zip;\
+  V=$(curl $DOPT $DURL/sw/opensource/android-sdk/bin/version.txt | grep ^platform-tools: | awk '{print $2}');\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/android-sdk/bin/platform-tools_r$V-linux.zip;\
   mkdir -pv android-platform-tools-$V;\
   ln -snfv android-platform-tools-$V android-platform-tools;\
   unzip -d android-platform-tools /tmp/f.zip;\
@@ -43,25 +47,19 @@ RUN set -ex;\
   V=$(adevtool version|awk '{print $1}');\
   echo "info.vers = $V" >> /tmp/vers.txt;\
   S=zlocal-git.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101523-scm_git/files/$S || echo Script $S not available;\
   S=zlocal-repo.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101524-scm_repo/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101524-scm_repo/files/$S || echo Script $S not available;\
   S=zlocal-gos.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/004821-grapheneos_build/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/004821-grapheneos_build/files/$S || echo Script $S not available;\
   cat /etc/os-release;\
   repo --version;\
   adb version;\
   adevtool version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

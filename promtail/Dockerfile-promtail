@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,15 +15,17 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/loki-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv loki-$VER;\
   ln -snfv loki-$VER loki;\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/loki/bin/loki-$VER-linux-amd64.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/loki/bin/loki-$VER-linux-amd64.zip;\
   unzip -d loki /tmp/f.zip;\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/loki/bin/promtail-$VER-linux-amd64.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/loki/bin/promtail-$VER-linux-amd64.zip;\
   unzip -d loki /tmp/f.zip;\
-  curl -sS -L -k -f -o /tmp/f.zip http://repo/sw/opensource/loki/bin/logcli-$VER-linux-amd64.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/loki/bin/logcli-$VER-linux-amd64.zip;\
   unzip -d loki /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   chown -R root:root loki-$VER;\
@@ -33,11 +37,11 @@ RUN set -ex;\
   ls -l /usr/local;\
   promtail --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

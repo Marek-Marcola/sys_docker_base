@@ -11,7 +11,7 @@ echo "    PROMTAIL_OPTS = $PROMTAIL_OPTS"
 echo
 
 if [ ! -f $PROMTAIL_CONF ]; then
-  echo ${0##*/}: error: no config file: $PROMTAIL_CONF
+  echo "E: no config file: $PROMTAIL_CONF"
   exit 1
 fi
 

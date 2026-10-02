@@ -13,7 +13,7 @@ echo
 export JENKINS_HOME
 
 if [ "$JENKINS_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[jenkins-mode-oos]' sleep 666d
 fi

@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,10 +15,12 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV CATALINA_OPTS="-DJENKINS_HOME=/var/opt/jenkins -Djava.awt.headless=true"
 
-ADD config/context.xml /var/opt/tomcat/conf/
+COPY config/context.xml /var/opt/tomcat/conf/
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -ex;\
-  curl -sS -L -k -f -o /as-apps/jenkins.war http://repo/sw/opensource/jenkins/war/jenkins-$VER.war;\
+  curl $DOPT -o /as-apps/jenkins.war $DURL/sw/opensource/jenkins/war/jenkins-$VER.war;\
   mkdir -pv /var/opt/jenkins;\
   chown -R 0:0 /var/opt/jenkins;\
   chmod -R g=u /var/opt/jenkins;\
@@ -28,4 +32,4 @@ RUN set -ex;\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/

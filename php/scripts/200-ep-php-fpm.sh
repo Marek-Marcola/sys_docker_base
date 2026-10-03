@@ -9,7 +9,7 @@ echo "    PHPFPM_CONF = $PHPFPM_CONF"
 echo
 
 if [ ! -f $PHPFPM_CONF ]; then
-  echo "E: no config file: $PHPFPM_CONF:
+  echo "E: no config file: $PHPFPM_CONF"
   exit 1
 fi
 

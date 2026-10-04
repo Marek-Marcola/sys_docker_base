@@ -2,7 +2,7 @@
 
 [[ -z $MONGO_URL ]] && export MONGO_URL=mongodb://mongo:27017/rocketchat
 [[ -z $ROOT_URL  ]] && export ROOT_URL=http://localhost:3001
-[[ -z $MAIL_URL  ]] && export MAIL_URL=
+[[ -z $MAIL_URL  ]] && export MAIL_URL=""
 [[ -z $PORT      ]] && export PORT=3001
 
 echo "env config:"

@@ -13,7 +13,7 @@ echo "    REDIS_DIR  = $REDIS_DIR"
 echo
 
 if [ ! -f $REDIS_CONF ]; then
-  echo ${0##*/}: error: no config file: $REDIS_CONF
+  echo "E: no config file: $REDIS_CONF"
   exit 1
 fi
 

@@ -9,7 +9,7 @@ echo "    REDMINE_MODE   = $REDMINE_MODE"
 echo
 
 if [ "$REDMINE_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[redmine-mode-oos]' sleep 666d
 fi

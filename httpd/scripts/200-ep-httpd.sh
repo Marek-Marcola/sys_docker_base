@@ -11,13 +11,13 @@ echo "    HTTPD_MODE = $HTTPD_MODE"
 echo
 
 if [ "$HTTPD_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[httpd-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $HTTPD_CONF ]; then
-  echo ${0##*/}: error: no config file: $HTTPD_CONF
+  echo "E: no config file: $HTTPD_CONF"
   exit 1
 fi
 

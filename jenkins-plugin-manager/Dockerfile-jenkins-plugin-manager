@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,19 +14,19 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv jenkins-plugin-manager;\
   cd jenkins-plugin-manager;\
-  curl -sS -L -k -f -O http://repo/sw/opensource/jenkins/jar/jenkins-plugin-manager-$VER.jar;\
+  curl $DOPT -O $DURL/sw/opensource/jenkins/jar/jenkins-plugin-manager-$VER.jar;\
   ln -snfv jenkins-plugin-manager-$VER.jar jenkins-plugin-manager.jar;\
   mkdir -pv /work;\
   java -jar jenkins-plugin-manager.jar --version;
 
-ADD scripts/*.sh /usr/local/bin
+COPY scripts/*.sh /usr/local/bin
 WORKDIR /work
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

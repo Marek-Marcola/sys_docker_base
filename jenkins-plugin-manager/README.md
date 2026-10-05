@@ -1,6 +1,12 @@
 jenkins-plugin-manager
 ======================
 
+Build
+-----
+cdev env:
+
+    # c -s jenkins-plugin-manager
+
 Deploy
 ------
 cman env:

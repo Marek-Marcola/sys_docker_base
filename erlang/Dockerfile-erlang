@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,15 +15,17 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /opt/local/erlang-$VER/bin:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /opt/local;\
-  curl -sSL -f -k http://repo/sw/opensource/erlang/bin/erlang-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/erlang/bin/erlang-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv erlang-$VER erlang;\
   chown -R root:root erlang-$VER;\
   ls -l /opt/local;\
   erl -noshell -eval 'erlang:display(erlang:system_info(system_version))' -eval 'init:stop()';
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

@@ -9,7 +9,7 @@ echo "    CLAMAV_CONF = $CLAMAV_CONF"
 echo
 
 if [ ! -f $CLAMAV_CONF ]; then
-  echo ${0##*/}: error: no config file: $CLAMAV_CONF
+  echo "E: no config file: $CLAMAV_CONF"
   exit 1
 fi
 

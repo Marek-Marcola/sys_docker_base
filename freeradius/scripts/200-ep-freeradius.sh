@@ -11,7 +11,7 @@ echo "    FREERADIUS_OPTS = $FREERADIUS_OPTS"
 echo
 
 if [ ! -d $FREERADIUS_CONF ]; then
-  echo ${0##*/}: error: no config directory: $FREERADIUS_CONF
+  echo "E: no config directory: $FREERADIUS_CONF"
   exit 1
 fi
 

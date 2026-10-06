@@ -9,7 +9,7 @@ echo "    PROSODY_CONF = $PROSODY_CONF"
 echo
 
 if [ ! -f $PROSODY_CONF ]; then
-  echo ${0##*/}: error: no config file: $PROSODY_CONF
+  echo "E: no config file: $PROSODY_CONF"
   exit 1
 fi
 

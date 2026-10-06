@@ -1,12 +1,18 @@
 phpmyadmin
 ==========
 
+Build
+-----
+cdev env:
+
+    # c -s phpmyadmin
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-phpmyadmin-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/phpmyadmin:$V}
     OPTS=(
     --publish $(ipa brsvc1):8088:8080

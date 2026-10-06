@@ -6,6 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,17 +15,19 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   cd /usr/local;\
   mkdir -pv phpldapadmin-$VER;\
   ln -snfv phpldapadmin-$VER phpldapadmin;\
-  curl -sS -L -k -f http://repo/sw/opensource/phpldapadmin/phpLDAPadmin-$VER.tar.gz | tar xzf - --strip-components=1 -C phpldapadmin;\
+  curl $DOPT $DURL/sw/opensource/phpldapadmin/phpLDAPadmin-$VER.tar.gz | tar xzf - --strip-components=1 -C phpldapadmin;\
   mkdir -pv /usr/local/etc/phpldapadmin;\
   touch /usr/local/etc/phpldapadmin/config.php;\
   ln -snfv /usr/local/etc/phpldapadmin/config.php phpldapadmin/config/;\
   cat phpldapadmin/VERSION;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.type = ${TYPE:-[none]}";\

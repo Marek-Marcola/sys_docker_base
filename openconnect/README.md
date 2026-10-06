@@ -1,6 +1,12 @@
 openconnect
 ===========
 
+Build
+-----
+cdev env:
+
+    # c -s openconnect
+
 Deploy
 ------
 cman env:

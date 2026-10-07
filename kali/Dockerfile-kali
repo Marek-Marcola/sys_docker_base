@@ -43,7 +43,6 @@ RUN set -eux;\
   apt-get -yqq install inetutils-ping;\
   apt-get clean;\
   rm -rf /var/lib/apt/lists;\
-  wpscan --update;\
   cp -v /root/.bashrc /root/.bashrc.b$(date +%y%m%d);\
   cp -v /root/.bashrc.original /root/.bashrc;\
   S=zlocal-0001.sh;\

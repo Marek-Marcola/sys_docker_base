@@ -1,6 +1,12 @@
 openfortivpn
 ============
 
+Build
+-----
+cdev env:
+
+    # c -s openfortivpn
+
 Deploy
 ------
 cman env:

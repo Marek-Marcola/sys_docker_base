@@ -16,7 +16,7 @@ echo "    https_proxy        = $https_proxy"
 echo
 
 if [ ! -f $OPENFORTIVPN_CONF ]; then
-  echo ${0##*/}: error: no config file: $OPENFORTIVPN_CONF
+  echo "E: no config file: $OPENFORTIVPN_CONF"
   exit 1
 fi
 

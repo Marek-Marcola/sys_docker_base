@@ -18,7 +18,7 @@ cman env:
     OPTS=(
     --workdir /tmp
     )
-    DOCS="
-      $A -r
-      $A -e cmd
-    "
+    DOCS=(
+     "$A -r"
+     "$A -e cmd"
+    )

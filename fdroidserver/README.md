@@ -19,9 +19,9 @@ cman env:
     --volume $WDIR:/var/opt/fdroidserver
     --volume $HOME/.ssh:$HOME/.ssh
     )
-    DOCS="
-      $A -r
-      lsfdroid -l -v
-      lsfdroid -u -v
-      lsfdroid -d -v
-    "
+    DOCS=(
+     "$A -r"
+     "lsfdroid -l -v"
+     "lsfdroid -u -v"
+     "lsfdroid -d -v"
+    )

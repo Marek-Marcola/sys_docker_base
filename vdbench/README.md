@@ -17,9 +17,9 @@ cman env:
     OPTS=(
     --volume $(pwd):/work
     )
-    DOCS="
-      cd /dir/to/test
-      $A -r
-      vdb.sh -w
-      vdb.sh -r
-    "
+    DOCS=(
+     "cd /dir/to/test"
+     "$A -r"
+     "vdb.sh -w"
+     "vdb.sh -r"
+    )

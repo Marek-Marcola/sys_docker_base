@@ -20,10 +20,10 @@ cman env:
     $(ls -1 /dev/video* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
     $(ls -1 /dev/media* 2>/dev/null|awk '{printf "--device %s:%s ",$1,$1}')
     )
-    DOCS="
-      $A -r
-      $A -e cmd
-    "
+    DOCS=(
+     "$A -r"
+     "$A -e cmd"
+    )
 
     # cat /usr/local/etc/cman.d/ap-debian13-km
     : ${V:=x.y.z}
@@ -35,7 +35,7 @@ cman env:
     --volume /usr/local/etc:/usr/local/etc:ro
     --volume /usr/local/bin:/usr/local/bin:ro
     )
-    DOCS="
-      $A -r
-      $A -e id
-    "
+    DOCS=(
+     "$A -r"
+     "$A -e id"
+    )

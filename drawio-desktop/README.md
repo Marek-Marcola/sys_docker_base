@@ -29,8 +29,8 @@ cman env:
     --env HOME=/tmp
     --env DISPLAY=$DISPLAY
     )
-    DOCS="
-      $A -r
-      GTK_THEME=Adwaita:white drawio [file]
-      GTK_THEME=Adwaita:dark  drawio [file]
-    "
+    DOCS=(
+     "$A -r"
+     "GTK_THEME=Adwaita:white drawio [file]"
+     "GTK_THEME=Adwaita:dark  drawio [file]"
+    )

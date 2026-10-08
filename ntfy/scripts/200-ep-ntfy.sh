@@ -9,7 +9,7 @@ echo "    NTFY_CONF = $NTFY_CONF"
 echo
 
 if [ ! -f $NTFY_CONF ]; then
-  echo ${0##*/}: error: no config file: $NTFY_CONF
+  echo "E: no config file: $NTFY_CONF"
   exit 1
 fi
 

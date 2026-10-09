@@ -9,7 +9,7 @@ echo "    OPENVPN_CONF = $OPENVPN_CONF"
 echo
 
 if [ ! -f $OPENVPN_CONF ]; then
-  echo ${0##*/}: error: no config file: $OPENVPN_CONF
+  echo "E: no config file: $OPENVPN_CONF"
   exit 1
 fi
 

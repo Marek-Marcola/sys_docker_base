@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,6 +14,8 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/nextcloud-$VER:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -ex;\
   if expr match $OSN rocky; then\
@@ -22,7 +26,7 @@ RUN set -ex;\
   cd /usr/local;\
   mkdir -pv nextcloud-$VER;\
   ln -snfv nextcloud-$VER nextcloud;\
-  curl -sS -L -k -f http://repo/sw/opensource/nextcloud/src/nextcloud-$VER.tar.bz2 | tar xjf - --strip-components=1 -C nextcloud;\
+  curl $DOPT $DURL/sw/opensource/nextcloud/src/nextcloud-$VER.tar.bz2 | tar xjf - --strip-components=1 -C nextcloud;\
   chown -R root:root nextcloud-$VER;\
   mv -v nextcloud/config nextcloud/config.b$(date +%y%m%d);\
   mkdir -pv /usr/local/etc/nextcloud;\
@@ -36,5 +40,5 @@ RUN set -ex;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
-  [ -f /tmp/vers.txt ] && (cat /tmp/vers.txt && rm -f /tmp/vers.txt) || true;\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
  ) > /version.d/version-$REPO.txt;

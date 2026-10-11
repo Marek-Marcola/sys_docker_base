@@ -1,6 +1,12 @@
 fwknop
 ======
 
+Build
+-----
+cdev env:
+
+    # c -s fwknop
+
 Deploy
 ------
 cman env:

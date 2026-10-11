@@ -9,7 +9,7 @@ echo "    FWKNOP_CONF = $FWKNOP_CONF"
 echo
 
 if [ ! -f $FWKNOP_CONF ]; then
-  echo ${0##*/}: error: no config file: $FWKNOP_CONF
+  echo "E: no config file: $FWKNOP_CONF"
   exit 1
 fi
 

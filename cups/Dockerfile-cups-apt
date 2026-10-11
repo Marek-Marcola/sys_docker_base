@@ -12,23 +12,25 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   export DEBIAN_FRONTEND=noninteractive;\
   apt-get update;\
   apt-get -yqq install cups cups-ipp-utils whois;\
   apt-get clean;\
-  rm -rf /var/lib/apt/lists/*;\
+  rm -rf /var/lib/apt/lists;\
   mkdir -pv /usr/local/etc/cups;\
   useradd -G lp,lpadmin -m -p $(mkpasswd cups) cups;\
   apt policy cups;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD config/cupsd.conf config/cups-files.conf /usr/local/etc/cups/
+COPY config/cupsd.conf config/cups-files.conf /usr/local/etc/cups/
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

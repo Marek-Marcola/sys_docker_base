@@ -1,6 +1,12 @@
 gitolite
 ========
 
+Build
+-----
+cdev env:
+
+    # c -s gitolite
+
 Deploy
 ------
 cman env:

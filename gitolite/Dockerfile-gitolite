@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -13,13 +15,15 @@ LABEL info.date="$DATE"
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 ENV PATH /usr/local/gitolite-$VER:$PATH
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install git;\
     apt-get clean;\
-    rm -rf /var/lib/apt/lists/*;\
+    rm -rf /var/lib/apt/lists;\
   fi;\
   groupadd -g 321 git;\
   useradd -u 321 -g 321 -m -s /bin/bash git;\
@@ -28,7 +32,7 @@ RUN set -ex;\
   mkdir -pv gitolite;\
   ln -snfv gitolite gitolite-$VER;\
   mkdir -pv /tmp/d;\
-  curl -sSL -f -k http://repo/sw/opensource/gitolite/src/gitolite-$VER.tar.gz | tar xzf - --strip-components=1 -C /tmp/d;\
+  curl $DOPT $DURL/sw/opensource/gitolite/src/gitolite-$VER.tar.gz | tar xzf - --strip-components=1 -C /tmp/d;\
   /tmp/d/install -to /usr/local/gitolite;\
   rm -rf /tmp/d;\
   echo $VER > /usr/local/gitolite/VERSION;\
@@ -37,12 +41,10 @@ RUN set -ex;\
   mkdir -pv /usr/local/lib/site_perl;\
   ln -snfv /usr/local/gitolite/lib/Gitolite /usr/local/lib/site_perl;\
   S=zlocal-git.sh;\
-  curl -sSL -f -k -o /etc/profile.d/$S http://repo/pkb/pb/playbooks/101523-scm_git/files/$S\
-    && (chmod a+x /etc/profile.d/$S)\
-    || (echo Script $S not available);\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101523-scm_git/files/$S || echo Script $S not available;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

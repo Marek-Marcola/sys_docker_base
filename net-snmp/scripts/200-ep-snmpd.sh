@@ -11,7 +11,7 @@ echo "    NETSNMPD_OPTS = $NETSNMPD_OPTS"
 echo
 
 if [ ! -f $NETSNMPD_CONF ]; then
-  echo ${0##*/}: error: no config file: $NETSNMPD_CONF
+  echo "E: no config file: $NETSNMPD_CONF"
   exit 1
 fi
 

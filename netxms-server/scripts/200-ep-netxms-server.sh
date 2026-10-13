@@ -13,13 +13,13 @@ echo "    NETXMS_MODE = $NETXMS_MODE"
 echo
 
 if [ "$NETXMS_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[netxms-server-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $NETXMS_CONF ]; then
-  echo ${0##*/}: error: no config file: $NETXMS_CONF
+  echo "E: no config file: $NETXMS_CONF"
   exit 1
 fi
 

@@ -1,6 +1,12 @@
 netxms-server
 =============
 
+Build
+-----
+cdev env:
+
+    # c -s netxms-server
+
 Deploy
 ------
 cman env:

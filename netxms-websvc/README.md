@@ -1,6 +1,12 @@
 netxms-websvc
 =============
 
+Build
+-----
+cdev env:
+
+    # c -s netxms-websvc
+
 Deploy
 ------
 cman env:

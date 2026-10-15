@@ -11,7 +11,7 @@ echo "    MONGO_OPTS = $MONGO_OPTS"
 echo
 
 if [ ! -f $MONGO_CONF ]; then
-  echo ${0##*/}: error: no config file: $MONGO_CONF
+  echo "E: no config file: $MONGO_CONF"
   exit 1
 fi
 

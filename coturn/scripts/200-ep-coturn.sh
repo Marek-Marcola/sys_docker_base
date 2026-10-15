@@ -11,7 +11,7 @@ echo "    COTURN_OPTS = $COTURN_OPTS"
 echo
 
 if [ ! -f $COTURN_CONF ]; then
-  echo ${0##*/}: error: no config file: $COTURN_CONF
+  echo "E: no config file: $COTURN_CONF"
   exit 1
 fi
 

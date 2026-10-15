@@ -11,7 +11,7 @@ echo "    DENDRITE_OPTS = $DENDRITE_OPTS"
 echo
 
 if [ ! -f $DENDRITE_CONF ]; then
-  echo ${0##*/}: error: no config file: $DENDRITE_CONF
+  echo "E: no config file: $DENDRITE_CONF"
   exit 1
 fi
 

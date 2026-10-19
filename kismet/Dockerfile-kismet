@@ -1,0 +1,51 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/kismet-$VER/bin:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libwebsockets-dev zlib1g-dev libnl-3-dev libnl-genl-3-dev libcap-dev libpcap-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libnm-dev libdw-dev libsqlite3-dev libsensors-dev libusb-1.0-0-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libubertooth-dev libbtbb-dev libmosquitto-dev librtlsdr-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install rtl-433;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists;\
+  fi;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  curl $DOPT $DURL/sw/opensource/kismet/bin/kismet-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv kismet-$VER kismet;\
+  chown -R root:root kismet-$VER;\
+  mkdir -pv etc/kismet;\
+  mkdir -pv /var/opt/kismet/log;\
+  chown -R none:none /var/opt/kismet;\
+  ln -sv /usr/local/etc/kismet/kismet_site.conf kismet-$VER/etc;\
+  ls -l /usr/local;\
+  kismet --version || true;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+COPY scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

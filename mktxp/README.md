@@ -1,6 +1,12 @@
 mktxp
 =====
 
+Build
+-----
+cdev env:
+
+    # c -s mktxp
+
 Deploy
 ------
 cman env:

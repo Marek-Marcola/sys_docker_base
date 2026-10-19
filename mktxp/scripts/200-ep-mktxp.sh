@@ -11,7 +11,7 @@ echo "    MKTXP_OPTS = $MKTXP_OPTS"
 echo
 
 if [ ! -d $MKTXP_CONF ]; then
-  echo ${0##*/}: error: no config directory: $MKTXP_CONF
+  echo "E: no config directory: $MKTXP_CONF"
   exit 1
 fi
 

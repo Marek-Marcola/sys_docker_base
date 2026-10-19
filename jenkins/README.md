@@ -1,6 +1,12 @@
 jenkins
 =======
 
+Build
+-----
+cdev env:
+
+    # c -s jenkins
+
 Deploy
 ------
 cman env:

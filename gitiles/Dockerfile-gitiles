@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,11 +14,13 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   groupadd -g 701 gerrit;\
   useradd -u 701 -g 701 -m -s /bin/bash gerrit;\
   cd /usr/local;\
-  curl -sS -L -k -f http://repo/sw/opensource/gitiles/bin/gitiles-$VER.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/opensource/gitiles/bin/gitiles-$VER.tar.gz | tar xzf -;\
   ln -snfv gitiles-$VER gitiles;\
   chown -R root:root gitiles-$VER;\
   mkdir -pv /var/opt/repos /usr/local/etc/gitiles;\
@@ -24,13 +28,13 @@ RUN set -ex;\
   chmod -R g=u /var/opt/repos;\
   ls -l /usr/local;
 
-ADD config/gitiles.config /usr/local/etc/gitiles
+COPY config/gitiles.config /usr/local/etc/gitiles
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\
  ) > /version.d/version-$REPO.txt;
 
-ADD scripts/[0-9]*.sh /cmd.d/
+COPY scripts/[0-9]*.sh /cmd.d/
 CMD ["/cmd.sh"]

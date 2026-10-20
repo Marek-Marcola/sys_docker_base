@@ -20,7 +20,7 @@ STOPSIGNAL SIGKILL
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -ex;\
+RUN set -eux;\
   if expr match $OSN debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
@@ -36,7 +36,7 @@ RUN set -ex;\
   ls -l /usr/local;\
   guacd -v;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

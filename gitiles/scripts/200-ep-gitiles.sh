@@ -9,7 +9,7 @@ echo "    GITILES_CONF = $GITILES_CONF"
 echo
 
 if [ ! -f $GITILES_CONF ]; then
-  echo ${0##*/}: error: no config file: $GITILES_CONF
+  echo "E: no config file: $GITILES_CONF"
   exit 1
 fi
 

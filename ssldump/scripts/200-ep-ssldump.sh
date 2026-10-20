@@ -7,7 +7,7 @@ echo "    SSLDUMP_OPTS = $SSLDUMP_OPTS"
 echo
 
 if [ -z "$SSLDUMP_OPTS" ]; then
-  echo Empty SSLDUMP_OPTS - running shell ...
+  echo "I: empty SSLDUMP_OPTS - running shell"
   /bin/bash -l
   exit 0
 fi

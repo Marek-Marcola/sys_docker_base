@@ -13,7 +13,7 @@ echo "    KEYCLOAK_MODE = $KEYCLOAK_MODE"
 echo
 
 if [ "$KEYCLOAK_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[keycloak-mode-oos]' sleep 666d
 fi

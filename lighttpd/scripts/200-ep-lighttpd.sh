@@ -11,13 +11,13 @@ echo "    LIGHTTPD_MODE = $LIGHTTPD_MODE"
 echo
 
 if [ "$LIGHTTPD_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[lighttpd-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $LIGHTTPD_CONF ]; then
-  echo ${0##*/}: error: no config file: $LIGHTTPD_CONF
+  echo "E: no config file: $LIGHTTPD_CONF"
   exit 1
 fi
 

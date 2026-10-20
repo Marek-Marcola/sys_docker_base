@@ -73,7 +73,7 @@ RUN set -eux;\
   chmod a+x /tini;\
   /tini --version;
 
-RUN set -ex;\
+RUN set -eux;\
   mkdir -pv /cmd.d /version.d;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\

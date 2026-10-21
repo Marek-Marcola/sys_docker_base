@@ -11,16 +11,17 @@ echo "    CHARTMUSEUM_MODE = $CHARTMUSEUM_MODE"
 echo
 
 if [ "$CHARTMUSEUM_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[chartmuseum-mode-oos]' sleep 666d
 fi
 
 if [ ! -f $CHARTMUSEUM_CONF ]; then
-  echo ${0##*/}: error: no config file: $CHARTMUSEUM_CONF
+  echo "E: no config file: $CHARTMUSEUM_CONF"
   exit 1
 fi
 
 set -x
+chartmuseum --version
 exec setpriv --reuid=666 --regid=666 --clear-groups --no-new-privs \
   chartmuseum --config $CHARTMUSEUM_CONF

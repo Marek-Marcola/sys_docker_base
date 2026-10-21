@@ -1,6 +1,12 @@
 go
 ==
 
+Build
+-----
+cdev env:
+
+    # c -s go
+
 Deploy
 ------
 cman env:

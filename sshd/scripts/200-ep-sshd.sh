@@ -11,7 +11,7 @@ echo "    SSHD_CONF = $SSHD_CONF"
 echo
 
 if [ ! -f $SSHD_CONF ]; then
-  echo ${0##*/}: error: no config file: $SSHD_CONF
+  echo "E: no config file: $SSHD_CONF"
   exit 1
 fi
 
@@ -39,4 +39,5 @@ if [ -d $B/users ]; then
   cd /
 fi
 
+set -x
 exec /usr/sbin/sshd -D -e -f $SSHD_CONF

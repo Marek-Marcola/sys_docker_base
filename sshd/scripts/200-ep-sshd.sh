@@ -40,4 +40,5 @@ if [ -d $B/users ]; then
 fi
 
 set -x
+sshd -V
 exec /usr/sbin/sshd -D -e -f $SSHD_CONF

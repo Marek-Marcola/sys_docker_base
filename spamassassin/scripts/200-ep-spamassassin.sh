@@ -9,7 +9,7 @@ echo "    SPAMASSASSIN_MODE = $SPAMASSASSIN_MODE"
 echo
 
 if [ "$SPAMASSASSIN_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[spamassassin-mode-oos]' sleep 666d
 fi

@@ -7,7 +7,7 @@ echo "    GOTIFY_DATA = $GOTIFY_DATA"
 echo
 
 if [ ! -d $GOTIFY_DATA ]; then
-  echo ${0##*/}: error: no data directory: $GOTIFY_DATA
+  echo "E: no data directory: $GOTIFY_DATA"
   exit 1
 fi
 

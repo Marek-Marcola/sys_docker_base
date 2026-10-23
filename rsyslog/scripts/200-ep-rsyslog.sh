@@ -13,7 +13,7 @@ echo "    RSYSLOG_MODE = $RSYSLOG_MODE"
 echo
 
 if [ "$RSYSLOG_MODE" = "oos" ]; then
-  echo "E: operation mode: out-of-service"
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[rsyslog-mode-oos]' sleep 666d
 fi

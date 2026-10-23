@@ -5,14 +5,14 @@ Build
 -----
 cdev env:
 
-    # c -s [-R go2rtc]
+    # c -s
 
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-go2rtc-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/go2rtc:$V}
     OPTS=(
     --publish $(ipa brsvc1):1984:1984/tcp

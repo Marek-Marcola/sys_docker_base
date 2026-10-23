@@ -17,7 +17,7 @@ ENV PATH /usr/local/nextcloud-$VER:$PATH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN set -ex;\
+RUN set -eux;\
   if expr match $OSN rocky; then\
     yum -y update;\
     yum -y install bzip2;\
@@ -36,7 +36,7 @@ RUN set -ex;\
   ln -sv /usr/local/etc/nextcloud nextcloud/config;\
   ls -l /usr/local;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

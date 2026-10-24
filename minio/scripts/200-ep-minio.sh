@@ -1,19 +1,19 @@
 #!/bin/bash
 
-[[ -z $DTID ]] && DTID=main
-[[ -z $DATA ]] && DATA=/var/opt/minio/${DTID}
+[[ -z $DBCL ]] && DBCL=main
+[[ -z $DATA ]] && DATA=/var/opt/minio/$DBCL
 [[ -z $USER ]] && USER=admin
 [[ -z $PASS ]] && PASS=admin123
 
 echo "env config:"
-echo "    DTID = ${DTID}"
-echo "    DATA = ${DATA}"
-echo "    USER = ${USER}"
-echo "    PASS = ${PASS}"
+echo "    DBCL = $DBCL"
+echo "    DATA = $DATA"
+echo "    USER = $USER"
+echo "    PASS = $PASS"
 echo
 
 if [ ! -d $DATA ]; then
-  echo ${0##*/}: error: no data directory: $DATA
+  echo "E: no data directory: $DATA"
   exit 1
 fi
 

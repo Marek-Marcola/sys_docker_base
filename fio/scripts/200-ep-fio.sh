@@ -7,7 +7,7 @@ echo "    FIO_OPTS = $FIO_OPTS"
 echo
 
 if [ -z "$FIO_OPTS" ]; then
-  echo Empty FIO_OPTS - running shell ...
+  echo "I: empty FIO_OPTS: running shell"
   /bin/bash -l
   exit 0
 fi

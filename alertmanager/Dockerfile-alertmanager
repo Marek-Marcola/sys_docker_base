@@ -23,7 +23,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv alertmanager-$VER;\
   ln -snfv alertmanager-$VER alertmanager;\
-  curl $DOPT $DURL/sw/opensource/prometheus/bin/alertmanager-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C alertmanager;\
+  curl $DOPT $DURL/sw/oss/prometheus/bin/alertmanager-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C alertmanager;\
   chown -R root:root alertmanager-$VER;\
   mkdir -pv etc/alertmanager;\
   mkdir -pv /var/opt/alertmanager;\

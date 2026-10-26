@@ -23,7 +23,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv blackbox_exporter-$VER;\
   ln -snfv blackbox_exporter-$VER blackbox_exporter;\
-  curl $DOPT $DURL/sw/opensource/prometheus/bin/blackbox_exporter-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C blackbox_exporter;\
+  curl $DOPT $DURL/sw/oss/prometheus/bin/blackbox_exporter-$VER.linux-amd64.tar.gz | tar xvzf - --strip-components=1 -C blackbox_exporter;\
   chown -R root:root blackbox_exporter-$VER;\
   mkdir -pv etc/blackbox_exporter;\
   ls -l /usr/local;\

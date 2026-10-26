@@ -9,7 +9,7 @@ echo "    GRAFANA_CONF = $GRAFANA_CONF"
 echo
 
 if [ ! -f $GRAFANA_CONF ]; then
-  echo ${0##*/}: error: no config file: $GRAFANA_CONF
+  echo "E: no config file: $GRAFANA_CONF"
   exit 1
 fi
 

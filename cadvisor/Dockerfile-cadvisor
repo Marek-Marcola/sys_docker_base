@@ -22,7 +22,7 @@ RUN set -eux;\
   mkdir -pv cadvisor-$VER;\
   ln -snfv cadvisor-$VER cadvisor;\
   cd cadvisor;\
-  curl $DOPT -O $DURL/sw/opensource/cadvisor/bin/cadvisor-v$VER-linux-amd64;\
+  curl $DOPT -O $DURL/sw/oss/cadvisor/bin/cadvisor-v$VER-linux-amd64;\
   ln -snfv cadvisor-v$VER-linux-amd64 cadvisor;\
   chmod a+x cadvisor-v$VER-linux-amd64;\
   ls -l /usr/local;\

@@ -1,12 +1,18 @@
 infiniband-exporter
 ===================
 
+Build
+-----
+cdev env:
+
+    # c -s infiniband-exporter
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-infiniband-exporter
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/infiniband-exporter:$V}
     OPTS=(
     --publish 9315:9315/tcp

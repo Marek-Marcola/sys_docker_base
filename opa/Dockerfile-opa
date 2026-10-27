@@ -25,7 +25,7 @@ RUN set -eux;\
   mkdir -pv opa-$VER;\
   ln -snfv opa-$VER opa;\
   cd opa;\
-  curl $DOPT -O $DURL/sw/opensource/opa/bin/opa_linux_amd64_$VER;\
+  curl $DOPT -O $DURL/sw/oss/opa/bin/opa_linux_amd64_$VER;\
   ln -snfv opa_linux_amd64_$VER opa;\
   chmod a+x opa_linux_amd64_$VER;\
   ls -l /usr/local;\

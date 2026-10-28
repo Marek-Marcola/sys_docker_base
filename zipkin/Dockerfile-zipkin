@@ -22,7 +22,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv zipkin-$VER;\
   ln -snfv zipkin-$VER zipkin;\
-  curl $DOPT -o zipkin/zipkin-server-$VER-exec.jar $DURL/sw/opensource/zipkin/bin/zipkin-server-$VER-exec.jar;\
+  curl $DOPT -o zipkin/zipkin-server-$VER-exec.jar $DURL/sw/oss/zipkin/bin/zipkin-server-$VER-exec.jar;\
   cd zipkin;\
   ln -snfv zipkin-server-$VER-exec.jar zipkin-server-exec.jar;\
   ls -l /usr/local;\

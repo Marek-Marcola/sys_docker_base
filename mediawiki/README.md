@@ -1,12 +1,18 @@
 mediawiki
 =========
 
+Build
+-----
+cdev env:
+
+    # c -s mediawiki
+
 Deploy
 ------
 cman env:
 
     # cat /usr/local/etc/cman.d/ap-mediawiki-dc1
-    : ${V:=m.m.p}
+    : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/mediawiki:$V}
     OPTS=(
     --publish $(ipa brsvc1):8041:8080

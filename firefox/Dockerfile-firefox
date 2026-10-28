@@ -43,9 +43,9 @@ RUN set -eux;\
   mkdir -pv firefox-$VER;\
   ln -snfv firefox-$VER firefox;\
   if [ ${VER%%.*} -lt 135 ]; then\
-    curl $DOPT $DURL/sw/opensource/firefox/bin/firefox-$VER.tar.bz2 | tar xf - --bzip2 --strip-components=1 -C firefox;\
+    curl $DOPT $DURL/sw/oss/firefox/bin/firefox-$VER.tar.bz2 | tar xf - --bzip2 --strip-components=1 -C firefox;\
   else\
-    curl $DOPT $DURL/sw/opensource/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
+    curl $DOPT $DURL/sw/oss/firefox/bin/firefox-$VER.tar.xz | tar xf - --xz --strip-components=1 -C firefox;\
   fi;\
   chown -R root:root firefox-$VER;\
   ls -l /usr/local;\

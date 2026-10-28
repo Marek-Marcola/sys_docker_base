@@ -22,7 +22,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv jenkins-$VER;\
   ln -snfv jenkins-$VER jenkins;\
-  curl $DOPT -o jenkins/jenkins-$VER.war $DURL/sw/opensource/jenkins/war/jenkins-$VER.war;\
+  curl $DOPT -o jenkins/jenkins-$VER.war $DURL/sw/oss/jenkins/war/jenkins-$VER.war;\
   cd jenkins;\
   ln -snfv jenkins-$VER.war jenkins.war;\
   mkdir -pv /var/opt/jenkins;\

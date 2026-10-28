@@ -9,7 +9,7 @@ echo "    MINIDLNA_CONF = $MINIDLNA_CONF"
 echo
 
 if [ ! -f $MINIDLNA_CONF ]; then
-  echo ${0##*/}: error: no config file: $MINIDLNA_CONF
+  echo "E: no config file: $MINIDLNA_CONF"
   exit 1
 fi
 

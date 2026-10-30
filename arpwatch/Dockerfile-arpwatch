@@ -1,0 +1,48 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/arpwatch-$VER/sbin:/usr/local/arpwatch-$VER/bin:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install ssmtp;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists;\
+  fi;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  curl $DOPT $DURL/sw/oss/arpwatch/bin/arpwatch-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv arpwatch-$VER arpwatch;\
+  mkdir -pv etc/arpwatch;\
+  mkdir -pv /var/opt/arpwatch;\
+  chown none:none /var/opt/arpwatch;\
+  mv -v /etc/ssmtp/ssmtp.conf /etc/ssmtp/ssmtp.conf.b$(date +%y%m%d);\
+  ln -snvf /usr/local/etc/arpwatch/ssmtp.conf /etc/ssmtp;\
+  ls -l /usr/local;\
+  arpwatch --version || true;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+COPY scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

@@ -33,7 +33,7 @@ RUN set -eux;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   mkdir -pv /opt/local;\
   cd /opt/local;\
-  curl $DOPT $DURL/sw/opensource/ffmpeg/bin/ffmpeg-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/ffmpeg/bin/ffmpeg-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv ffmpeg-$VER ffmpeg;\
   chown -R root:root ffmpeg-$VER;\
   ls -l /opt/local;\

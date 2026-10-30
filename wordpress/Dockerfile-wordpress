@@ -20,7 +20,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv wordpress-$VER;\
   ln -snfv wordpress-$VER wordpress;\
-  curl $DOPT $DURL/sw/opensource/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
+  curl $DOPT $DURL/sw/oss/wordpress/wordpress-$VER.tar.gz | tar xzf - --strip-components=1 -C wordpress;\
   chown -R root:root wordpress-$VER;\
   cd wordpress;\
   mkdir -pv /var/opt/wordpress/wp-content/plugins /var/opt/wordpress/wp-content/themes;\
@@ -33,8 +33,8 @@ RUN set -eux;\
   if [ -f /usr/local/etc/php8/php.ini ]; then\
     sed -i.b$(date +%y%m%d) -e 's/^;cgi.fix_pathinfo.*$/cgi.fix_pathinfo=0/' /usr/local/etc/php8/php.ini;\
   fi;\
-  V=$(curl $DOPT $DURL/sw/opensource/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
-  curl $DOPT -o /usr/local/bin/wp $DURL/sw/opensource/wp-cli/bin/wp-cli-$V.phar;\
+  V=$(curl $DOPT $DURL/sw/oss/wp-cli/bin/version.txt | grep ^wp-cli: | awk '{print $2}');\
+  curl $DOPT -o /usr/local/bin/wp $DURL/sw/oss/wp-cli/bin/wp-cli-$V.phar;\
   chmod a+x /usr/local/bin/wp;\
   echo "info.vers = wp-cli/$V" >> /tmp/vers.txt;\
   S=zlocal-wp-cli.sh;\

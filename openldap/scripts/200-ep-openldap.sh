@@ -17,7 +17,7 @@ echo "    OPENLDAP_ULIMIT = $OPENLDAP_ULIMIT"
 echo
 
 if [ ! -f $OPENLDAP_CONF ]; then
-  echo ${0##*/}: error: no config file: $OPENLDAP_CONF
+  echo "E: no config file: $OPENLDAP_CONF"
   exit 1
 fi
 

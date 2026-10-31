@@ -5,6 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
+ARG DURL
+ARG DOPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -12,9 +14,11 @@ LABEL info.date="$DATE"
 
 ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 
-RUN set -ex;\
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
   mkdir -pv /tmp/t;\
-  curl -sS -L -o /tmp/t/LO.tar.gz http://repo/sw/opensource/libreoffice/bin/LibreOffice_${VER}_Linux_x86-64_rpm.tar.gz;\
+  curl $DOPT -o /tmp/t/LO.tar.gz $DURL/sw/oss/libreoffice/bin/LibreOffice_${VER}_Linux_x86-64_rpm.tar.gz;\
   gzip -dc /tmp/t/LO.tar.gz | tar xvf - --strip-components=1 -C /tmp/t;\
   yum -y install cairo cups-libs libSM libICE;\
   yum -y install /tmp/t/RPMS/*.rpm;\
@@ -23,7 +27,7 @@ RUN set -ex;\
   ln -snfv /usr/bin/libreoffice$(IFS=".";set -- $VER;echo $1.$2) /usr/bin/libreoffice;\
   libreoffice --version;
 
-RUN set -ex;\
+RUN set -eux;\
  (echo "info.date = $DATE";\
   echo "info.name = $REPO:$VER";\
   echo "info.from = $FROM";\

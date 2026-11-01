@@ -11,7 +11,7 @@ echo "    LOKI_OPTS = $LOKI_OPTS"
 echo
 
 if [ ! -f $LOKI_CONF ]; then
-  echo ${0##*/}: error: no config file: $LOKI_CONF
+  echo "E: no config file: $LOKI_CONF"
   exit 1
 fi
 

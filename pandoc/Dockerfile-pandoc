@@ -27,7 +27,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv pandoc-$VER;\
   ln -snfv pandoc-$VER pandoc;\
-  curl $DOPT $DURL/sw/opensource/pandoc/bin/pandoc-$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
+  curl $DOPT $DURL/sw/oss/pandoc/bin/pandoc-$VER-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
   chown -R root:root pandoc-$VER;\
   ls -l /usr/local;\
   pandoc -v;

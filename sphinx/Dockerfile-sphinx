@@ -37,24 +37,24 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  V=$(curl $DOPT $DURL/sw/opensource/plantuml/jar/version.txt | grep ^plantuml: | awk '{print $2}');\
+  V=$(curl $DOPT $DURL/sw/oss/plantuml/jar/version.txt | grep ^plantuml: | awk '{print $2}');\
   mkdir -pv plantuml-$V;\
   ln -snfv plantuml-$V plantuml;\
-  curl $DOPT -o plantuml/plantuml.jar $DURL/sw/opensource/plantuml/jar/plantuml-$V.jar;\
+  curl $DOPT -o plantuml/plantuml.jar $DURL/sw/oss/plantuml/jar/plantuml-$V.jar;\
   S=zlocal-plantuml.sh;\
   curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/502092-plantuml/files/$S || echo Script $S not available;\
   S=plantuml.sh;\
   curl $DOPT -o /usr/local/bin/$S $DURL/pkb/pb/playbooks/502092-plantuml/files/$S || echo Script $S not available;\
   ln -snfv /usr/local/bin/$S /usr/bin/plantuml;\
   echo "info.vers = plantuml/$V" >> /tmp/vers.txt;\
-  V=$(curl $DOPT $DURL/sw/opensource/pandoc/bin/version.txt | grep ^pandoc: | awk '{print $2}');\
+  V=$(curl $DOPT $DURL/sw/oss/pandoc/bin/version.txt | grep ^pandoc: | awk '{print $2}');\
   mkdir -v pandoc-$V;\
   ln -snfv pandoc-$V pandoc;\
-  curl $DOPT $DURL/sw/opensource/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
+  curl $DOPT $DURL/sw/oss/pandoc/bin/pandoc-$V-linux-amd64.tar.gz | tar xzf - --strip-components=1 -C pandoc;\
   ln -snfv /usr/local/pandoc/bin/pandoc /usr/bin;\
   echo "info.vers = pandoc/$V" >> /tmp/vers.txt;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/sphinx/bin/sphinx-$VER-$OSN-venv.tar.gz | tar xzf -;\
   ln -snfv sphinx-$VER sphinx;\
   chown -R none:none sphinx-$VER;\
   mkdir -pv /var/opt/sphinx;\

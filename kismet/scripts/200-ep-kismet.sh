@@ -16,5 +16,6 @@ if [ ! -f $KISMET_CONF ]; then
 fi
 
 set -x
+kismet --version
 exec setpriv --reuid=0 --regid=0 --groups=0 \
   kismet --homedir $KISMET_HOME --log-prefix $KISMET_HOME/log $KISMET_OPTS

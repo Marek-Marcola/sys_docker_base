@@ -31,7 +31,7 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/kismet/bin/kismet-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/kismet/bin/kismet-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv kismet-$VER kismet;\
   chown -R root:root kismet-$VER;\
   mkdir -pv etc/kismet;\

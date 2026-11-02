@@ -20,6 +20,7 @@ hash_tables="
   table_aliases
   table_check_helo
   table_check_client
+  table_check_sender
   table_debug_peers
   table_recipient_bcc
   table_relay_domains

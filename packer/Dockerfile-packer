@@ -1,0 +1,37 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/packer-$VER:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  cd /usr/local;\
+  mkdir -pv packer-$VER;\
+  ln -snfv packer-$VER packer;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/oss/packer/bin/packer_${VER}_linux_amd64.zip;\
+  unzip -d packer /tmp/f.zip;\
+  chown -R root:root packer-$VER;\
+  mkdir -pv etc/packer;\
+  S=zlocal-packer.sh;\
+  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/005014-packer/files/$S || echo Script $S not available;\
+  CHECKPOINT_DISABLE=1 packer version;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+  [ ! -f /tmp/vers.txt ] || (cat /tmp/vers.txt && rm -f /tmp/vers.txt);\
+ ) > /version.d/version-$REPO.txt;

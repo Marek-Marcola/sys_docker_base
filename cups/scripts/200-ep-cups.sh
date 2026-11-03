@@ -11,12 +11,12 @@ echo "    CUPS_FILE = $CUPS_FILE"
 echo
 
 if [ ! -f $CUPS_CONF ]; then
-  echo ${0##*/}: error: no config file: $CUPS_CONF
+  echo "E: no config file: $CUPS_CONF"
   exit 1
 fi
 
 if [ ! -f $CUPS_FILE ]; then
-  echo ${0##*/}: error: no config file: $CUPS_FILE
+  echo "E: no config file: $CUPS_FILE"
   exit 1
 fi
 

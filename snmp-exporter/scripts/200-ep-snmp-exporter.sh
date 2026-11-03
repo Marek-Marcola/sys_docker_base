@@ -11,7 +11,7 @@ echo "    SNMP_EXPORTER_OPTS = $SNMP_EXPORTER_OPTS"
 echo
 
 if [ ! -f $SNMP_EXPORTER_CONF ]; then
-  echo ${0##*/}: error: no config file: $SNMP_EXPORTER_CONF
+  echo "E: no config file: $SNMP_EXPORTER_CONF"
   exit 1
 fi
 

@@ -9,7 +9,7 @@ echo "    RTSP2WS_OPTS = $RTSP2WS_OPTS"
 echo
 
 if [ ! -f $RTSP2WS_CONF ]; then
-  echo ${0##*/}: error: no config file: $RTSP2WS_CONF
+  echo "E: no config file: $RTSP2WS_CONF"
   exit 1
 fi
 

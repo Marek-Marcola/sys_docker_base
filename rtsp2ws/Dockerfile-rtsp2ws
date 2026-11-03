@@ -23,7 +23,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv rtsp2ws-$VER;\
   ln -snfv rtsp2ws-$VER rtsp2ws;\
-  curl $DOPT $DURL/sw/opensource/rtsp2ws/bin/rtsp2ws-v$VER-Linux-x86_64-Release.tar.gz | tar xzf - --strip-components=1 -C rtsp2ws;\
+  curl $DOPT $DURL/sw/oss/rtsp2ws/bin/rtsp2ws-v$VER-Linux-x86_64-Release.tar.gz | tar xzf - --strip-components=1 -C rtsp2ws;\
   chown -R root:root rtsp2ws-$VER;\
   mkdir -pv etc/rtsp2ws;\
   ls -l /usr/local;\

@@ -21,14 +21,14 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv terraform-$VER;\
   ln -snfv terraform-$VER terraform;\
-  curl $DOPT -o /tmp/f.zip $DURL/sw/opensource/terraform/bin/terraform_${VER}_linux_amd64.zip;\
+  curl $DOPT -o /tmp/f.zip $DURL/sw/oss/terraform/bin/terraform_${VER}_linux_amd64.zip;\
   unzip -d terraform /tmp/f.zip;\
   chown -R root:root terraform-$VER;\
   mkdir -pv etc/terraform;\
-  V=$(curl -s $DURL/sw/opensource/terraform/providers/version.txt | grep ^terraform-provider-libvirt: | tail -1 | awk '{print $2}');\
+  V=$(curl -s $DURL/sw/oss/terraform/providers/version.txt | grep ^terraform-provider-libvirt: | tail -1 | awk '{print $2}');\
   mkdir -pv /usr/local/terraform-providers/dc.local/local/libvirt;\
   cd /usr/local/terraform-providers/dc.local/local/libvirt;\
-  curl $DOPT -O $DURL/sw/opensource/terraform/providers/terraform-provider-libvirt_${V}_linux_amd64.zip;\
+  curl $DOPT -O $DURL/sw/oss/terraform/providers/terraform-provider-libvirt_${V}_linux_amd64.zip;\
   S=zlocal-terraform.sh;\
   curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/005012-terraform/files/$S || echo Script $S not available;\
   ls -l /usr/local;\

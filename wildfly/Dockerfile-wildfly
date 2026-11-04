@@ -21,7 +21,7 @@ RUN set -eux;\
   groupadd -g 460 wildfly;\
   useradd -u 460 -g 460 -c "WildFly Application Server" -m -s /bin/bash wildfly;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/wildfly/bin/wildfly-$VER.Final.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/wildfly/bin/wildfly-$VER.Final.tar.gz | tar xzf -;\
   ln -snfv wildfly-$VER.Final wildfly;\
   chown -R wildfly:wildfly wildfly-$VER.Final;\
   ln -sv /usr/local/wildfly/welcome-content /as-root;\

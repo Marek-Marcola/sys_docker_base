@@ -21,7 +21,7 @@ RUN set -eux;\
   groupadd -g 891 unbound;\
   useradd -u 891 -g 891 -m -s /bin/bash unbound;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/unbound/bin/unbound-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/unbound/bin/unbound-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv unbound-$VER unbound-${VER%.*};\
   ls -l /usr/local;\
   unbound -V;

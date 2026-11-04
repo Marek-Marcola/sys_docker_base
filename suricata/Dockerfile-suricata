@@ -1,0 +1,48 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG DURL
+ARG DOPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/suricata-$VER/bin:$PATH
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  if expr match $OSN debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libjansson-dev libpcap-dev libpcre2-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libyaml-dev zlib1g-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libmaxminddb-dev libcap-ng-dev;\
+    apt-get -yqq --no-install-recommends --no-install-suggests install libunwind-dev liblz4-dev libmagic-dev;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists;\
+  fi;\
+  [ -z "$(id -g none)" ] && groupadd -g 666 none;\
+  [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
+  cd /usr/local;\
+  curl $DOPT $DURL/sw/oss/suricata/bin/suricata-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  ln -snfv suricata-$VER suricata;\
+  mkdir -pv /var/opt/suricata /var/log/suricata;\
+  chown -Rv none:none /var/opt/suricata /var/log/suricata;\
+  ls -l /usr/local;\
+  suricata -V;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;
+
+COPY scripts/[0-9]*.sh /cmd.d/
+CMD ["/cmd.sh"]

@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-zoneminder-dc1
+    # cat /usr/local/etc/cman.d/c-zoneminder-dc1
     : ${V:=x.y.z-nginx131-php84}
     : ${V:=x.y.z-lighttpd14-php84}
     : ${I:=scr.dc.local:5443/is/zoneminder:$V}
@@ -36,23 +36,23 @@ cman env:
     --security-opt apparmor=unconfined
     )
     [[ $I =~ nginx ]] && OPTS+=(
-    --volume /usr/local/etc/ap-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
-    --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
+    --volume /usr/local/etc/c-nginx-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
+    --volume /var/opt/nginx/c-nginx-$APN-$API:/var/opt/nginx/c-nginx-$APN-$API
     --env FCGIWRAP_PREFORK=500
     --env FCGIWRAP_SOCKET=unix:/tmp/fcgiwrap.sock
     --env NGINX_CGI=1
     --env NGINX_PHP=1
-    --env NGINX_ID=ap-nginx-$APN-$API
+    --env NGINX_ID=c-nginx-$APN-$API
     )
     [[ $I =~ lighttpd ]] && OPTS+=(
-    --volume /usr/local/etc/ap-lighttpd-$APN-$API:/usr/local/etc/lighttpd:ro
-    --volume /usr/local/etc/ap-lighttpd-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
-    --volume /var/opt/lighttpd/ap-lighttpd-$APN-$API:/var/opt/lighttpd
+    --volume /usr/local/etc/c-lighttpd-$APN-$API:/usr/local/etc/lighttpd:ro
+    --volume /usr/local/etc/c-lighttpd-$APN-$API/php8/php.ini:/usr/local/etc/php8/php.ini
+    --volume /var/opt/lighttpd/c-lighttpd-$APN-$API:/var/opt/lighttpd
     )
     INIT=(
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
-     "install -m 755 -o root -g root -v -d /var/opt/nginx/ap-nginx-$APN-$API"
-     "install -m 755 -o root -g root -v -d /var/opt/lighttpd/ap-lighttpd-$APN-$API"
+     "install -m 755 -o root -g root -v -d /var/opt/nginx/c-nginx-$APN-$API"
+     "install -m 755 -o root -g root -v -d /var/opt/lighttpd/c-lighttpd-$APN-$API"
      "install -m 755 -o none -g none -v -d /var/opt/$APN/$A"
      "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/cache"
      "install -m 755 -o none -g none -v -d /var/opt/$APN/$A/events"

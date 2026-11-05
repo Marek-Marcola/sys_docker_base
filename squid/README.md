@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-squid-dc1
+    # cat /usr/local/etc/cman.d/c-squid-dc1
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/squid:$V}
     OPTS=(

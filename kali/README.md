@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-kali
+    # cat /usr/local/etc/cman.d/c-kali
     : ${I:=scr.dc.local:5443/is/kali}
     WDIR=/tmp
     OPTS=(

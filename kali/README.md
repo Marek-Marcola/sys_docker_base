@@ -16,8 +16,8 @@ cman env:
     WDIR=/tmp
     OPTS=(
     --workdir $WDIR
-    --net=host
-    --pid=host
+    --net host
+    --pid host
     --privileged
     --volume /etc/profile.d/zlocal-pman.sh:/etc/profile.d/zlocal-pman.sh:ro
     --volume /usr/local/etc:/usr/local/etc

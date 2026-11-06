@@ -2,6 +2,8 @@
 
 _ID="[${0##*/}]"
 
+export CONTAINER_ARGS=$@
+
 echo "$_ID: start: $(date '+%Y-%m-%d %H:%M:%S')"
 
 if [ -d /cmd.d ]; then

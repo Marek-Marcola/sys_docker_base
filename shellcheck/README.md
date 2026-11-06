@@ -18,6 +18,7 @@ cman env:
     --volume $(pwd):/work:ro
     )
     RUN=1
+    _EXEC=1
     QUIET=1
     ASTATS=0
     AHISTORY=0

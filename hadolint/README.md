@@ -17,10 +17,6 @@ cman env:
     OPTS=(
     --volume $(pwd):/work:ro
     )
-    RUN=1
-    QUIET=1
-    ASTATS=0
-    AHISTORY=0
 
     # cat /usr/local/etc/cman.d/dl
     : ${V:=x.y.z}

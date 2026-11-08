@@ -11,13 +11,13 @@ set -x
 hadolint --version
 { set +x; } 2>/dev/null
 
-if [ -n "$CONTAINER_ARGS" ]; then
-  DF=$CONTAINER_ARGS
-else
-  DF=$(ls Dockerfile* 2>/dev/null)
-fi
+DF=$(ls Dockerfile* 2>/dev/null)
 
-if [ -n "$DF" ]; then
+if [ -n "$CONTAINER_ARGS" ]; then
+  set -x
+  hadolint $SHELLCHECK_OPTS $CONTAINER_ARGS
+  { set +x; } 2>/dev/null
+elif [ -n "$DF" ]; then
   for f in $DF; do
     echo
     set -x

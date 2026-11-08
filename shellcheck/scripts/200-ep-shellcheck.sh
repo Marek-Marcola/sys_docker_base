@@ -11,13 +11,13 @@ set -x
 shellcheck --version
 { set +x; } 2>/dev/null
 
-if [ -n "$CONTAINER_ARGS" ]; then
-  SF=$CONTAINER_ARGS
-else
-  SF=$(ls -- *.sh 2>/dev/null)
-fi
+SF=$(ls -- *.sh 2>/dev/null)
 
-if [ -n "$SF" ]; then
+if [ -n "$CONTAINER_ARGS" ]; then
+  set -x
+  shellcheck $SHELLCHECK_OPTS $CONTAINER_ARGS
+  { set +x; } 2>/dev/null
+elif [ -n "$SF" ]; then
   for f in $SF; do
     echo
     set -x

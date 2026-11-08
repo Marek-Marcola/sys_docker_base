@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-tor-browser
+    # cat /usr/local/etc/cman.d/c-tor-browser
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/tor-browser:$V}
     OPTS=(

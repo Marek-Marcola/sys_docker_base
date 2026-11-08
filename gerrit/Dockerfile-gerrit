@@ -23,7 +23,7 @@ RUN set -eux;\
   mkdir -pv gerrit-$VER;\
   ln -snfv gerrit-$VER gerrit;\
   cd gerrit;\
-  curl $DOPT -o gerrit-$VER.war $DURL/sw/opensource/gerrit/war/gerrit-$VER.war;\
+  curl $DOPT -o gerrit-$VER.war $DURL/sw/oss/gerrit/war/gerrit-$VER.war;\
   ln -snfv gerrit-$VER.war gerrit.war;\
   chown -R root:root gerrit-$VER.war;\
   mkdir -pv /var/opt/gerrit;\

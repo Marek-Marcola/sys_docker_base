@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-arpwatch-dc5-brint1
+    # cat /usr/local/etc/cman.d/c-arpwatch-dc5-brint1
     IF=$(echo $A|awk -F- '{print $NF}')
     FR=arpwatch.$(hostname -s).$IF@dc.local
     TO=sysmon@dc.local

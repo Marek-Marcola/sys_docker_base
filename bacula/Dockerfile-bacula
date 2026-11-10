@@ -27,13 +27,13 @@ RUN set -eux;\
   groupadd -g 26 postgres;\
   useradd -u 26 -g 26 -m -s /bin/bash postgres;\
   cd /usr/local;\
-  V=$(curl -s $DURL/sw/opensource/pgsql/bin/version.txt | grep ^pgsql-18: | awk '{print $2}');\
-  curl $DOPT $DURL/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+  V=$(curl -s $DURL/sw/oss/pgsql/bin/version.txt | grep ^pgsql-18: | awk '{print $2}');\
+  curl $DOPT $DURL/sw/oss/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
   chown -R root:root pgsql-$V;\
   ln -snfv pgsql-$V pgsql-${V%.*};\
   ln -snfv pgsql-${V%.*} psql;\
   echo "info.vers = pgsql/$V" >> /tmp/vers.txt;\
-  curl $DOPT $DURL/sw/opensource/bacula/$VER/bin/bacula-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/bacula/$VER/bin/bacula-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv bacula-$VER bacula;\
   mkdir -pv etc/bacula/bacula-dir.d;\
   chown root:root etc/bacula/bacula-dir.d;\

@@ -28,13 +28,13 @@ RUN set -eux;\
     rm -rf /var/lib/apt/lists;\
   fi;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $DOPT $DURL/sw/oss/cacti/bin/spine-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv spine-$VER spine;\
   chown -R root:root spine-$VER;\
   chmod u+s spine/bin/spine;\
   mkdir -pv cacti;\
   ln -snfv cacti cacti-$VER;\
-  curl $DOPT $DURL/sw/opensource/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
+  curl $DOPT $DURL/sw/oss/cacti/src/cacti-$VER.tar.gz | tar xzf - --strip-components=1 -C cacti;\
   chown -R root:root cacti;\
   mkdir -pv etc/cacti;\
   ln -snfv /usr/local/etc/cacti/config.php /usr/local/cacti/include;\

@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-ssldump-brext1
+    # cat /usr/local/etc/cman.d/c-ssldump-brext1
     SSLDUMP_OPTS="
     -AHN
     -P

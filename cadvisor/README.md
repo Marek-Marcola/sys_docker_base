@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-cadvisor-dc1
+    # cat /usr/local/etc/cman.d/c-cadvisor-dc1
     CADVISOR_OPTS="
     --url_base_prefix=/$API/cadvisor/$(hostname -s)
     --containerd=/tmp/none.sock

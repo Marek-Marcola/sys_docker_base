@@ -29,6 +29,7 @@ RUN set -eux;\
     yum -y install iputils;\
     yum clean all;\
   fi;\
+  mkdir -pv /usr/local/etc/ping;\
   mkdir -pv /var/opt/ping;\
   ping -V;
 

@@ -10,7 +10,7 @@
 if [ -f "$PING_CONF" ]; then
   source "$PING_CONF"
 else
-  echo echo "I: no config file: $PING_CONF"
+  echo "I: no config file: $PING_CONF"
 fi
 
 echo "env config:"

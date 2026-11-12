@@ -19,7 +19,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   mv -v /usr/local/etc/supervisord.d/supervisord-cron.conf.disabled /usr/local/etc/supervisord.d/supervisord-cron.conf;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-recommends --no-install-suggests install libmariadb-dev libmariadb-dev-compat;\

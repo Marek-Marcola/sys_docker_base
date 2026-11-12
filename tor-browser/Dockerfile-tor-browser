@@ -18,7 +18,7 @@ ENV PATH /usr/local/tor-browser-$VER:$PATH
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libgtk-3-0 libasound2 libx11-xcb1 libgl1 libegl1 libpci3 speech-dispatcher;\

@@ -24,7 +24,8 @@ echo "    PING_LOG   = $PING_LOG"
 while true; do
   for h in $PING_HOSTS; do
     INFO=$( (set -x; ping $PING_OPTS "$h"; { set +x; } 2>/dev/null) | grep -E 'loss|rtt' )
-    echo "$(date +"%y%m%d %H:%M:%S") $h: $(echo "$INFO"|xargs)" | tee -a "${PING_LOG}"-$(date +"%y%m%d")
+    INFO=$(echo "$INFO" | xargs)
+    echo "$(date +"%y%m%d %H:%M:%S") $h: $INFO" | tee -a "${PING_LOG}-$(date +%y%m%d)"
   done
   sleep "$PING_SLEEP"
 done

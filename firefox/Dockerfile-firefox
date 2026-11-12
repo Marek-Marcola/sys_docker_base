@@ -18,7 +18,7 @@ ENV PATH /usr/local/firefox-$VER:$PATH
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libgtk-3-0 libasound2 libx11-xcb1 libgl1 libegl1 libpci3 speech-dispatcher;\
@@ -30,10 +30,10 @@ RUN set -eux;\
     apt-get -yqq install alsa-utils pulseaudio-utils v4l-utils x11-xserver-utils;\
     apt-get -yqq install libdbus-glib-1-2;\
     apt-get -yqq install xfce4-terminal;\
-    if expr match $OSN debian13; then\
+    if expr "$OSN" : debian13; then\
       apt-get -yqq install freerdp3-x11;\
     fi;\
-    if expr match $OSN debian12; then\
+    if expr "$OSN" : debian12; then\
       apt-get -yqq install freerdp2-x11;\
     fi;\
     apt-get clean;\

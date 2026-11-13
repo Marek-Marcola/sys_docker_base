@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-samba-uran
+    # cat /usr/local/etc/cman.d/c-samba-uran
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/samba:$V}
     OPTS=(
@@ -35,6 +35,6 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/lssmb
-    A=ap-samba-uran
+    A=c-samba-uran
     EXEC=1
     ARGS=lssmb

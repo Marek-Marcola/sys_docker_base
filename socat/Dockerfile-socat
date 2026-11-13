@@ -18,7 +18,7 @@ ENV PATH /usr/local/socat-$VER/bin:$PATH
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libwrap0 ldap-utils;\

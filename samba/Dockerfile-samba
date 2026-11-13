@@ -21,7 +21,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
   mv -v /cmd.d/190-ep-supervisord.sh.disabled /cmd.d/190-ep-supervisord.sh;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libpopt0 libicu-dev libarchive13 libcups2 libncurses6 libgpgme11 liburing2 libcephfs2;\

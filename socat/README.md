@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-socat-ssoldap
+    # cat /usr/local/etc/cman.d/c-socat-ssoldap
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/socat:$V}
     OPTS=(
@@ -24,7 +24,7 @@ cman env:
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
     )
 
-    # cat /usr/local/etc/cman.d/ap-socat-ssocert
+    # cat /usr/local/etc/cman.d/c-socat-ssocert
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/socat:$V}
     OPTS=(

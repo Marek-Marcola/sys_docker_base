@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-sshd-dc1
+    # cat /usr/local/etc/cman.d/c-sshd-dc1
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/sshd:$V}
     OPTS=(
@@ -20,7 +20,7 @@ cman env:
     --volume /var/opt/sshd/$A/home:/home
     )
 
-    # cat /usr/local/etc/cman.d/ap-sshd-gitolite-dc5
+    # cat /usr/local/etc/cman.d/c-sshd-gitolite-dc5
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/sshd:$V}
     OPTS=(

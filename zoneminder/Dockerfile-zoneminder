@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -39,7 +39,7 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -r -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/oss/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $SRC_OPT $SRC_URI/sw/oss/zoneminder/bin/zoneminder-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv zoneminder-$VER zoneminder;\
   ln -snfv /usr/local/zoneminder/perl5/vendor_perl /usr/local/lib/site_perl;\
   chown -R root:root zoneminder-$VER;\
@@ -52,7 +52,7 @@ RUN set -eux;\
   mkdir -pv /var/opt/zoneminder/tmp;\
   chown -Rv none:none /var/opt/zoneminder;\
   S=zlocal-zoneminder.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/503010-zoneminder/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/503010-zoneminder/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   zmc --version;
 

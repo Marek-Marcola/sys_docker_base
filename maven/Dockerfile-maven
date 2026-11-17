@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -22,7 +22,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv maven-$VER;\
   ln -snfv maven-$VER maven;\
-  curl $DOPT $DURL/sw/opensource/apache-maven/bin/apache-maven-$VER-bin.tar.gz | tar xzf - --strip-components=1 -C maven;\
+  curl $SRC_OPT $SRC_URI/sw/opensource/apache-maven/bin/apache-maven-$VER-bin.tar.gz | tar xzf - --strip-components=1 -C maven;\
   chown -R root:root maven-$VER;\
   touch /.bash_history_all;\
   chmod a+rw /.bash_history_all;\

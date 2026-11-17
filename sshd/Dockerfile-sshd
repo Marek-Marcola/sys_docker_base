@@ -24,7 +24,7 @@ RUN set -eux;\
     rm -rf /var/lib/apt/lists;\
   fi;\
   mkdir -pv /usr/local/etc/ssh;\
-  sshd -V;
+  ssh -V;
 
 RUN set -eux;\
  (echo "info.date = $DATE";\

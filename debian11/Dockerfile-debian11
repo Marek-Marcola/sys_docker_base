@@ -61,6 +61,8 @@ RUN set -eux;\
   S=zlocal-readme.bash;\
   curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
   mkdir -pv /usr/local/etc/doc;\
+  S=zlocal-git.sh;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/101523-scm_git/files/$S || echo Script $S not available;\
   S=zlocal-cdev-image.sh;\
   curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   cat /etc/os-release;\

@@ -6,8 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -49,20 +49,20 @@ RUN set -eux;\
   echo $TZ > /etc/timezone;\
   sed -i.b$(date +%y%m%d) 's/PATH=\"/PATH=\"\$PATH:/' /etc/profile;\
   S=zlocal-0001.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-0002.bash;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-0010.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-ip.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=vimrc.local;\
-  curl $DOPT -o /etc/vim/$S $DURL/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/vim/$S $SRC_URI/pkb/pb/playbooks/001630-debian11/files/$S || echo Script $S not available;\
   S=zlocal-readme.bash;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001500-linux_admin/files/$S || echo Script $S not available;\
   mkdir -pv /usr/local/etc/doc;\
   S=zlocal-cdev-image.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/999210-cdev/files/$S || echo Script $S not available;\
   cat /etc/os-release;\
   cat /etc/debian_version;
 
@@ -75,13 +75,13 @@ RUN set -eux;\
   ln -sv /usr/local/etc/supervisord.conf /etc;\
   mkdir -pv /usr/local/etc/supervisord.d;\
   S=zlocal-supervisor.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008330-supervisor/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/008330-supervisor/files/$S || echo Script $S not available;\
   supervisord --version;
 
 COPY config/supervisord.conf /usr/local/etc
 
 RUN set -eux;\
-  curl $DOPT -o /tini $DURL/sw/opensource/tini/bin/tini-amd64-current;\
+  curl $SRC_OPT -o /tini $SRC_URI/sw/opensource/tini/bin/tini-amd64-current;\
   chmod a+x /tini;\
   /tini --version;
 

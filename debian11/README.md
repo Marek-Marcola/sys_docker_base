@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-debian11
+    # cat /usr/local/etc/cman.d/c-debian11
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/debian11:$V}
     WDIR=/tmp

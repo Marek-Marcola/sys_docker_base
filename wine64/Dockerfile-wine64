@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -52,11 +52,11 @@ RUN set -eux;\
   [ -z "$(id -g none)" ] && groupadd -g 666 none;\
   [ -z "$(id -u none)" ] && useradd -u 666 -g 666 -m -s /bin/bash none;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/oss/wine/bin/wine64-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $SRC_OPT $SRC_URI/sw/oss/wine/bin/wine64-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv wine64-$VER wine64;\
   chown -R root:root wine64-$VER;\
   S=zlocal-wine.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/008120-wine/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/008120-wine/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   wine --version;
 

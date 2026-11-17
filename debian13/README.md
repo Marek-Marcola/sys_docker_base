@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-debian13
+    # cat /usr/local/etc/cman.d/c-debian13
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/debian13:$V}
     WDIR=/tmp
@@ -25,7 +25,7 @@ cman env:
      "$A -e cmd"
     )
 
-    # cat /usr/local/etc/cman.d/ap-debian13-km
+    # cat /usr/local/etc/cman.d/c-debian13-km
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/debian13:$V}
     WDIR=/tmp

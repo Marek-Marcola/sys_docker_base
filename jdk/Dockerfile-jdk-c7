@@ -19,11 +19,11 @@ ENV JAVA_HOME /usr/local/jdk-$VER
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $VER 11; then\
+  if expr "$VER" : 11; then\
     yum -y install java-11-openjdk java-11-openjdk-devel;\
     yum clean all;\
     ln -sv /usr /usr/local/jdk-$VER;\
-  elif expr match $VER 1.8; then\
+  elif expr "$VER" : 1.8; then\
     yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel;\
     yum clean all;\
     ln -sv /usr /usr/local/jdk-$VER;\
@@ -31,7 +31,7 @@ RUN set -eux;\
     cd /usr/local;\
     mkdir -pv jdk-$VER;\
     ln -snfv jdk-$VER jdk-${VER%%.*};\
-    curl $SRC_OPT $SRC_URI/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
+    curl $SRC_OPT $SRC_URI/sw/oss/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
     chown -R root:root jdk-${VER};\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
     yum -y install fontconfig dejavu-sans-fonts;\

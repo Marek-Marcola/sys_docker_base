@@ -5,7 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG URL
+ARG SRC_JDK
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -18,7 +19,7 @@ ENV JAVA_HOME /usr/local/jdk-$VER
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN centos; then\
+  if expr "$OSN" : centos; then\
     yum -y install freetype alsa-lib libXext libX11 libXrender libXtst libXi;\
     yum -y install fontconfig dejavu-sans-fonts;\
     yum clean all;\
@@ -26,7 +27,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv jdk-$VER;\
   ln -snfv jdk-$VER jdk-${VER%%.*};\
-  curl $DOPT $URL | tar xzf - --strip-components=1 -C jdk-$VER;\
+  curl $SRC_OPT $SRC_JDK | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
   ls -l /usr/local;\
   java -version;

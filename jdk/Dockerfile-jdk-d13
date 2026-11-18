@@ -19,7 +19,7 @@ ENV JAVA_HOME /usr/local/jdk-$VER
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq --no-install-suggests install libfreetype6 fontconfig fonts-dejavu;\
@@ -30,12 +30,11 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv jdk-$VER;\
   ln -snfv jdk-$VER jdk-${VER%%.*};\
-  curl $SRC_OPT $SRC_URI/sw/opensource/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
+  curl $SRC_OPT $SRC_URI/sw/oss/openjdk/bin/openjdk-${VER}_linux-x64_bin.tar.gz | tar xzf - --strip-components=1 -C jdk-$VER;\
   chown -R root:root jdk-$VER;\
   cd jdk-$VER;\
   find . -name "*.so" -exec ldd {} \; 2>&1 | grep found | sort | uniq | grep -vE 'libjvm.so|libjava.so'\
-    && (echo Required shared libraries: missing)\
-    || (echo Required shared libraries: ok);\
+    && (echo Required shared libraries: missing);\
   ls -l /usr/local;\
   java -version;
 

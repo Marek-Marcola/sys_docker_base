@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -22,7 +22,7 @@ RUN set -eux;\
   mkdir -pv hadolint-$VER;\
   ln -snfv hadolint-$VER hadolint;\
   cd hadolint;\
-  curl $DOPT -O $DURL/sw/opensource/hadolint/bin/hadolint-$VER-linux-x86_64;\
+  curl $SRC_OPT -O $SRC_URI/sw/oss/hadolint/bin/hadolint-$VER-linux-x86_64;\
   chmod a+x hadolint-$VER-linux-x86_64;\
   ln -snfv hadolint-$VER-linux-x86_64 hadolint;\
   mkdir -pv /work;\

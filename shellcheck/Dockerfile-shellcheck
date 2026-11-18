@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -21,7 +21,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv shellcheck-$VER;\
   ln -snfv shellcheck-$VER shellcheck;\
-  curl $DOPT $DURL/sw/oss/shellcheck/bin/shellcheck-v${VER}.linux.x86_64.tar.gz | tar xvzf - --strip-components=1 -C shellcheck;\
+  curl $SRC_OPT $SRC_URI/sw/oss/shellcheck/bin/shellcheck-v${VER}.linux.x86_64.tar.gz | tar xvzf - --strip-components=1 -C shellcheck;\
   mkdir -pv /work;\
   shellcheck --version;
 

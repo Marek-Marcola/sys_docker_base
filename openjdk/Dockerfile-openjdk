@@ -1,0 +1,45 @@
+ARG FROM
+FROM $FROM
+
+ARG DATE
+ARG FROM
+ARG REPO
+ARG VER
+ARG SRC_URI
+ARG SRC_OPT
+
+LABEL info.from="$FROM"
+LABEL info.name="$REPO:$VER"
+LABEL info.date="$DATE"
+
+ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
+ENV PATH /usr/local/openjdk-$VER/bin:$PATH
+ENV JAVA_HOME /usr/local/openjdk-$VER
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN set -eux;\
+  if expr "$OSN" : debian; then\
+    export DEBIAN_FRONTEND=noninteractive;\
+    apt-get update;\
+    apt-get -yqq --no-install-suggests install libfreetype6 fontconfig fonts-dejavu;\
+    apt-get -yqq --no-install-suggests install libasound2t64 libxi6 libxrender1 libxtst6;\
+    apt-get clean;\
+    rm -rf /var/lib/apt/lists;\
+  fi;\
+  cd /usr/local;\
+  mkdir -pv openjdk-$VER;\
+  ln -snfv openjdk-$VER openjdk-"$OSJ";\
+  curl $SRC_OPT $SRC_URI/sw/oss/openjdk/jdk/OpenJDK"${OSJ}"U-jdk_x64_linux_hotspot_${VER}.tar.gz | tar xzf - --strip-components=1 -C openjdk-$VER;\
+  chown -R root:root openjdk-$VER;\
+  cd openjdk-$VER;\
+  find . -name "*.so" -exec ldd {} \; 2>&1 | grep found | sort | uniq | grep -vE 'libjvm.so|libjava.so'\
+    && (echo Required shared libraries: missing);\
+  ls -l /usr/local;\
+  java -version;
+
+RUN set -eux;\
+ (echo "info.date = $DATE";\
+  echo "info.name = $REPO:$VER";\
+  echo "info.from = $FROM";\
+ ) > /version.d/version-$REPO.txt;

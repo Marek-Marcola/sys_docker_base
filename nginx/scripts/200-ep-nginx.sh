@@ -22,7 +22,7 @@ if [ "$NGINX_MODE" = "oos" ]; then
   exec -a '[nginx-mode-oos]' sleep 666d
 fi
 
-if [ "$NGINX_INIT" = "yes" -o "$NGINX_INIT" = "1" ]; then
+if [[ "$NGINX_INIT" == "yes" ]] || [[ "$NGINX_INIT" == "1" ]]; then
   if [ ! -d $NGINX_DATA/conf ]; then
     set -x
     mkdir -pv $NGINX_DATA

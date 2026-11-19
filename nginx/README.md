@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-nginx-sys
+    # cat /usr/local/etc/cman.d/c-nginx-sys
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/nginx:$V}
     OPTS=(

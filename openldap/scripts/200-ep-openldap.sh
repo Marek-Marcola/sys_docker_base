@@ -16,12 +16,12 @@ echo "    OPENLDAP_DEBUG  = $OPENLDAP_DEBUG"
 echo "    OPENLDAP_ULIMIT = $OPENLDAP_ULIMIT"
 echo
 
-if [ ! -f $OPENLDAP_CONF ]; then
+if [ ! -f "$OPENLDAP_CONF" ]; then
   echo "E: no config file: $OPENLDAP_CONF"
   exit 1
 fi
 
 set -x
-ulimit $OPENLDAP_ULIMIT
+ulimit "$OPENLDAP_ULIMIT"
 slapd -VVV
-exec slapd -u ldap -g ldap -f $OPENLDAP_CONF -d $OPENLDAP_DEBUG -h "$OPENLDAP_URLS"
+exec slapd -u ldap -g ldap -f "$OPENLDAP_CONF" -d "$OPENLDAP_DEBUG" -h "$OPENLDAP_URLS"

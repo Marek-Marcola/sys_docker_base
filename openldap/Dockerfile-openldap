@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -18,7 +18,7 @@ ENV PATH /usr/local/openldap-$VER/bin:/usr/local/openldap-$VER/sbin:/usr/local/o
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libdb-dev unixodbc;\
@@ -32,7 +32,7 @@ RUN set -eux;\
   groupadd -g 55 ldap;\
   useradd -r -u 55 -g 55 -m -s /bin/bash ldap;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/oss/openldap/bin/openldap-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $SRC_OPT $SRC_URI/sw/oss/openldap/bin/openldap-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv openldap-$VER openldap;\
   chown -R root:root openldap-$VER;\
   mkdir -pv etc/openldap;\
@@ -41,7 +41,7 @@ RUN set -eux;\
   cd /usr/local/etc;\
   ln -snfv openldap/ldap-server.conf .;\
   S=zlocal-openldap.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101322-openldap/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/101322-openldap/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   ldapwhoami -VV;
 

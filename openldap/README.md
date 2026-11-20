@@ -5,7 +5,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-openldap-dc1
+    # cat /usr/local/etc/cman.d/c-openldap-dc1
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/openldap:$V}
     OPTS=(

@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -21,7 +21,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv vdbench-$VER;\
   ln -snfv vdbench-$VER vdbench;\
-  curl $DOPT -o /tmp/f.zip $DURL/sw/oracle/vdbench/vdbench-$VER.zip;\
+  curl $SRC_OPT -o /tmp/f.zip $SRC_URI/sw/oracle/vdbench/vdbench-$VER.zip;\
   unzip -d vdbench /tmp/f.zip;\
   rm -fv /tmp/f.zip;\
   chown -R root:root vdbench-$VER;\

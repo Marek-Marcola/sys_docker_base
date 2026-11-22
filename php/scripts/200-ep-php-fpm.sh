@@ -8,11 +8,11 @@ echo "    PHPFPM_ID   = $PHPFPM_ID"
 echo "    PHPFPM_CONF = $PHPFPM_CONF"
 echo
 
-if [ ! -f $PHPFPM_CONF ]; then
+if [ ! -f "$PHPFPM_CONF" ]; then
   echo "E: no config file: $PHPFPM_CONF"
   exit 1
 fi
 
 set -x
 php-fpm --version
-exec php-fpm --nodaemonize --fpm-config $PHPFPM_CONF
+exec php-fpm --nodaemonize --fpm-config "$PHPFPM_CONF"

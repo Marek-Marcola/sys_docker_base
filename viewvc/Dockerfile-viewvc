@@ -6,8 +6,8 @@ ARG FROM
 ARG TYPE
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -18,7 +18,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     apt-get update;\
     apt-get -yqq install rcs cvs subversion cvsgraph;\
     apt-get clean;\
@@ -27,10 +27,10 @@ RUN set -eux;\
   groupadd -g 321 git;\
   useradd -u 321 -g 321 -m -s /bin/bash git;\
   usermod -a -G git none;\
-  if expr match $VER 1.1 || expr match $VER 1.2; then\
+  if expr "$VER" : 1.1 || expr "$VER" : 1.2; then\
     cd /usr/local;\
-    V=$(curl -s $DURL/sw/oss/python/bin/version.txt | grep ^python-2.7: | awk '{print $2}');\
-    curl $DOPT $DURL/sw/oss/python/bin/python-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    V=$(curl $SRC_OPT $SRC_URI/sw/oss/python/bin/version.txt | grep ^python-2.7: | awk '{print $2}');\
+    curl $SRC_OPT $SRC_URI/sw/oss/python/bin/python-$V-$OSN-$OSA.tar.gz | tar xzf -;\
     ln -snfv python-$V python;\
     ln -snfv /usr/local/python/bin/python /usr/bin;\
     echo "info.vers = python/$V" >> /tmp/vers.txt;\
@@ -41,7 +41,7 @@ RUN set -eux;\
     rm -rf /var/lib/apt/lists;\
   fi;\
   cd /tmp;\
-  curl $DOPT $DURL/sw/oss/viewvc/viewvc-$VER.tar.gz | tar xzf -;\
+  curl $SRC_OPT $SRC_URI/sw/oss/viewvc/viewvc-$VER.tar.gz | tar xzf -;\
   cd viewvc-$VER;\
   ./viewvc-install --prefix=/usr/local/viewvc-$VER --destdir=;\
   cd /tmp;\
@@ -51,17 +51,17 @@ RUN set -eux;\
   cd viewvc;\
   mkdir -pv /usr/local/etc/viewvc;\
   ln -snfv /usr/local/etc/viewvc/viewvc.conf .;\
-  if expr match $VER 1.1; then\
+  if expr "$VER" : 1.1; then\
     cd /usr/local/viewvc/templates/include;\
     mv -v header.ezt header.ezt.b$(date +%y%m%d);\
     cat header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > header.ezt;\
   fi;\
-  if expr match $VER 1.2; then\
+  if expr "$VER" : 1.2; then\
     cd /usr/local/viewvc/templates/default/include;\
     mv -v header.ezt header.ezt.b$(date +%y%m%d);\
     cat header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > header.ezt;\
   fi;\
-  if expr match $VER 1.3; then\
+  if expr "$VER" : 1.3; then\
     cd /usr/local/viewvc/templates/default;\
     mv -v _header.ezt _header.ezt.b$(date +%y%m%d);\
     cat _header.ezt.b$(date +%y%m%d) | grep -v viewvc-logo.png > _header.ezt;\

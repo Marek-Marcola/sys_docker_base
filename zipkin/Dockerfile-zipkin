@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -22,7 +22,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv zipkin-$VER;\
   ln -snfv zipkin-$VER zipkin;\
-  curl $DOPT -o zipkin/zipkin-server-$VER-exec.jar $DURL/sw/oss/zipkin/bin/zipkin-server-$VER-exec.jar;\
+  curl $SRC_OPT -o zipkin/zipkin-server-$VER-exec.jar $SRC_URI/sw/oss/zipkin/bin/zipkin-server-$VER-exec.jar;\
   cd zipkin;\
   ln -snfv zipkin-server-$VER-exec.jar zipkin-server-exec.jar;\
   ls -l /usr/local;\

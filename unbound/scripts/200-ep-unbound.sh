@@ -16,11 +16,11 @@ if [ "$UNBOUND_MODE" = "oos" ]; then
   exec -a '[unbound-mode-oos]' sleep 666d
 fi
 
-if [ ! -f $UNBOUND_CONF ]; then
+if [ ! -f "$UNBOUND_CONF" ]; then
   echo "E: no config file: $UNBOUND_CONF"
   exit 1
 fi
 
 set -x
 unbound -V
-exec unbound -d -c $UNBOUND_CONF
+exec unbound -d -c "$UNBOUND_CONF"

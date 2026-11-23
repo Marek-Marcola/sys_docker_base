@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-haproxy-www
+    # cat /usr/local/etc/cman.d/c-haproxy-www
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/haproxy:$V}
     OPTS=(
@@ -25,7 +25,7 @@ cman env:
      "install -m 755 -o root -g root -v -d /usr/local/etc/$A"
     )
 
-    # cat /usr/local/etc/cman.d/ap-haproxy-portal-dc1
+    # cat /usr/local/etc/cman.d/c-haproxy-portal-dc1
     : ${V:=m.m.p}
     : ${I:=scr.dc.local:5443/is/haproxy:$V}
     OPTS=(

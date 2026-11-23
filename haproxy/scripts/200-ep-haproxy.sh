@@ -16,11 +16,11 @@ if [ "$HAPROXY_MODE" = "oos" ]; then
   exec -a '[haproxy-mode-oos]' sleep 666d
 fi
 
-if [ ! -f $HAPROXY_CONF ]; then
+if [ ! -f "$HAPROXY_CONF" ]; then
   echo "E: no config file: $HAPROXY_CONF"
   exit 1
 fi
 
 set -x
 haproxy -v
-exec haproxy -f $HAPROXY_CONF
+exec haproxy -f "$HAPROXY_CONF"

@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -17,7 +17,7 @@ ENV INFO_DATE=$DATE INFO_REPO=$REPO INFO_VER=$VER INFO_FROM=$FROM
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install vagrant vagrant-libvirt vagrant-sshfs libvirt-clients;\
@@ -25,11 +25,11 @@ RUN set -eux;\
     rm -rf /var/lib/apt/lists;\
   fi;\
   S=zlocal-kvm.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/001541-centos7_kvm/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/001541-centos7_kvm/files/$S || echo Script $S not available;\
   S=zlocal-vagrant.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/005010-vagrant/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/005010-vagrant/files/$S || echo Script $S not available;\
   S=/usr/local/bin/yq;\
-  curl $DOPT -o $S $DURL/sw/oss/yq/bin/yq-latest-x86_64 || echo App $S not available;\
+  curl $SRC_OPT -o $S $SRC_URI/sw/oss/yq/bin/yq-latest-x86_64 || echo App $S not available;\
   vagrant --version;\
   vagrant plugin list;
 

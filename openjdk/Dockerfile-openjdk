@@ -30,7 +30,7 @@ RUN set -eux;\
   cd /usr/local;\
   mkdir -pv openjdk-$VER;\
   ln -snfv openjdk-$VER openjdk-"$OSJ";\
-  curl $SRC_OPT $SRC_URI/sw/oss/openjdk/jdk/OpenJDK"${OSJ}"U-jdk_x64_linux_hotspot_${VER}.tar.gz | tar xzf - --strip-components=1 -C openjdk-$VER;\
+  curl $SRC_OPT $SRC_URI/sw/oss/openjdk/jdk/OpenJDK"${OSJ}"U-jdk_x64_linux_hotspot_$VER.tar.gz | tar xzf - --strip-components=1 -C openjdk-$VER;\
   chown -R root:root openjdk-$VER;\
   cd openjdk-$VER;\
   find . -name "*.so" -exec ldd {} \; 2>&1 | grep found | sort | uniq | grep -vE 'libjvm.so|libjava.so'\

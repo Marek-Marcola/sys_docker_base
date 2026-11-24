@@ -6,8 +6,8 @@ ARG FROM
 ARG REPO
 ARG VER
 ARG VERS
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -21,7 +21,7 @@ STOPSIGNAL SIGINT
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libicu-dev;\
@@ -29,7 +29,7 @@ RUN set -eux;\
     rm -rf /var/lib/apt/lists;\
     groupdel tape;\
   fi;\
-  if expr match $OSN centos; then\
+  if expr "$OSN" : centos; then\
     yum -y install libicu;\
     yum clean all;\
   fi;\
@@ -37,16 +37,16 @@ RUN set -eux;\
   useradd -u 26 -g 26 -m -s /bin/bash postgres;\
   cd /usr/local;\
   for V in $VERS; do\
-    curl $DOPT $DURL/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
+    curl $SRC_OPT $SRC_URI/sw/opensource/pgsql/bin/pgsql-$V-$OSN-$OSA.tar.gz | tar xzf -;\
     [ -e pgsql-${V%.*} ] || ln -snfv pgsql-$V pgsql-${V%.*};\
     chown -R root:root pgsql-$V;\
   done;\
   mkdir -pv /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
   chown postgres:postgres /var/opt/pgsql/arch /var/opt/pgsql/data /var/opt/pgsql/dump;\
   S=zlocal-pg.sh;\
-  curl $DOPT -o /etc/profile.d/$S $DURL/pkb/pb/playbooks/101250-pgsql/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /etc/profile.d/$S $SRC_URI/pkb/pb/playbooks/101250-pgsql/files/$S || echo Script $S not available;\
   S=pgdev.sh;\
-  curl $DOPT -o /usr/local/bin/$S $DURL/pkb/pb/playbooks/999310-pgdev/files/$S || echo Script $S not available;\
+  curl $SRC_OPT -o /usr/local/bin/$S $SRC_URI/pkb/pb/playbooks/999310-pgdev/files/$S || echo Script $S not available;\
   ls -l /usr/local;\
   for V in $VERS; do\
     pgsql-$V/bin/postgres --version;\

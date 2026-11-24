@@ -21,33 +21,33 @@ echo "    PGSQL_DB   = $PGSQL_DB"
 echo
 
 if [ "$PGSQL_MODE" = "oos" ]; then
-  echo operation mode: out-of-service
+  echo "I: operation mode: out-of-service"
   set -x
   exec -a '[pgsql-mode-oos]' sleep 666d
 fi
 
-if [ "$PGSQL_INIT" = "yes" -o "$PGSQL_INIT" = "1" ]; then
-  if [ ! -f $PGSQL_DATA/PG_VERSION ]; then
+if [[ "$PGSQL_INIT" = "yes" ]] || [[ "$PGSQL_INIT" = "1" ]]; then
+  if [ ! -f "$PGSQL_DATA/PG_VERSION" ]; then
     set -x
     su postgres -- pgdev.sh -c
     { set +ex; } 2>/dev/null
   else
-    echo warning: instance already exists
+    echo "W: instance already exists"
   fi
   echo
 fi
 
-if [ ! -d $PGSQL_DATA ]; then
-  echo error: no data directory: $PGSQL_DATA
+if [ ! -d "$PGSQL_DATA" ]; then
+  echo "E: no data directory: $PGSQL_DATA"
   exit 1
 fi
 
-if [ ! -f $PGSQL_DATA/postgresql.conf ]; then
-  echo error: no config file: $PGSQL_DATA/postgresql.conf
+if [ ! -f "$PGSQL_DATA/postgresql.conf" ]; then
+  echo "E: no config file: $PGSQL_DATA/postgresql.conf"
   exit 1
 fi
 
 set -x
 postgres --version
 exec setpriv --reuid=26 --regid=26 --clear-groups --no-new-privs \
-  postgres -D $PGSQL_DATA -h $PGSQL_HOST -p $PGSQL_PORT
+  postgres -D "$PGSQL_DATA" -h "$PGSQL_HOST" -p "$PGSQL_PORT"

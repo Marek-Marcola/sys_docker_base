@@ -11,7 +11,7 @@ Deploy
 ------
 cman env:
 
-    # cat /usr/local/etc/cman.d/ap-nagios-dc1
+    # cat /usr/local/etc/cman.d/c-nagios-dc1
     : ${V:=x.y.z}
     : ${I:=scr.dc.local:5443/is/nagios:$V}
     OPTS=(
@@ -20,10 +20,10 @@ cman env:
     --volume /usr/local/etc/pki:/usr/local/etc/pki:ro
     --volume /usr/local/etc/$A:/usr/local/etc/$APN:ro
     --volume /var/opt/$APN/$A:/var/opt/$APN
-    --volume /var/opt/nginx/ap-nginx-$APN-$API:/var/opt/nginx/ap-nginx-$APN-$API
+    --volume /var/opt/nginx/c-nginx-$APN-$API:/var/opt/nginx/c-nginx-$APN-$API
     --env NGINX_CGI=1
     --env NGINX_PHP=1
-    --env NGINX_ID=ap-nginx-$APN-$API
+    --env NGINX_ID=c-nginx-$APN-$API
     --hostname $(hostname -s)
     --privileged
     )
@@ -36,6 +36,6 @@ cman env:
     )
 
     # cat /usr/local/etc/cman.d/lsng
-    A=ap-nagios-dc1
+    A=c-nagios-dc1
     EXEC=1
     ARGS=lsng

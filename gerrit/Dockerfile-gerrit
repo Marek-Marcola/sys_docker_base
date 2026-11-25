@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -23,7 +23,7 @@ RUN set -eux;\
   mkdir -pv gerrit-$VER;\
   ln -snfv gerrit-$VER gerrit;\
   cd gerrit;\
-  curl $DOPT -o gerrit-$VER.war $DURL/sw/oss/gerrit/war/gerrit-$VER.war;\
+  curl $SRC_OPT -o gerrit-$VER.war $SRC_URI/sw/oss/gerrit/war/gerrit-$VER.war;\
   ln -snfv gerrit-$VER.war gerrit.war;\
   chown -R root:root gerrit-$VER.war;\
   mkdir -pv /var/opt/gerrit;\

@@ -18,13 +18,13 @@ if [ "$GERRIT_MODE" = "oos" ]; then
   exec -a '[gerrit-mode-oos]' sleep 666d
 fi
 
-if [ "$GERRIT_INIT" = "yes" -o "$GERRIT_INIT" = "1" ]; then
-  if [ ! -d $GERRIT_DATA/etc ]; then
+if [[ "$GERRIT_INIT" = "yes" ]] || [[ "$GERRIT_INIT" = "1" ]]; then
+  if [[ ! -d "$GERRIT_DATA/etc" ]]; then
     set -x
-    mkdir -pv $GERRIT_DATA
-    chown -v gerrit:gerrit $GERRIT_DATA
+    mkdir -pv "$GERRIT_DATA"
+    chown -v gerrit:gerrit "$GERRIT_DATA"
     setpriv --reuid=701 --regid=0 --groups=701 --no-new-privs \
-      java -jar /usr/local/gerrit/gerrit.war init -d $GERRIT_DATA --batch --no-auto-start --skip-all-downloads --skip-plugins
+      java -jar /usr/local/gerrit/gerrit.war init -d "$GERRIT_DATA" --batch --no-auto-start --skip-all-downloads --skip-plugins
     { set +ex; } 2>/dev/null
   else
     echo "W: instance already exists: $GERRIT_DATA"
@@ -32,7 +32,7 @@ if [ "$GERRIT_INIT" = "yes" -o "$GERRIT_INIT" = "1" ]; then
   echo
 fi
 
-if [ ! -d $GERRIT_DATA ]; then
+if [[ ! -d "$GERRIT_DATA" ]]; then
   echo "E: no data directory: $GERRIT_DATA"
   exit 1
 fi
@@ -40,4 +40,4 @@ fi
 set -x
 java -jar /usr/local/gerrit/gerrit.war version
 exec setpriv --reuid=701 --regid=0 --groups=701 --no-new-privs \
-  java -jar /usr/local/gerrit/gerrit.war daemon -d $GERRIT_DATA --console-log
+  java -jar /usr/local/gerrit/gerrit.war daemon -d "$GERRIT_DATA" --console-log

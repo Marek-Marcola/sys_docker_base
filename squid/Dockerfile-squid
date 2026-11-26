@@ -5,8 +5,8 @@ ARG DATE
 ARG FROM
 ARG REPO
 ARG VER
-ARG DURL
-ARG DOPT
+ARG SRC_URI
+ARG SRC_OPT
 
 LABEL info.from="$FROM"
 LABEL info.name="$REPO:$VER"
@@ -18,21 +18,21 @@ ENV PATH /usr/local/squid-$VER/sbin:$PATH
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN set -eux;\
-  if expr match $OSN debian; then\
+  if expr "$OSN" : debian; then\
     export DEBIAN_FRONTEND=noninteractive;\
     apt-get update;\
     apt-get -yqq install libxml2 libltdl7;\
     apt-get clean;\
     rm -rf /var/lib/apt/lists;\
   fi;\
-  if expr match $OSN centos; then\
+  if expr "$OSN" : centos; then\
     yum -y install libtool-ltdl nettle;\
     yum clean all;\
   fi;\
   groupadd -g 23 squid;\
   useradd -r -u 23 -g 23  -m -s /bin/bash squid;\
   cd /usr/local;\
-  curl $DOPT $DURL/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
+  curl $SRC_OPT $SRC_URI/sw/opensource/squid/bin/squid-$VER-$OSN-$OSA.tar.gz | tar xzf -;\
   ln -snfv squid-$VER squid;\
   chown -R root:root squid-$VER;\
   mkdir -pv etc/squid;\

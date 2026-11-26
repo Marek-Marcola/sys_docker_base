@@ -10,11 +10,11 @@ echo "    SQUID_CONF   = $SQUID_CONF"
 echo "    SQUID_ULIMIT = $SQUID_ULIMIT"
 echo
 
-if [ ! -f $SQUID_CONF ]; then
+if [ ! -f "$SQUID_CONF" ]; then
   echo "E: no config file: $SQUID_CONF"
   exit 1
 fi
 
 set -x
-ulimit $SQUID_ULIMIT
-exec squid -N -f $SQUID_CONF -d1
+ulimit "$SQUID_ULIMIT"
+exec squid -N -f "$SQUID_CONF" -d1

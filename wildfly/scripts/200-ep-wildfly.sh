@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[[ -z $JAVA_OPTS     ]] && JAVA_OPTS=
+[[ -z $JAVA_OPTS     ]] && JAVA_OPTS=""
 [[ -n $CATALINA_OPTS ]] && JAVA_OPTS="$JAVA_OPTS $CATALINA_OPTS"
 
 echo "env config:"
